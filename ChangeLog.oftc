@@ -1,0 +1,1381 @@
+stu         2004/06/29 12:58:38 UTC	(20040629_1)
+
+  Modified files:        (Branch: stable)
+    src                  helpserv.c memoserv.c nickserv.c 
+                         operserv.c 
+  Log:
+  change versions strings
+  
+  Revision      Changes    Path
+  1.3.2.1       +2 -2      oftc-blitzed/src/helpserv.c
+  1.3.2.1.2.1   +1 -1      oftc-blitzed/src/memoserv.c
+  1.13.2.1.2.1  +1 -1      oftc-blitzed/src/nickserv.c
+  1.3.2.1.2.1   +1 -1      oftc-blitzed/src/operserv.c
+
+
+
+stu         2004/06/28 14:44:46 UTC	(20040628_0)
+
+  Modified files:        (Branch: devel)
+    src                  chanserv.c misc.c 
+  Log:
+  fix TOPIC sending
+  
+  Revision  Changes    Path
+  1.15.2.4  +12 -11    oftc-blitzed/src/chanserv.c
+  1.2.2.2   +0 -1      oftc-blitzed/src/misc.c
+
+
+
+stu         2004/06/04 15:50:43 UTC	(20040604_0)
+
+  Modified files:        (Branch: devel)
+    .                    Makefile.in aclocal.m4 configure 
+                         configure.in 
+    data                 Makefile.in 
+    mysql                Makefile.in aclocal.m4 conf.h.in 
+                         configure 
+    src                  Makefile.am Makefile.in sysconf.h.in 
+    src/lang             Makefile.in 
+    src/utils/db2mysql   Makefile.in 
+  Removed files:         (Branch: devel)
+    src/cracklib         .cvsignore HISTORY LICENCE MANIFEST 
+                         Makefile.am Makefile.in POSTER README 
+    src/cracklib/cracklib .cvsignore Makefile fascist.c 
+                          genrules.pl mess.h packer.h packlib.c 
+                          rules.c stringlib.c 
+    src/cracklib/util    .cvsignore Makefile mkdict packer.c 
+                         testlib.c testnum.c teststr.c unpacker.c 
+    src/utils/db2mysql   Makefile 
+  Log:
+  remove cracklib
+  remove configure options for ircd and cracklib
+  
+  Revision     Changes       Path
+  1.1.1.1.2.2  +288 -133     oftc-blitzed/Makefile.in
+  1.1.1.1.2.2  +6336 -3849   oftc-blitzed/aclocal.m4
+  1.5.2.2      +17933 -5211  oftc-blitzed/configure
+  1.3.2.2      +0 -96        oftc-blitzed/configure.in
+  1.1.1.1.2.2  +169 -80      oftc-blitzed/data/Makefile.in
+  1.1.2.2      +319 -168     oftc-blitzed/mysql/Makefile.in
+  1.1.2.2      +6336 -3849   oftc-blitzed/mysql/aclocal.m4
+  1.1.2.2      +30 -1        oftc-blitzed/mysql/conf.h.in
+  1.1.2.2      +16152 -4004  oftc-blitzed/mysql/configure
+  1.2.2.2      +3 -3         oftc-blitzed/src/Makefile.am
+  1.3.2.2      +301 -190     oftc-blitzed/src/Makefile.in
+  1.1.1.1.2.1  +0 -4         oftc-blitzed/src/cracklib/.cvsignore (dead)
+  1.1.1.1.2.1  +0 -7         oftc-blitzed/src/cracklib/HISTORY (dead)
+  1.1.1.1.2.1  +0 -112       oftc-blitzed/src/cracklib/LICENCE (dead)
+  1.1.1.1.2.1  +0 -27        oftc-blitzed/src/cracklib/MANIFEST (dead)
+  1.1.1.1.2.1  +0 -17        oftc-blitzed/src/cracklib/Makefile.am (dead)
+  1.1.1.1.2.2  +0 -237       oftc-blitzed/src/cracklib/Makefile.in (dead)
+  1.1.1.1.2.1  +0 -34        oftc-blitzed/src/cracklib/POSTER (dead)
+  1.1.1.1.2.1  +0 -296       oftc-blitzed/src/cracklib/README (dead)
+  1.1.1.1.2.1  +0 -1         oftc-blitzed/src/cracklib/cracklib/.cvsignore (dead)
+  1.1.1.1.2.1  +0 -18        oftc-blitzed/src/cracklib/cracklib/Makefile (dead)
+  1.1.1.1.2.2  +0 -643       oftc-blitzed/src/cracklib/cracklib/fascist.c (dead)
+  1.1.1.1.2.1  +0 -68        oftc-blitzed/src/cracklib/cracklib/genrules.pl (dead)
+  1.1.1.1.2.1  +0 -9         oftc-blitzed/src/cracklib/cracklib/mess.h (dead)
+  1.1.1.1.2.1  +0 -60        oftc-blitzed/src/cracklib/cracklib/packer.h (dead)
+  1.1.1.1.2.1  +0 -356       oftc-blitzed/src/cracklib/cracklib/packlib.c (dead)
+  1.1.1.1.2.1  +0 -830       oftc-blitzed/src/cracklib/cracklib/rules.c (dead)
+  1.1.1.1.2.1  +0 -55        oftc-blitzed/src/cracklib/cracklib/stringlib.c (dead)
+  1.1.1.1.2.1  +0 -6         oftc-blitzed/src/cracklib/util/.cvsignore (dead)
+  1.1.1.1.2.1  +0 -40        oftc-blitzed/src/cracklib/util/Makefile (dead)
+  1.1.1.1.2.1  +0 -23        oftc-blitzed/src/cracklib/util/mkdict (dead)
+  1.1.1.1.2.1  +0 -62        oftc-blitzed/src/cracklib/util/packer.c (dead)
+  1.1.1.1.2.1  +0 -33        oftc-blitzed/src/cracklib/util/testlib.c (dead)
+  1.1.1.1.2.1  +0 -43        oftc-blitzed/src/cracklib/util/testnum.c (dead)
+  1.1.1.1.2.1  +0 -36        oftc-blitzed/src/cracklib/util/teststr.c (dead)
+  1.1.1.1.2.1  +0 -46        oftc-blitzed/src/cracklib/util/unpacker.c (dead)
+  1.1.1.1.2.2  +155 -69      oftc-blitzed/src/lang/Makefile.in
+  1.1.1.1.2.2  +0 -7         oftc-blitzed/src/sysconf.h.in
+  1.3.2.2      +0 -381       oftc-blitzed/src/utils/db2mysql/Makefile (dead)
+  1.1.2.2      +238 -143     oftc-blitzed/src/utils/db2mysql/Makefile.in
+
+
+
+stu         2004/05/24 12:48:15 UTC	(20040524_0)
+
+  Modified files:        (Branch: devel)
+    src                  chanserv.c 
+  Log:
+  bring stable up to date with whats on uranium
+  
+  Revision  Changes    Path
+  1.15.2.3  +4 -1      oftc-blitzed/src/chanserv.c
+
+
+
+stu         2004/03/31 17:03:38 UTC	(20040331_0)
+
+  Modified files:        (Branch: devel)
+    .                    .cvsignore ChangeLog ChangeLog.oftc 
+                         Makefile.am Makefile.in README TODO 
+                         aclocal.m4 config.guess config.sub 
+                         configure configure.in mkinstalldirs 
+    data                 Makefile.in example.conf 
+    mysql                .cvsignore blitzed_udf.c 
+    src                  .cvsignore Makefile.am Makefile.in 
+                         akill.c autojoin.c cache.c channels.c 
+                         chanserv.c config.c config.h defs.h 
+                         extern.h floodserv.c init.c language.c 
+                         main.c memoserv.c messages.c misc.c 
+                         mysql.c nickserv.c operserv.c services.h 
+                         sessions.c sha1.c sysconf.h.in users.c 
+                         version.h vsnprintf.c 
+    src/cracklib         Makefile.in 
+    src/cracklib/cracklib fascist.c 
+    src/lang             .cvsignore Makefile.am Makefile.in 
+                         en_us.l es.l index it.l ja_euc.l ja_jis.l 
+                         ja_sjis.l pt.l tr.l 
+  Added files:           (Branch: devel)
+    .                    Doxyfile INSTALL ltmain.sh 
+    doc                  .cvsignore 
+    mysql                Makefile.am Makefile.in acinclude.m4 
+                         aclocal.m4 conf.h.in configure 
+                         configure.in 
+    src                  cs_access.c 
+    src/lang             de.l dk.l psycho.l 
+    src/utils/bulk       README register_chan.pl register_nick.pl 
+    src/utils/db2mysql   Makefile Makefile.am Makefile.in akill.c 
+                         chanserv.c db2mysql.c db2mysql.h 
+                         exception.c extern.h files.c memo.c 
+                         memory.c mysql.c news.c nickserv.c 
+                         operserv.c string.c 
+  Removed files:         (Branch: devel)
+    mysql                make 
+    src                  rotatelogs.sh svschk.sh 
+    src/db2mysql         .cvsignore Makefile.am Makefile.in 
+                         akill.c chanserv.c db2mysql.c db2mysql.h 
+                         exception.c extern.h files.c memo.c 
+                         memory.c mysql.c news.c nickserv.c 
+                         operserv.c string.c 
+  Log:
+  make the devel branch now the stable branch(yes, it doesnt make much sense
+  does it..).
+  
+  This includes a fix to nickserv nick-case checking code submitted by
+  Dave<me@geordish.org>
+  
+  This should actually work this time..
+  
+  Revision     Changes      Path
+  1.1.1.1.2.1  +1 -0        oftc-blitzed/.cvsignore
+  1.1.1.1.2.1  +4502 -1979  oftc-blitzed/ChangeLog
+  1.3.2.1      +15 -0       oftc-blitzed/ChangeLog.oftc
+  1.2.2.1      +994 -0      oftc-blitzed/Doxyfile (new)
+  1.1.2.1      +279 -0      oftc-blitzed/INSTALL (new)
+  1.1.1.1.2.1  +6 -1        oftc-blitzed/Makefile.am
+  1.1.1.1.2.1  +40 -14      oftc-blitzed/Makefile.in
+  1.1.1.1.2.1  +43 -10      oftc-blitzed/README
+  1.1.1.1.2.1  +35 -14      oftc-blitzed/TODO
+  1.1.1.1.2.1  +3495 -2     oftc-blitzed/aclocal.m4
+  1.1.1.1.2.1  +129 -136    oftc-blitzed/config.guess
+  1.1.1.1.2.1  +64 -95      oftc-blitzed/config.sub
+  1.5.2.1      +5661 -1096  oftc-blitzed/configure
+  1.3.2.1      +10 -35      oftc-blitzed/configure.in
+  1.1.1.1.2.1  +32 -12      oftc-blitzed/data/Makefile.in
+  1.3.2.1      +31 -23      oftc-blitzed/data/example.conf
+  1.1.2.1      +1 -0        oftc-blitzed/doc/.cvsignore (new)
+  1.2.2.1      +4990 -0     oftc-blitzed/ltmain.sh (new)
+  1.2.2.1      +1 -1        oftc-blitzed/mkinstalldirs
+  1.1.1.1.2.1  +11 -0       oftc-blitzed/mysql/.cvsignore
+  1.1.2.1      +7 -0        oftc-blitzed/mysql/Makefile.am (new)
+  1.1.2.1      +446 -0      oftc-blitzed/mysql/Makefile.in (new)
+  1.1.2.1      +29 -0       oftc-blitzed/mysql/acinclude.m4 (new)
+  1.1.2.1      +4394 -0     oftc-blitzed/mysql/aclocal.m4 (new)
+  1.1.1.1.2.1  +9 -56       oftc-blitzed/mysql/blitzed_udf.c
+  1.1.2.1      +26 -0       oftc-blitzed/mysql/conf.h.in (new)
+  1.1.2.1      +9377 -0     oftc-blitzed/mysql/configure (new)
+  1.1.2.1      +59 -0       oftc-blitzed/mysql/configure.in (new)
+  1.2.2.1      +0 -2        oftc-blitzed/mysql/make (dead)
+  1.1.1.1.2.1  +1 -0        oftc-blitzed/src/.cvsignore
+  1.2.2.1      +10 -9       oftc-blitzed/src/Makefile.am
+  1.3.2.1      +324 -244    oftc-blitzed/src/Makefile.in
+  1.5.2.1      +27 -23      oftc-blitzed/src/akill.c
+  1.2.2.1      +5 -5        oftc-blitzed/src/autojoin.c
+  1.2.2.1      +100 -50     oftc-blitzed/src/cache.c
+  1.4.2.1      +42 -38      oftc-blitzed/src/channels.c
+  1.15.2.2     +367 -1503   oftc-blitzed/src/chanserv.c
+  1.4.2.1      +29 -54      oftc-blitzed/src/config.c
+  1.1.1.1.2.1  +3 -1        oftc-blitzed/src/config.h
+  1.1.1.1.2.1  +32 -11      oftc-blitzed/src/cracklib/Makefile.in
+  1.1.1.1.2.1  +3 -1        oftc-blitzed/src/cracklib/cracklib/fascist.c
+  1.3.2.1      +1083 -0     oftc-blitzed/src/cs_access.c (new)
+  1.1.1.1.2.1  +0 -4        oftc-blitzed/src/db2mysql/.cvsignore (dead)
+  1.1.1.1.2.1  +0 -7        oftc-blitzed/src/db2mysql/Makefile.am (dead)
+  1.1.1.1.2.1  +0 -347      oftc-blitzed/src/db2mysql/Makefile.in (dead)
+  1.2.2.1      +0 -101      oftc-blitzed/src/db2mysql/akill.c (dead)
+  1.2.2.1      +0 -682      oftc-blitzed/src/db2mysql/chanserv.c (dead)
+  1.1.1.1.2.1  +0 -168      oftc-blitzed/src/db2mysql/db2mysql.c (dead)
+  1.2.2.1      +0 -286      oftc-blitzed/src/db2mysql/db2mysql.h (dead)
+  1.1.1.1.2.1  +0 -104      oftc-blitzed/src/db2mysql/exception.c (dead)
+  1.1.1.1.2.1  +0 -66       oftc-blitzed/src/db2mysql/extern.h (dead)
+  1.1.1.1.2.1  +0 -188      oftc-blitzed/src/db2mysql/files.c (dead)
+  1.1.1.1.2.1  +0 -69       oftc-blitzed/src/db2mysql/memo.c (dead)
+  1.1.1.1.2.1  +0 -71       oftc-blitzed/src/db2mysql/memory.c (dead)
+  1.2.2.1      +0 -115      oftc-blitzed/src/db2mysql/mysql.c (dead)
+  1.1.1.1.2.1  +0 -104      oftc-blitzed/src/db2mysql/news.c (dead)
+  1.2.2.1      +0 -448      oftc-blitzed/src/db2mysql/nickserv.c (dead)
+  1.2.2.1      +0 -150      oftc-blitzed/src/db2mysql/operserv.c (dead)
+  1.1.1.1.2.1  +0 -102      oftc-blitzed/src/db2mysql/string.c (dead)
+  1.1.1.1.2.1  +15 -4       oftc-blitzed/src/defs.h
+  1.6.2.1      +37 -29      oftc-blitzed/src/extern.h
+  1.3.2.1      +659 -657    oftc-blitzed/src/floodserv.c
+  1.4.2.1      +164 -220    oftc-blitzed/src/init.c
+  1.1.1.1.2.1  +3 -0        oftc-blitzed/src/lang/.cvsignore
+  1.1.1.1.2.1  +9 -2        oftc-blitzed/src/lang/Makefile.am
+  1.1.1.1.2.1  +40 -13      oftc-blitzed/src/lang/Makefile.in
+  1.2.2.1      +3978 -0     oftc-blitzed/src/lang/de.l (new)
+  1.2.2.1      +3993 -0     oftc-blitzed/src/lang/dk.l (new)
+  1.12.2.1     +47 -383     oftc-blitzed/src/lang/en_us.l
+  1.1.1.1.2.1  +0 -174      oftc-blitzed/src/lang/es.l
+  1.5.2.1      +15 -108     oftc-blitzed/src/lang/index
+  1.1.1.1.2.1  +0 -180      oftc-blitzed/src/lang/it.l
+  1.1.1.1.2.1  +0 -174      oftc-blitzed/src/lang/ja_euc.l
+  1.2.2.1      +0 -174      oftc-blitzed/src/lang/ja_jis.l
+  1.1.1.1.2.1  +1 -175      oftc-blitzed/src/lang/ja_sjis.l
+  1.2.2.1      +4222 -0     oftc-blitzed/src/lang/psycho.l (new)
+  1.1.1.1.2.1  +0 -185      oftc-blitzed/src/lang/pt.l
+  1.1.1.1.2.1  +0 -168      oftc-blitzed/src/lang/tr.l
+  1.2.2.1      +53 -35      oftc-blitzed/src/language.c
+  1.3.2.1      +37 -28      oftc-blitzed/src/main.c
+  1.3.2.1      +117 -92     oftc-blitzed/src/memoserv.c
+  1.4.2.1      +46 -51      oftc-blitzed/src/messages.c
+  1.2.2.1      +20 -94      oftc-blitzed/src/misc.c
+  1.2.2.1      +2 -2        oftc-blitzed/src/mysql.c
+  1.13.2.1     +218 -183    oftc-blitzed/src/nickserv.c
+  1.3.2.1      +34 -30      oftc-blitzed/src/operserv.c
+  1.1.1.1.2.1  +0 -43       oftc-blitzed/src/rotatelogs.sh (dead)
+  1.3.2.1      +1061 -305   oftc-blitzed/src/services.h
+  1.2.2.1      +98 -101     oftc-blitzed/src/sessions.c
+  1.2.2.1      +386 -25     oftc-blitzed/src/sha1.c
+  1.1.1.1.2.1  +0 -21       oftc-blitzed/src/svschk.sh (dead)
+  1.1.1.1.2.1  +8 -0        oftc-blitzed/src/sysconf.h.in
+  1.5.2.1      +108 -85     oftc-blitzed/src/users.c
+  1.1.2.1      +52 -0       oftc-blitzed/src/utils/bulk/README (new)
+  1.1.2.1      +336 -0      oftc-blitzed/src/utils/bulk/register_chan.pl (new)
+  1.1.2.1      +271 -0      oftc-blitzed/src/utils/bulk/register_nick.pl (new)
+  1.3.2.1      +381 -0      oftc-blitzed/src/utils/db2mysql/Makefile (new)
+  1.1.2.1      +8 -0        oftc-blitzed/src/utils/db2mysql/Makefile.am (new)
+  1.1.2.1      +381 -0      oftc-blitzed/src/utils/db2mysql/Makefile.in (new)
+  1.1.2.1      +101 -0      oftc-blitzed/src/utils/db2mysql/akill.c (new)
+  1.1.2.1      +692 -0      oftc-blitzed/src/utils/db2mysql/chanserv.c (new)
+  1.1.2.1      +168 -0      oftc-blitzed/src/utils/db2mysql/db2mysql.c (new)
+  1.1.2.1      +287 -0      oftc-blitzed/src/utils/db2mysql/db2mysql.h (new)
+  1.1.2.1      +104 -0      oftc-blitzed/src/utils/db2mysql/exception.c (new)
+  1.1.2.1      +68 -0       oftc-blitzed/src/utils/db2mysql/extern.h (new)
+  1.1.2.1      +188 -0      oftc-blitzed/src/utils/db2mysql/files.c (new)
+  1.1.2.1      +69 -0       oftc-blitzed/src/utils/db2mysql/memo.c (new)
+  1.1.2.1      +71 -0       oftc-blitzed/src/utils/db2mysql/memory.c (new)
+  1.1.2.1      +115 -0      oftc-blitzed/src/utils/db2mysql/mysql.c (new)
+  1.1.2.1      +104 -0      oftc-blitzed/src/utils/db2mysql/news.c (new)
+  1.1.2.1      +438 -0      oftc-blitzed/src/utils/db2mysql/nickserv.c (new)
+  1.1.2.1      +150 -0      oftc-blitzed/src/utils/db2mysql/operserv.c (new)
+  1.1.2.1      +102 -0      oftc-blitzed/src/utils/db2mysql/string.c (new)
+  1.1.2.1      +13 -4       oftc-blitzed/src/version.h
+  1.2.2.1      +1 -1        oftc-blitzed/src/vsnprintf.c
+
+
+
+cvssteve    2003/05/28 17:54:41 GMT	(20030528_0)
+
+  Modified files:
+    src/lang             de.l dk.l en_us.l psycho.l 
+  Log:
+  Changed references to 'blitzed' to 'OFTC' in services emails
+  
+  Revision  Changes    Path
+  1.2       +12 -12    oftc-blitzed/src/lang/de.l
+  1.2       +12 -12    oftc-blitzed/src/lang/dk.l
+  1.14      +12 -12    oftc-blitzed/src/lang/en_us.l
+  1.2       +12 -12    oftc-blitzed/src/lang/psycho.l
+
+
+
+2002-08-30 00:58  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/akill.c (1.5): Altered akills to use s_OperServ rather than
+	"OperServ"
+
+2002-08-30 00:58  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/nickserv.c (1.7): Made nickserv send SVSMODE from the server
+	rather than from nickserv itself.  Also corrected some +/- r to R
+
+2002-08-30 00:57  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/chanserv.c (1.5): Fixed chanserv to send topic correctly
+	(without TS)
+
+2002-08-29 23:52  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* ChangeLog.oftc (1.2), configure (1.3), configure.in (1.2): Added
+	+oftc1.0.0 patchlevel to version
+
+2002-08-28 12:32  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/nickserv.c (1.6): converted SVSNICK to our style
+
+2002-08-28 12:06  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/lang/en_us.l (1.9): Altered nickserv "nick registered"
+	message to be a little more correct
+	
+	-- steve@ipng.org.uk
+
+2002-08-28 12:02  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/db2mysql/: akill.c (1.2), chanserv.c (1.2), db2mysql.h (1.2),
+	mysql.c (1.2), nickserv.c (1.2), operserv.c (1.2): db2mysql
+	converted to convert oftcserv db files, woot!
+
+2002-08-28 02:49  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* data/example.conf (1.3), src/version.h (1.1), src/lang/en_us.l
+	(1.8): Changed references to "Blitzed IRC Network" and such where
+	appropriate, also commiting src/version.h
+
+2002-08-27 15:00  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/: akill.c (1.4), chanserv.c (1.4), config.c (1.4), extern.h
+	(1.4), floodserv.c (1.2), floodserv.h (1.1), init.c (1.4),
+	messages.c (1.3), nickserv.c (1.5), lang/en_us.l (1.7), lang/index
+	(1.4): Addition of FloodServ.  It all works.  All thats left now is
+	to do the db stuff for it.
+
+2002-08-27 13:13  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/: Makefile.am (1.2), Makefile.in (1.2), chanserv.c (1.3),
+	floodserv.c (1.1): First part of adding floodserv.  Doesn't work at
+	this stage.  Transfering files
+
+2002-08-26 00:13  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* src/: akill.c (1.3), init.c (1.3): AKILL uses KLINE now, and
+	works with hybrid7.  Not entirely sure what the change to
+	src/lang/ja_jis.l is all about :)
+
+2002-08-23 06:12  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* ChangeLog.oftc (1.1), TODO.oftc (1.1): Added TODO.oftc and
+	ChangeLog.oftc
+
+2002-08-23 06:01  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* src/lang/en_us.l (1.6): One ... last ... time ...
+
+2002-08-23 05:54  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* src/lang/en_us.l (1.5): Minor syntax error in last commit.
+
+2002-08-23 05:53  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* src/lang/en_us.l (1.4): Clarification for NickServ 'SET CLOAK
+	(ON|OFF)' help text.
+
+2002-08-23 05:41  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* data/example.conf (1.2), mysql/blitzed.sql (1.2), src/config.c
+	(1.3), src/extern.h (1.3), src/nickserv.c (1.4), src/services.h
+	(1.2), src/lang/en_us.l (1.3), src/lang/index (1.3): Added NickServ
+	SET CLOAK. This'll allow people to disable the cloaks we've set on
+	'em.
+	
+	TODO: Requires NOC motion; allow a user with "SET CLOAK ON" and no
+	pre-determined cloak string (which we set) to have a generic cloak,
+	a la user.cloaked.oftc.net
+
+2002-08-23 04:57  David B. Harris (ElectricElf)  <eelf@sympatico.ca>
+
+	* src/: extern.h (1.2), nickserv.c (1.3), lang/en_us.l (1.2),
+	lang/index (1.2), lang/ja_jis.l (1.2): Added SVSCLOAK support.
+	"/msg nickserv help set", currently admin-only.  Helper functions
+	do_set_cloakstring() and get_cloak_from_id().
+	
+	TODO: "/msg nickserv set cloak (on|off)", available to all.
+
+2002-08-23 03:52  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* configure (1.2), mkinstalldirs (1.2), src/actions.c (1.2),
+	src/akill.c (1.2), src/auth.c (1.2), src/autojoin.c (1.2),
+	src/cache.c (1.2), src/channels.c (1.2), src/chanserv.c (1.2),
+	src/commands.c (1.2), src/compat.c (1.2), src/config.c (1.2),
+	src/helpserv.c (1.2), src/init.c (1.2), src/ircmacros.c (1.2),
+	src/language.c (1.2), src/log.c (1.2), src/main.c (1.2),
+	src/memory.c (1.2), src/memoserv.c (1.2), src/messages.c (1.2),
+	src/misc.c (1.2), src/mysql.c (1.2), src/news.c (1.2),
+	src/nickserv.c (1.2), src/operserv.c (1.2), src/process.c (1.2),
+	src/quarantine.c (1.2), src/send.c (1.2), src/servers.c (1.2),
+	src/sessions.c (1.2), src/sha1.c (1.2), src/sockutil.c (1.2),
+	src/timeout.c (1.2), src/users.c (1.2), src/vsnprintf.c (1.2):
+	Added in my changes.. mainly protocol modifications, and removed
+	NICKIP
+
+2002-08-23 02:08  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* .cvsignore (1.1.1.1), COPYING (1.1.1.1), ChangeLog (1.1.1.1),
+	Makefile.am (1.1.1.1), Makefile.in (1.1.1.1), README (1.1.1.1),
+	TODO (1.1.1.1), acinclude.m4 (1.1.1.1), aclocal.m4 (1.1.1.1),
+	config.guess (1.1.1.1), config.sub (1.1.1.1), configure (1.1.1.1),
+	configure.in (1.1.1.1), cp-recursive (1.1.1.1), depcomp (1.1.1.1),
+	getnewcl.sh (1.1.1.1), install-script (1.1.1.1), install-sh
+	(1.1.1.1), missing (1.1.1.1), mkinstalldirs (1.1.1.1), svschk
+	(1.1.1.1), data/.cvsignore (1.1.1.1), data/Makefile.am (1.1.1.1),
+	data/Makefile.in (1.1.1.1), data/example.conf (1.1.1.1),
+	data/helpfiles/help (1.1.1.1), data/helpfiles/ircii/! (1.1.1.1),
+	data/helpfiles/ircii/.date (1.1.1.1), data/helpfiles/ircii/abort
+	(1.1.1.1), data/helpfiles/ircii/: (1.1.1.1),
+	data/helpfiles/ircii/admin (1.1.1.1), data/helpfiles/ircii/assign
+	(1.1.1.1), data/helpfiles/ircii/away (1.1.1.1),
+	data/helpfiles/ircii/basics (1.1.1.1), data/helpfiles/ircii/beep
+	(1.1.1.1), data/helpfiles/ircii/bye (1.1.1.1),
+	data/helpfiles/ircii/cd (1.1.1.1), data/helpfiles/ircii/channel
+	(1.1.1.1), data/helpfiles/ircii/clear (1.1.1.1),
+	data/helpfiles/ircii/commands (1.1.1.1),
+	data/helpfiles/ircii/comment (1.1.1.1),
+	data/helpfiles/ircii/connect (1.1.1.1), data/helpfiles/ircii/date
+	(1.1.1.1), data/helpfiles/ircii/deop (1.1.1.1),
+	data/helpfiles/ircii/describe (1.1.1.1), data/helpfiles/ircii/die
+	(1.1.1.1), data/helpfiles/ircii/digraph (1.1.1.1),
+	data/helpfiles/ircii/disconnect (1.1.1.1),
+	data/helpfiles/ircii/dmsg (1.1.1.1), data/helpfiles/ircii/dquery
+	(1.1.1.1), data/helpfiles/ircii/echo (1.1.1.1),
+	data/helpfiles/ircii/encrypt (1.1.1.1),
+	data/helpfiles/ircii/etiquette (1.1.1.1), data/helpfiles/ircii/eval
+	(1.1.1.1), data/helpfiles/ircii/exec (1.1.1.1),
+	data/helpfiles/ircii/exit (1.1.1.1),
+	data/helpfiles/ircii/expressions (1.1.1.1),
+	data/helpfiles/ircii/flush (1.1.1.1), data/helpfiles/ircii/foreach
+	(1.1.1.1), data/helpfiles/ircii/help (1.1.1.1),
+	data/helpfiles/ircii/history (1.1.1.1), data/helpfiles/ircii/hook
+	(1.1.1.1), data/helpfiles/ircii/if (1.1.1.1),
+	data/helpfiles/ircii/ignore (1.1.1.1), data/helpfiles/ircii/info
+	(1.1.1.1), data/helpfiles/ircii/input (1.1.1.1),
+	data/helpfiles/ircii/intro (1.1.1.1), data/helpfiles/ircii/invite
+	(1.1.1.1), data/helpfiles/ircii/join (1.1.1.1),
+	data/helpfiles/ircii/kick (1.1.1.1), data/helpfiles/ircii/kill
+	(1.1.1.1), data/helpfiles/ircii/lastlog (1.1.1.1),
+	data/helpfiles/ircii/leave (1.1.1.1), data/helpfiles/ircii/links
+	(1.1.1.1), data/helpfiles/ircii/list (1.1.1.1),
+	data/helpfiles/ircii/lusers (1.1.1.1), data/helpfiles/ircii/me
+	(1.1.1.1), data/helpfiles/ircii/menus (1.1.1.1),
+	data/helpfiles/ircii/mload (1.1.1.1), data/helpfiles/ircii/mode
+	(1.1.1.1), data/helpfiles/ircii/motd (1.1.1.1),
+	data/helpfiles/ircii/msg (1.1.1.1), data/helpfiles/ircii/names
+	(1.1.1.1), data/helpfiles/ircii/news (1.1.1.1),
+	data/helpfiles/ircii/newuser (1.1.1.1), data/helpfiles/ircii/nick
+	(1.1.1.1), data/helpfiles/ircii/notice (1.1.1.1),
+	data/helpfiles/ircii/notify (1.1.1.1), data/helpfiles/ircii/oper
+	(1.1.1.1), data/helpfiles/ircii/parsekey (1.1.1.1),
+	data/helpfiles/ircii/part (1.1.1.1), data/helpfiles/ircii/ping
+	(1.1.1.1), data/helpfiles/ircii/query (1.1.1.1),
+	data/helpfiles/ircii/quit (1.1.1.1), data/helpfiles/ircii/quote
+	(1.1.1.1), data/helpfiles/ircii/rbind (1.1.1.1),
+	data/helpfiles/ircii/redirect (1.1.1.1),
+	data/helpfiles/ircii/rehash (1.1.1.1), data/helpfiles/ircii/restart
+	(1.1.1.1), data/helpfiles/ircii/rules (1.1.1.1),
+	data/helpfiles/ircii/save (1.1.1.1), data/helpfiles/ircii/say
+	(1.1.1.1), data/helpfiles/ircii/send (1.1.1.1),
+	data/helpfiles/ircii/sendline (1.1.1.1),
+	data/helpfiles/ircii/server (1.1.1.1), data/helpfiles/ircii/signoff
+	(1.1.1.1), data/helpfiles/ircii/sleep (1.1.1.1),
+	data/helpfiles/ircii/squit (1.1.1.1), data/helpfiles/ircii/stats
+	(1.1.1.1), data/helpfiles/ircii/summon (1.1.1.1),
+	data/helpfiles/ircii/time (1.1.1.1), data/helpfiles/ircii/timer
+	(1.1.1.1), data/helpfiles/ircii/topic (1.1.1.1),
+	data/helpfiles/ircii/trace (1.1.1.1), data/helpfiles/ircii/type
+	(1.1.1.1), data/helpfiles/ircii/userhost (1.1.1.1),
+	data/helpfiles/ircii/users (1.1.1.1), data/helpfiles/ircii/version
+	(1.1.1.1), data/helpfiles/ircii/wait (1.1.1.1),
+	data/helpfiles/ircii/wallops (1.1.1.1), data/helpfiles/ircii/which
+	(1.1.1.1), data/helpfiles/ircii/while (1.1.1.1),
+	data/helpfiles/ircii/who (1.1.1.1), data/helpfiles/ircii/whois
+	(1.1.1.1), data/helpfiles/ircii/whowas (1.1.1.1),
+	data/helpfiles/ircii/xecho (1.1.1.1), data/helpfiles/ircii/xtype
+	(1.1.1.1), data/helpfiles/ircii/alias/alias (1.1.1.1),
+	data/helpfiles/ircii/alias/functions (1.1.1.1),
+	data/helpfiles/ircii/alias/quote (1.1.1.1),
+	data/helpfiles/ircii/alias/special (1.1.1.1),
+	data/helpfiles/ircii/alias/width (1.1.1.1),
+	data/helpfiles/ircii/bind/backspace (1.1.1.1),
+	data/helpfiles/ircii/bind/backward_character (1.1.1.1),
+	data/helpfiles/ircii/bind/backward_history (1.1.1.1),
+	data/helpfiles/ircii/bind/backward_word (1.1.1.1),
+	data/helpfiles/ircii/bind/beginning_of_line (1.1.1.1),
+	data/helpfiles/ircii/bind/bind (1.1.1.1),
+	data/helpfiles/ircii/bind/clear_screen (1.1.1.1),
+	data/helpfiles/ircii/bind/command_completion (1.1.1.1),
+	data/helpfiles/ircii/bind/delete_character (1.1.1.1),
+	data/helpfiles/ircii/bind/delete_next_word (1.1.1.1),
+	data/helpfiles/ircii/bind/delete_previous_word (1.1.1.1),
+	data/helpfiles/ircii/bind/end_of_line (1.1.1.1),
+	data/helpfiles/ircii/bind/enter_digraph (1.1.1.1),
+	data/helpfiles/ircii/bind/enter_menu (1.1.1.1),
+	data/helpfiles/ircii/bind/erase_line (1.1.1.1),
+	data/helpfiles/ircii/bind/erase_to_beg_of_line (1.1.1.1),
+	data/helpfiles/ircii/bind/erase_to_end_of_line (1.1.1.1),
+	data/helpfiles/ircii/bind/examples (1.1.1.1),
+	data/helpfiles/ircii/bind/forward_character (1.1.1.1),
+	data/helpfiles/ircii/bind/forward_history (1.1.1.1),
+	data/helpfiles/ircii/bind/forward_word (1.1.1.1),
+	data/helpfiles/ircii/bind/help_character (1.1.1.1),
+	data/helpfiles/ircii/bind/keys (1.1.1.1),
+	data/helpfiles/ircii/bind/meta1_character (1.1.1.1),
+	data/helpfiles/ircii/bind/meta2_character (1.1.1.1),
+	data/helpfiles/ircii/bind/meta3_character (1.1.1.1),
+	data/helpfiles/ircii/bind/meta4_character (1.1.1.1),
+	data/helpfiles/ircii/bind/next_window (1.1.1.1),
+	data/helpfiles/ircii/bind/nothing (1.1.1.1),
+	data/helpfiles/ircii/bind/parse_command (1.1.1.1),
+	data/helpfiles/ircii/bind/previous_window (1.1.1.1),
+	data/helpfiles/ircii/bind/quit_irc (1.1.1.1),
+	data/helpfiles/ircii/bind/quote_character (1.1.1.1),
+	data/helpfiles/ircii/bind/refresh_inputline (1.1.1.1),
+	data/helpfiles/ircii/bind/refresh_screen (1.1.1.1),
+	data/helpfiles/ircii/bind/scroll_backward (1.1.1.1),
+	data/helpfiles/ircii/bind/scroll_end (1.1.1.1),
+	data/helpfiles/ircii/bind/scroll_forward (1.1.1.1),
+	data/helpfiles/ircii/bind/scroll_start (1.1.1.1),
+	data/helpfiles/ircii/bind/self_insert (1.1.1.1),
+	data/helpfiles/ircii/bind/send_line (1.1.1.1),
+	data/helpfiles/ircii/bind/stop_irc (1.1.1.1),
+	data/helpfiles/ircii/bind/switch_channels (1.1.1.1),
+	data/helpfiles/ircii/bind/toggle_insert_mode (1.1.1.1),
+	data/helpfiles/ircii/bind/toggle_stop_screen (1.1.1.1),
+	data/helpfiles/ircii/bind/transpose_characters (1.1.1.1),
+	data/helpfiles/ircii/bind/type_text (1.1.1.1),
+	data/helpfiles/ircii/bind/unstop_all_windows (1.1.1.1),
+	data/helpfiles/ircii/bind/yank_from_cutbuffer (1.1.1.1),
+	data/helpfiles/ircii/ctcp/action (1.1.1.1),
+	data/helpfiles/ircii/ctcp/clientinfo (1.1.1.1),
+	data/helpfiles/ircii/ctcp/userinfo (1.1.1.1),
+	data/helpfiles/ircii/ctcp/ctcp (1.1.1.1),
+	data/helpfiles/ircii/ctcp/echo (1.1.1.1),
+	data/helpfiles/ircii/ctcp/finger (1.1.1.1),
+	data/helpfiles/ircii/ctcp/ping (1.1.1.1),
+	data/helpfiles/ircii/ctcp/time (1.1.1.1),
+	data/helpfiles/ircii/ctcp/utc (1.1.1.1),
+	data/helpfiles/ircii/ctcp/version (1.1.1.1),
+	data/helpfiles/ircii/dcc/chat (1.1.1.1),
+	data/helpfiles/ircii/dcc/close (1.1.1.1),
+	data/helpfiles/ircii/dcc/dcc (1.1.1.1),
+	data/helpfiles/ircii/dcc/get (1.1.1.1),
+	data/helpfiles/ircii/dcc/list (1.1.1.1),
+	data/helpfiles/ircii/dcc/raw (1.1.1.1),
+	data/helpfiles/ircii/dcc/rename (1.1.1.1),
+	data/helpfiles/ircii/dcc/send (1.1.1.1),
+	data/helpfiles/ircii/dcc/talk (1.1.1.1),
+	data/helpfiles/ircii/dcc/tmsg (1.1.1.1),
+	data/helpfiles/ircii/ircii/command_line_args (1.1.1.1),
+	data/helpfiles/ircii/ircii/copyright (1.1.1.1),
+	data/helpfiles/ircii/ircii/environment_vars (1.1.1.1),
+	data/helpfiles/ircii/ircii/ircii (1.1.1.1),
+	data/helpfiles/ircii/ircii/programming (1.1.1.1),
+	data/helpfiles/ircii/ircii/server_lists (1.1.1.1),
+	data/helpfiles/ircii/ircii/signals (1.1.1.1),
+	data/helpfiles/ircii/ircii/status_line (1.1.1.1),
+	data/helpfiles/ircii/load/action (1.1.1.1),
+	data/helpfiles/ircii/load/alias (1.1.1.1),
+	data/helpfiles/ircii/load/autoop (1.1.1.1),
+	data/helpfiles/ircii/load/basical (1.1.1.1),
+	data/helpfiles/ircii/load/bigcheese (1.1.1.1),
+	data/helpfiles/ircii/load/brc (1.1.1.1),
+	data/helpfiles/ircii/load/channel (1.1.1.1),
+	data/helpfiles/ircii/load/columns (1.1.1.1),
+	data/helpfiles/ircii/load/commander (1.1.1.1),
+	data/helpfiles/ircii/load/cursor (1.1.1.1),
+	data/helpfiles/ircii/load/deutsch (1.1.1.1),
+	data/helpfiles/ircii/load/disc (1.1.1.1),
+	data/helpfiles/ircii/load/edit (1.1.1.1),
+	data/helpfiles/ircii/load/english (1.1.1.1),
+	data/helpfiles/ircii/load/events (1.1.1.1),
+	data/helpfiles/ircii/load/extensions (1.1.1.1),
+	data/helpfiles/ircii/load/finger (1.1.1.1),
+	data/helpfiles/ircii/load/finger.who (1.1.1.1),
+	data/helpfiles/ircii/load/flood (1.1.1.1),
+	data/helpfiles/ircii/load/fnet (1.1.1.1),
+	data/helpfiles/ircii/load/functions (1.1.1.1),
+	data/helpfiles/ircii/load/history (1.1.1.1),
+	data/helpfiles/ircii/load/irciihelp (1.1.1.1),
+	data/helpfiles/ircii/load/ircprimer (1.1.1.1),
+	data/helpfiles/ircii/load/kickmenu (1.1.1.1),
+	data/helpfiles/ircii/load/killpath (1.1.1.1),
+	data/helpfiles/ircii/load/kpstat (1.1.1.1),
+	data/helpfiles/ircii/load/list (1.1.1.1),
+	data/helpfiles/ircii/load/load (1.1.1.1),
+	data/helpfiles/ircii/load/local (1.1.1.1),
+	data/helpfiles/ircii/load/lynx_ircrc (1.1.1.1),
+	data/helpfiles/ircii/load/meta1 (1.1.1.1),
+	data/helpfiles/ircii/load/meta2 (1.1.1.1),
+	data/helpfiles/ircii/load/msg (1.1.1.1),
+	data/helpfiles/ircii/load/mudlike (1.1.1.1),
+	data/helpfiles/ircii/load/nemesis (1.1.1.1),
+	data/helpfiles/ircii/load/netsplit (1.1.1.1),
+	data/helpfiles/ircii/load/newaway (1.1.1.1),
+	data/helpfiles/ircii/load/nicks (1.1.1.1),
+	data/helpfiles/ircii/load/oldping (1.1.1.1),
+	data/helpfiles/ircii/load/oper (1.1.1.1),
+	data/helpfiles/ircii/load/prefix (1.1.1.1),
+	data/helpfiles/ircii/load/recursion (1.1.1.1),
+	data/helpfiles/ircii/load/repeat (1.1.1.1),
+	data/helpfiles/ircii/load/screen (1.1.1.1),
+	data/helpfiles/ircii/load/service (1.1.1.1),
+	data/helpfiles/ircii/load/shell (1.1.1.1),
+	data/helpfiles/ircii/load/silent (1.1.1.1),
+	data/helpfiles/ircii/load/smileys (1.1.1.1),
+	data/helpfiles/ircii/load/suggestions (1.1.1.1),
+	data/helpfiles/ircii/load/tabkey (1.1.1.1),
+	data/helpfiles/ircii/load/time (1.1.1.1),
+	data/helpfiles/ircii/load/traces (1.1.1.1),
+	data/helpfiles/ircii/load/troy (1.1.1.1),
+	data/helpfiles/ircii/load/uhnotify (1.1.1.1),
+	data/helpfiles/ircii/load/version (1.1.1.1),
+	data/helpfiles/ircii/load/wallopstat (1.1.1.1),
+	data/helpfiles/ircii/load/whowas (1.1.1.1),
+	data/helpfiles/ircii/load/window (1.1.1.1),
+	data/helpfiles/ircii/note/antiwall (1.1.1.1),
+	data/helpfiles/ircii/note/count (1.1.1.1),
+	data/helpfiles/ircii/note/deny (1.1.1.1),
+	data/helpfiles/ircii/note/find (1.1.1.1),
+	data/helpfiles/ircii/note/flag (1.1.1.1),
+	data/helpfiles/ircii/note/key (1.1.1.1),
+	data/helpfiles/ircii/note/log (1.1.1.1),
+	data/helpfiles/ircii/note/ls (1.1.1.1),
+	data/helpfiles/ircii/note/news (1.1.1.1),
+	data/helpfiles/ircii/note/note (1.1.1.1),
+	data/helpfiles/ircii/note/rm (1.1.1.1),
+	data/helpfiles/ircii/note/save (1.1.1.1),
+	data/helpfiles/ircii/note/send (1.1.1.1),
+	data/helpfiles/ircii/note/sent (1.1.1.1),
+	data/helpfiles/ircii/note/service (1.1.1.1),
+	data/helpfiles/ircii/note/spy (1.1.1.1),
+	data/helpfiles/ircii/note/stats (1.1.1.1),
+	data/helpfiles/ircii/note/user (1.1.1.1),
+	data/helpfiles/ircii/note/waitfor (1.1.1.1),
+	data/helpfiles/ircii/note/wall (1.1.1.1),
+	data/helpfiles/ircii/note/wallops (1.1.1.1),
+	data/helpfiles/ircii/on/action (1.1.1.1),
+	data/helpfiles/ircii/on/channel_nick (1.1.1.1),
+	data/helpfiles/ircii/on/channel_signoff (1.1.1.1),
+	data/helpfiles/ircii/on/connect (1.1.1.1),
+	data/helpfiles/ircii/on/ctcp (1.1.1.1),
+	data/helpfiles/ircii/on/ctcp_reply (1.1.1.1),
+	data/helpfiles/ircii/on/dcc_chat (1.1.1.1),
+	data/helpfiles/ircii/on/dcc_raw (1.1.1.1),
+	data/helpfiles/ircii/on/disconnect (1.1.1.1),
+	data/helpfiles/ircii/on/exec (1.1.1.1),
+	data/helpfiles/ircii/on/exec_errors (1.1.1.1),
+	data/helpfiles/ircii/on/exec_exit (1.1.1.1),
+	data/helpfiles/ircii/on/exec_prompt (1.1.1.1),
+	data/helpfiles/ircii/on/flood (1.1.1.1),
+	data/helpfiles/ircii/on/help (1.1.1.1),
+	data/helpfiles/ircii/on/hook (1.1.1.1),
+	data/helpfiles/ircii/on/idle (1.1.1.1),
+	data/helpfiles/ircii/on/input (1.1.1.1),
+	data/helpfiles/ircii/on/invite (1.1.1.1),
+	data/helpfiles/ircii/on/join (1.1.1.1),
+	data/helpfiles/ircii/on/leave (1.1.1.1),
+	data/helpfiles/ircii/on/list (1.1.1.1),
+	data/helpfiles/ircii/on/mail (1.1.1.1),
+	data/helpfiles/ircii/on/mode (1.1.1.1), data/helpfiles/ircii/on/msg
+	(1.1.1.1), data/helpfiles/ircii/on/msg_group (1.1.1.1),
+	data/helpfiles/ircii/on/names (1.1.1.1),
+	data/helpfiles/ircii/on/nickname (1.1.1.1),
+	data/helpfiles/ircii/on/note (1.1.1.1),
+	data/helpfiles/ircii/on/notice (1.1.1.1),
+	data/helpfiles/ircii/on/notify_signoff (1.1.1.1),
+	data/helpfiles/ircii/on/notify_signon (1.1.1.1),
+	data/helpfiles/ircii/on/numeric (1.1.1.1),
+	data/helpfiles/ircii/on/on (1.1.1.1),
+	data/helpfiles/ircii/on/public (1.1.1.1),
+	data/helpfiles/ircii/on/public_msg (1.1.1.1),
+	data/helpfiles/ircii/on/public_notice (1.1.1.1),
+	data/helpfiles/ircii/on/public_other (1.1.1.1),
+	data/helpfiles/ircii/on/raw_irc (1.1.1.1),
+	data/helpfiles/ircii/on/send_action (1.1.1.1),
+	data/helpfiles/ircii/on/send_dcc_chat (1.1.1.1),
+	data/helpfiles/ircii/on/send_msg (1.1.1.1),
+	data/helpfiles/ircii/on/send_notice (1.1.1.1),
+	data/helpfiles/ircii/on/send_public (1.1.1.1),
+	data/helpfiles/ircii/on/send_talk (1.1.1.1),
+	data/helpfiles/ircii/on/serial_numbers (1.1.1.1),
+	data/helpfiles/ircii/on/server_notice (1.1.1.1),
+	data/helpfiles/ircii/on/signoff (1.1.1.1),
+	data/helpfiles/ircii/on/talk (1.1.1.1),
+	data/helpfiles/ircii/on/timer (1.1.1.1),
+	data/helpfiles/ircii/on/topic (1.1.1.1),
+	data/helpfiles/ircii/on/wall (1.1.1.1),
+	data/helpfiles/ircii/on/wallop (1.1.1.1),
+	data/helpfiles/ircii/on/who (1.1.1.1),
+	data/helpfiles/ircii/on/window (1.1.1.1),
+	data/helpfiles/ircii/on/window_kill (1.1.1.1),
+	data/helpfiles/ircii/set/always_split_biggest (1.1.1.1),
+	data/helpfiles/ircii/set/auto_unmark_away (1.1.1.1),
+	data/helpfiles/ircii/set/auto_whowas (1.1.1.1),
+	data/helpfiles/ircii/set/beep (1.1.1.1),
+	data/helpfiles/ircii/set/beep_max (1.1.1.1),
+	data/helpfiles/ircii/set/beep_on_msg (1.1.1.1),
+	data/helpfiles/ircii/set/beep_when_away (1.1.1.1),
+	data/helpfiles/ircii/set/bold_video (1.1.1.1),
+	data/helpfiles/ircii/set/channel_name_width (1.1.1.1),
+	data/helpfiles/ircii/set/client_information (1.1.1.1),
+	data/helpfiles/ircii/set/clock (1.1.1.1),
+	data/helpfiles/ircii/set/clock_24hour (1.1.1.1),
+	data/helpfiles/ircii/set/clock_alarm (1.1.1.1),
+	data/helpfiles/ircii/set/cmdchars (1.1.1.1),
+	data/helpfiles/ircii/set/command_mode (1.1.1.1),
+	data/helpfiles/ircii/set/continued_line (1.1.1.1),
+	data/helpfiles/ircii/set/dcc_block_size (1.1.1.1),
+	data/helpfiles/ircii/set/debug (1.1.1.1),
+	data/helpfiles/ircii/set/display (1.1.1.1),
+	data/helpfiles/ircii/set/eight_bit_characters (1.1.1.1),
+	data/helpfiles/ircii/set/encrypt_program (1.1.1.1),
+	data/helpfiles/ircii/set/exec_protection (1.1.1.1),
+	data/helpfiles/ircii/set/flood_after (1.1.1.1),
+	data/helpfiles/ircii/set/flood_rate (1.1.1.1),
+	data/helpfiles/ircii/set/flood_users (1.1.1.1),
+	data/helpfiles/ircii/set/flood_warning (1.1.1.1),
+	data/helpfiles/ircii/set/full_status_line (1.1.1.1),
+	data/helpfiles/ircii/set/help_pager (1.1.1.1),
+	data/helpfiles/ircii/set/help_path (1.1.1.1),
+	data/helpfiles/ircii/set/help_prompt (1.1.1.1),
+	data/helpfiles/ircii/set/help_service (1.1.1.1),
+	data/helpfiles/ircii/set/help_window (1.1.1.1),
+	data/helpfiles/ircii/set/hide_private_channels (1.1.1.1),
+	data/helpfiles/ircii/set/highlight_char (1.1.1.1),
+	data/helpfiles/ircii/set/history (1.1.1.1),
+	data/helpfiles/ircii/set/history_file (1.1.1.1),
+	data/helpfiles/ircii/set/hold_mode (1.1.1.1),
+	data/helpfiles/ircii/set/hold_mode_max (1.1.1.1),
+	data/helpfiles/ircii/set/indent (1.1.1.1),
+	data/helpfiles/ircii/set/input_aliases (1.1.1.1),
+	data/helpfiles/ircii/set/input_prompt (1.1.1.1),
+	data/helpfiles/ircii/set/input_protection (1.1.1.1),
+	data/helpfiles/ircii/set/insert_mode (1.1.1.1),
+	data/helpfiles/ircii/set/inverse_video (1.1.1.1),
+	data/helpfiles/ircii/set/lastlog (1.1.1.1),
+	data/helpfiles/ircii/set/lastlog_level (1.1.1.1),
+	data/helpfiles/ircii/set/load_path (1.1.1.1),
+	data/helpfiles/ircii/set/log (1.1.1.1),
+	data/helpfiles/ircii/set/logfile (1.1.1.1),
+	data/helpfiles/ircii/set/mail (1.1.1.1),
+	data/helpfiles/ircii/set/max_recursions (1.1.1.1),
+	data/helpfiles/ircii/set/menu (1.1.1.1),
+	data/helpfiles/ircii/set/minimum_servers (1.1.1.1),
+	data/helpfiles/ircii/set/minimum_users (1.1.1.1),
+	data/helpfiles/ircii/set/no_ctcp_flood (1.1.1.1),
+	data/helpfiles/ircii/set/notify_handler (1.1.1.1),
+	data/helpfiles/ircii/set/notify_level (1.1.1.1),
+	data/helpfiles/ircii/set/notify_on_termination (1.1.1.1),
+	data/helpfiles/ircii/set/novice (1.1.1.1),
+	data/helpfiles/ircii/set/pause_after_motd (1.1.1.1),
+	data/helpfiles/ircii/set/realname (1.1.1.1),
+	data/helpfiles/ircii/set/scroll (1.1.1.1),
+	data/helpfiles/ircii/set/scroll_lines (1.1.1.1),
+	data/helpfiles/ircii/set/send_ignore_msg (1.1.1.1),
+	data/helpfiles/ircii/set/set (1.1.1.1),
+	data/helpfiles/ircii/set/shell (1.1.1.1),
+	data/helpfiles/ircii/set/shell_flags (1.1.1.1),
+	data/helpfiles/ircii/set/shell_limit (1.1.1.1),
+	data/helpfiles/ircii/set/show_away_once (1.1.1.1),
+	data/helpfiles/ircii/set/show_channel_names (1.1.1.1),
+	data/helpfiles/ircii/set/show_end_of_msgs (1.1.1.1),
+	data/helpfiles/ircii/set/show_numerics (1.1.1.1),
+	data/helpfiles/ircii/set/show_status_all (1.1.1.1),
+	data/helpfiles/ircii/set/show_who_hopcount (1.1.1.1),
+	data/helpfiles/ircii/set/status_away (1.1.1.1),
+	data/helpfiles/ircii/set/status_channel (1.1.1.1),
+	data/helpfiles/ircii/set/status_chanop (1.1.1.1),
+	data/helpfiles/ircii/set/status_clock (1.1.1.1),
+	data/helpfiles/ircii/set/status_dquery (1.1.1.1),
+	data/helpfiles/ircii/set/status_format (1.1.1.1),
+	data/helpfiles/ircii/set/status_hold (1.1.1.1),
+	data/helpfiles/ircii/set/status_hold_lines (1.1.1.1),
+	data/helpfiles/ircii/set/status_insert (1.1.1.1),
+	data/helpfiles/ircii/set/status_mail (1.1.1.1),
+	data/helpfiles/ircii/set/status_mode (1.1.1.1),
+	data/helpfiles/ircii/set/status_notify (1.1.1.1),
+	data/helpfiles/ircii/set/status_oper (1.1.1.1),
+	data/helpfiles/ircii/set/status_overwrite (1.1.1.1),
+	data/helpfiles/ircii/set/status_query (1.1.1.1),
+	data/helpfiles/ircii/set/status_server (1.1.1.1),
+	data/helpfiles/ircii/set/status_umode (1.1.1.1),
+	data/helpfiles/ircii/set/status_user (1.1.1.1),
+	data/helpfiles/ircii/set/status_window (1.1.1.1),
+	data/helpfiles/ircii/set/suppress_server_motd (1.1.1.1),
+	data/helpfiles/ircii/set/tab_max (1.1.1.1),
+	data/helpfiles/ircii/set/translation (1.1.1.1),
+	data/helpfiles/ircii/set/underline_video (1.1.1.1),
+	data/helpfiles/ircii/set/use_old_msg (1.1.1.1),
+	data/helpfiles/ircii/set/user_information (1.1.1.1),
+	data/helpfiles/ircii/set/user_wallops (1.1.1.1),
+	data/helpfiles/ircii/set/verbose_ctcp (1.1.1.1),
+	data/helpfiles/ircii/set/warn_of_ignores (1.1.1.1),
+	data/helpfiles/ircii/set/xterm_options (1.1.1.1),
+	data/helpfiles/ircii/window/add (1.1.1.1),
+	data/helpfiles/ircii/window/back (1.1.1.1),
+	data/helpfiles/ircii/window/balance (1.1.1.1),
+	data/helpfiles/ircii/window/bind (1.1.1.1),
+	data/helpfiles/ircii/window/channel (1.1.1.1),
+	data/helpfiles/ircii/window/create (1.1.1.1),
+	data/helpfiles/ircii/window/delete (1.1.1.1),
+	data/helpfiles/ircii/window/goto (1.1.1.1),
+	data/helpfiles/ircii/window/grow (1.1.1.1),
+	data/helpfiles/ircii/window/hide (1.1.1.1),
+	data/helpfiles/ircii/window/hide_others (1.1.1.1),
+	data/helpfiles/ircii/window/hold_mode (1.1.1.1),
+	data/helpfiles/ircii/window/kill (1.1.1.1),
+	data/helpfiles/ircii/window/kill_others (1.1.1.1),
+	data/helpfiles/ircii/window/lastlog_level (1.1.1.1),
+	data/helpfiles/ircii/window/level (1.1.1.1),
+	data/helpfiles/ircii/window/list (1.1.1.1),
+	data/helpfiles/ircii/window/log (1.1.1.1),
+	data/helpfiles/ircii/window/logfile (1.1.1.1),
+	data/helpfiles/ircii/window/move (1.1.1.1),
+	data/helpfiles/ircii/window/name (1.1.1.1),
+	data/helpfiles/ircii/window/new (1.1.1.1),
+	data/helpfiles/ircii/window/next (1.1.1.1),
+	data/helpfiles/ircii/window/notify (1.1.1.1),
+	data/helpfiles/ircii/window/notify_level (1.1.1.1),
+	data/helpfiles/ircii/window/number (1.1.1.1),
+	data/helpfiles/ircii/window/pop (1.1.1.1),
+	data/helpfiles/ircii/window/previous (1.1.1.1),
+	data/helpfiles/ircii/window/prompt (1.1.1.1),
+	data/helpfiles/ircii/window/push (1.1.1.1),
+	data/helpfiles/ircii/window/refnum (1.1.1.1),
+	data/helpfiles/ircii/window/remove (1.1.1.1),
+	data/helpfiles/ircii/window/scroll (1.1.1.1),
+	data/helpfiles/ircii/window/server (1.1.1.1),
+	data/helpfiles/ircii/window/show (1.1.1.1),
+	data/helpfiles/ircii/window/shrink (1.1.1.1),
+	data/helpfiles/ircii/window/stack (1.1.1.1),
+	data/helpfiles/ircii/window/swap (1.1.1.1),
+	data/helpfiles/ircii/window/unbind (1.1.1.1),
+	data/helpfiles/ircii/window/window (1.1.1.1), doc/CodingStyle
+	(1.1.1.1), mysql/.cvsignore (1.1.1.1), mysql/blitzed.sql (1.1.1.1),
+	mysql/blitzed_udf.c (1.1.1.1), mysql/make (1.1.1.1),
+	old-docs/Changes (1.1.1.1), old-docs/Changes.lang (1.1.1.1),
+	old-docs/FAQ (1.1.1.1), old-docs/KnownBugs (1.1.1.1),
+	old-docs/README (1.1.1.1), old-docs/README.UPGRADE (1.1.1.1),
+	old-docs/TODO (1.1.1.1), old-docs/WhatsNew (1.1.1.1),
+	src/.cvsignore (1.1.1.1), src/Makefile.am (1.1.1.1),
+	src/Makefile.in (1.1.1.1), src/actions.c (1.1.1.1), src/akill.c
+	(1.1.1.1), src/auth.c (1.1.1.1), src/autojoin.c (1.1.1.1),
+	src/cache.c (1.1.1.1), src/channels.c (1.1.1.1), src/chanserv.c
+	(1.1.1.1), src/commands.c (1.1.1.1), src/commands.h (1.1.1.1),
+	src/compat.c (1.1.1.1), src/config.c (1.1.1.1), src/config.h
+	(1.1.1.1), src/defs.h (1.1.1.1), src/extern.h (1.1.1.1),
+	src/helpserv.c (1.1.1.1), src/init.c (1.1.1.1), src/ircmacros.c
+	(1.1.1.1), src/language.c (1.1.1.1), src/log.c (1.1.1.1),
+	src/main.c (1.1.1.1), src/memory.c (1.1.1.1), src/memoserv.c
+	(1.1.1.1), src/messages.c (1.1.1.1), src/messages.h (1.1.1.1),
+	src/misc.c (1.1.1.1), src/mysql.c (1.1.1.1), src/news.c (1.1.1.1),
+	src/nickserv.c (1.1.1.1), src/operserv.c (1.1.1.1), src/process.c
+	(1.1.1.1), src/pseudo.h (1.1.1.1), src/quarantine.c (1.1.1.1),
+	src/rotatelogs.sh (1.1.1.1), src/send.c (1.1.1.1), src/servers.c
+	(1.1.1.1), src/services.h (1.1.1.1), src/sessions.c (1.1.1.1),
+	src/sha1.c (1.1.1.1), src/sockutil.c (1.1.1.1), src/svschk.sh
+	(1.1.1.1), src/sysconf.h.in (1.1.1.1), src/timeout.c (1.1.1.1),
+	src/timeout.h (1.1.1.1), src/users.c (1.1.1.1), src/vsnprintf.c
+	(1.1.1.1), src/cracklib/.cvsignore (1.1.1.1), src/cracklib/HISTORY
+	(1.1.1.1), src/cracklib/LICENCE (1.1.1.1), src/cracklib/MANIFEST
+	(1.1.1.1), src/cracklib/Makefile.am (1.1.1.1),
+	src/cracklib/Makefile.in (1.1.1.1), src/cracklib/POSTER (1.1.1.1),
+	src/cracklib/README (1.1.1.1), src/cracklib/cracklib/.cvsignore
+	(1.1.1.1), src/cracklib/cracklib/Makefile (1.1.1.1),
+	src/cracklib/cracklib/fascist.c (1.1.1.1),
+	src/cracklib/cracklib/genrules.pl (1.1.1.1),
+	src/cracklib/cracklib/mess.h (1.1.1.1),
+	src/cracklib/cracklib/packer.h (1.1.1.1),
+	src/cracklib/cracklib/packlib.c (1.1.1.1),
+	src/cracklib/cracklib/rules.c (1.1.1.1),
+	src/cracklib/cracklib/stringlib.c (1.1.1.1),
+	src/cracklib/util/.cvsignore (1.1.1.1), src/cracklib/util/Makefile
+	(1.1.1.1), src/cracklib/util/mkdict (1.1.1.1),
+	src/cracklib/util/packer.c (1.1.1.1), src/cracklib/util/testlib.c
+	(1.1.1.1), src/cracklib/util/testnum.c (1.1.1.1),
+	src/cracklib/util/teststr.c (1.1.1.1), src/cracklib/util/unpacker.c
+	(1.1.1.1), src/db2mysql/.cvsignore (1.1.1.1),
+	src/db2mysql/Makefile.am (1.1.1.1), src/db2mysql/Makefile.in
+	(1.1.1.1), src/db2mysql/akill.c (1.1.1.1), src/db2mysql/chanserv.c
+	(1.1.1.1), src/db2mysql/db2mysql.c (1.1.1.1),
+	src/db2mysql/db2mysql.h (1.1.1.1), src/db2mysql/exception.c
+	(1.1.1.1), src/db2mysql/extern.h (1.1.1.1), src/db2mysql/files.c
+	(1.1.1.1), src/db2mysql/memo.c (1.1.1.1), src/db2mysql/memory.c
+	(1.1.1.1), src/db2mysql/mysql.c (1.1.1.1), src/db2mysql/news.c
+	(1.1.1.1), src/db2mysql/nickserv.c (1.1.1.1),
+	src/db2mysql/operserv.c (1.1.1.1), src/db2mysql/string.c (1.1.1.1),
+	src/lang/.cvsignore (1.1.1.1), src/lang/Makefile.am (1.1.1.1),
+	src/lang/Makefile.in (1.1.1.1), src/lang/en_us.l (1.1.1.1),
+	src/lang/es.l (1.1.1.1), src/lang/index (1.1.1.1), src/lang/it.l
+	(1.1.1.1), src/lang/ja_euc.l (1.1.1.1), src/lang/ja_jis.l
+	(1.1.1.1), src/lang/ja_sjis.l (1.1.1.1), src/lang/jconv.pl
+	(1.1.1.1), src/lang/langcomp.c (1.1.1.1), src/lang/pt.l (1.1.1.1),
+	src/lang/tr.l (1.1.1.1): Import of blitzed services
+
+2002-08-23 02:08  Stuart Walsh (cryogen)  <stu@ipng.org.ku>
+
+	* .cvsignore (1.1), COPYING (1.1), ChangeLog (1.1), Makefile.am
+	(1.1), Makefile.in (1.1), README (1.1), TODO (1.1), acinclude.m4
+	(1.1), aclocal.m4 (1.1), config.guess (1.1), config.sub (1.1),
+	configure (1.1), configure.in (1.1), cp-recursive (1.1), depcomp
+	(1.1), getnewcl.sh (1.1), install-script (1.1), install-sh (1.1),
+	missing (1.1), mkinstalldirs (1.1), svschk (1.1), data/.cvsignore
+	(1.1), data/Makefile.am (1.1), data/Makefile.in (1.1),
+	data/example.conf (1.1), data/helpfiles/help (1.1),
+	data/helpfiles/ircii/! (1.1), data/helpfiles/ircii/.date (1.1),
+	data/helpfiles/ircii/abort (1.1), data/helpfiles/ircii/: (1.1),
+	data/helpfiles/ircii/admin (1.1), data/helpfiles/ircii/assign
+	(1.1), data/helpfiles/ircii/away (1.1), data/helpfiles/ircii/basics
+	(1.1), data/helpfiles/ircii/beep (1.1), data/helpfiles/ircii/bye
+	(1.1), data/helpfiles/ircii/cd (1.1), data/helpfiles/ircii/channel
+	(1.1), data/helpfiles/ircii/clear (1.1),
+	data/helpfiles/ircii/commands (1.1), data/helpfiles/ircii/comment
+	(1.1), data/helpfiles/ircii/connect (1.1),
+	data/helpfiles/ircii/date (1.1), data/helpfiles/ircii/deop (1.1),
+	data/helpfiles/ircii/describe (1.1), data/helpfiles/ircii/die
+	(1.1), data/helpfiles/ircii/digraph (1.1),
+	data/helpfiles/ircii/disconnect (1.1), data/helpfiles/ircii/dmsg
+	(1.1), data/helpfiles/ircii/dquery (1.1), data/helpfiles/ircii/echo
+	(1.1), data/helpfiles/ircii/encrypt (1.1),
+	data/helpfiles/ircii/etiquette (1.1), data/helpfiles/ircii/eval
+	(1.1), data/helpfiles/ircii/exec (1.1), data/helpfiles/ircii/exit
+	(1.1), data/helpfiles/ircii/expressions (1.1),
+	data/helpfiles/ircii/flush (1.1), data/helpfiles/ircii/foreach
+	(1.1), data/helpfiles/ircii/help (1.1),
+	data/helpfiles/ircii/history (1.1), data/helpfiles/ircii/hook
+	(1.1), data/helpfiles/ircii/if (1.1), data/helpfiles/ircii/ignore
+	(1.1), data/helpfiles/ircii/info (1.1), data/helpfiles/ircii/input
+	(1.1), data/helpfiles/ircii/intro (1.1),
+	data/helpfiles/ircii/invite (1.1), data/helpfiles/ircii/join (1.1),
+	data/helpfiles/ircii/kick (1.1), data/helpfiles/ircii/kill (1.1),
+	data/helpfiles/ircii/lastlog (1.1), data/helpfiles/ircii/leave
+	(1.1), data/helpfiles/ircii/links (1.1), data/helpfiles/ircii/list
+	(1.1), data/helpfiles/ircii/lusers (1.1), data/helpfiles/ircii/me
+	(1.1), data/helpfiles/ircii/menus (1.1), data/helpfiles/ircii/mload
+	(1.1), data/helpfiles/ircii/mode (1.1), data/helpfiles/ircii/motd
+	(1.1), data/helpfiles/ircii/msg (1.1), data/helpfiles/ircii/names
+	(1.1), data/helpfiles/ircii/news (1.1),
+	data/helpfiles/ircii/newuser (1.1), data/helpfiles/ircii/nick
+	(1.1), data/helpfiles/ircii/notice (1.1),
+	data/helpfiles/ircii/notify (1.1), data/helpfiles/ircii/oper (1.1),
+	data/helpfiles/ircii/parsekey (1.1), data/helpfiles/ircii/part
+	(1.1), data/helpfiles/ircii/ping (1.1), data/helpfiles/ircii/query
+	(1.1), data/helpfiles/ircii/quit (1.1), data/helpfiles/ircii/quote
+	(1.1), data/helpfiles/ircii/rbind (1.1),
+	data/helpfiles/ircii/redirect (1.1), data/helpfiles/ircii/rehash
+	(1.1), data/helpfiles/ircii/restart (1.1),
+	data/helpfiles/ircii/rules (1.1), data/helpfiles/ircii/save (1.1),
+	data/helpfiles/ircii/say (1.1), data/helpfiles/ircii/send (1.1),
+	data/helpfiles/ircii/sendline (1.1), data/helpfiles/ircii/server
+	(1.1), data/helpfiles/ircii/signoff (1.1),
+	data/helpfiles/ircii/sleep (1.1), data/helpfiles/ircii/squit (1.1),
+	data/helpfiles/ircii/stats (1.1), data/helpfiles/ircii/summon
+	(1.1), data/helpfiles/ircii/time (1.1), data/helpfiles/ircii/timer
+	(1.1), data/helpfiles/ircii/topic (1.1), data/helpfiles/ircii/trace
+	(1.1), data/helpfiles/ircii/type (1.1),
+	data/helpfiles/ircii/userhost (1.1), data/helpfiles/ircii/users
+	(1.1), data/helpfiles/ircii/version (1.1),
+	data/helpfiles/ircii/wait (1.1), data/helpfiles/ircii/wallops
+	(1.1), data/helpfiles/ircii/which (1.1), data/helpfiles/ircii/while
+	(1.1), data/helpfiles/ircii/who (1.1), data/helpfiles/ircii/whois
+	(1.1), data/helpfiles/ircii/whowas (1.1),
+	data/helpfiles/ircii/xecho (1.1), data/helpfiles/ircii/xtype (1.1),
+	data/helpfiles/ircii/alias/alias (1.1),
+	data/helpfiles/ircii/alias/functions (1.1),
+	data/helpfiles/ircii/alias/quote (1.1),
+	data/helpfiles/ircii/alias/special (1.1),
+	data/helpfiles/ircii/alias/width (1.1),
+	data/helpfiles/ircii/bind/backspace (1.1),
+	data/helpfiles/ircii/bind/backward_character (1.1),
+	data/helpfiles/ircii/bind/backward_history (1.1),
+	data/helpfiles/ircii/bind/backward_word (1.1),
+	data/helpfiles/ircii/bind/beginning_of_line (1.1),
+	data/helpfiles/ircii/bind/bind (1.1),
+	data/helpfiles/ircii/bind/clear_screen (1.1),
+	data/helpfiles/ircii/bind/command_completion (1.1),
+	data/helpfiles/ircii/bind/delete_character (1.1),
+	data/helpfiles/ircii/bind/delete_next_word (1.1),
+	data/helpfiles/ircii/bind/delete_previous_word (1.1),
+	data/helpfiles/ircii/bind/end_of_line (1.1),
+	data/helpfiles/ircii/bind/enter_digraph (1.1),
+	data/helpfiles/ircii/bind/enter_menu (1.1),
+	data/helpfiles/ircii/bind/erase_line (1.1),
+	data/helpfiles/ircii/bind/erase_to_beg_of_line (1.1),
+	data/helpfiles/ircii/bind/erase_to_end_of_line (1.1),
+	data/helpfiles/ircii/bind/examples (1.1),
+	data/helpfiles/ircii/bind/forward_character (1.1),
+	data/helpfiles/ircii/bind/forward_history (1.1),
+	data/helpfiles/ircii/bind/forward_word (1.1),
+	data/helpfiles/ircii/bind/help_character (1.1),
+	data/helpfiles/ircii/bind/keys (1.1),
+	data/helpfiles/ircii/bind/meta1_character (1.1),
+	data/helpfiles/ircii/bind/meta2_character (1.1),
+	data/helpfiles/ircii/bind/meta3_character (1.1),
+	data/helpfiles/ircii/bind/meta4_character (1.1),
+	data/helpfiles/ircii/bind/next_window (1.1),
+	data/helpfiles/ircii/bind/nothing (1.1),
+	data/helpfiles/ircii/bind/parse_command (1.1),
+	data/helpfiles/ircii/bind/previous_window (1.1),
+	data/helpfiles/ircii/bind/quit_irc (1.1),
+	data/helpfiles/ircii/bind/quote_character (1.1),
+	data/helpfiles/ircii/bind/refresh_inputline (1.1),
+	data/helpfiles/ircii/bind/refresh_screen (1.1),
+	data/helpfiles/ircii/bind/scroll_backward (1.1),
+	data/helpfiles/ircii/bind/scroll_end (1.1),
+	data/helpfiles/ircii/bind/scroll_forward (1.1),
+	data/helpfiles/ircii/bind/scroll_start (1.1),
+	data/helpfiles/ircii/bind/self_insert (1.1),
+	data/helpfiles/ircii/bind/send_line (1.1),
+	data/helpfiles/ircii/bind/stop_irc (1.1),
+	data/helpfiles/ircii/bind/switch_channels (1.1),
+	data/helpfiles/ircii/bind/toggle_insert_mode (1.1),
+	data/helpfiles/ircii/bind/toggle_stop_screen (1.1),
+	data/helpfiles/ircii/bind/transpose_characters (1.1),
+	data/helpfiles/ircii/bind/type_text (1.1),
+	data/helpfiles/ircii/bind/unstop_all_windows (1.1),
+	data/helpfiles/ircii/bind/yank_from_cutbuffer (1.1),
+	data/helpfiles/ircii/ctcp/action (1.1),
+	data/helpfiles/ircii/ctcp/clientinfo (1.1),
+	data/helpfiles/ircii/ctcp/userinfo (1.1),
+	data/helpfiles/ircii/ctcp/ctcp (1.1),
+	data/helpfiles/ircii/ctcp/echo (1.1),
+	data/helpfiles/ircii/ctcp/finger (1.1),
+	data/helpfiles/ircii/ctcp/ping (1.1),
+	data/helpfiles/ircii/ctcp/time (1.1), data/helpfiles/ircii/ctcp/utc
+	(1.1), data/helpfiles/ircii/ctcp/version (1.1),
+	data/helpfiles/ircii/dcc/chat (1.1), data/helpfiles/ircii/dcc/close
+	(1.1), data/helpfiles/ircii/dcc/dcc (1.1),
+	data/helpfiles/ircii/dcc/get (1.1), data/helpfiles/ircii/dcc/list
+	(1.1), data/helpfiles/ircii/dcc/raw (1.1),
+	data/helpfiles/ircii/dcc/rename (1.1),
+	data/helpfiles/ircii/dcc/send (1.1), data/helpfiles/ircii/dcc/talk
+	(1.1), data/helpfiles/ircii/dcc/tmsg (1.1),
+	data/helpfiles/ircii/ircii/command_line_args (1.1),
+	data/helpfiles/ircii/ircii/copyright (1.1),
+	data/helpfiles/ircii/ircii/environment_vars (1.1),
+	data/helpfiles/ircii/ircii/ircii (1.1),
+	data/helpfiles/ircii/ircii/programming (1.1),
+	data/helpfiles/ircii/ircii/server_lists (1.1),
+	data/helpfiles/ircii/ircii/signals (1.1),
+	data/helpfiles/ircii/ircii/status_line (1.1),
+	data/helpfiles/ircii/load/action (1.1),
+	data/helpfiles/ircii/load/alias (1.1),
+	data/helpfiles/ircii/load/autoop (1.1),
+	data/helpfiles/ircii/load/basical (1.1),
+	data/helpfiles/ircii/load/bigcheese (1.1),
+	data/helpfiles/ircii/load/brc (1.1),
+	data/helpfiles/ircii/load/channel (1.1),
+	data/helpfiles/ircii/load/columns (1.1),
+	data/helpfiles/ircii/load/commander (1.1),
+	data/helpfiles/ircii/load/cursor (1.1),
+	data/helpfiles/ircii/load/deutsch (1.1),
+	data/helpfiles/ircii/load/disc (1.1),
+	data/helpfiles/ircii/load/edit (1.1),
+	data/helpfiles/ircii/load/english (1.1),
+	data/helpfiles/ircii/load/events (1.1),
+	data/helpfiles/ircii/load/extensions (1.1),
+	data/helpfiles/ircii/load/finger (1.1),
+	data/helpfiles/ircii/load/finger.who (1.1),
+	data/helpfiles/ircii/load/flood (1.1),
+	data/helpfiles/ircii/load/fnet (1.1),
+	data/helpfiles/ircii/load/functions (1.1),
+	data/helpfiles/ircii/load/history (1.1),
+	data/helpfiles/ircii/load/irciihelp (1.1),
+	data/helpfiles/ircii/load/ircprimer (1.1),
+	data/helpfiles/ircii/load/kickmenu (1.1),
+	data/helpfiles/ircii/load/killpath (1.1),
+	data/helpfiles/ircii/load/kpstat (1.1),
+	data/helpfiles/ircii/load/list (1.1),
+	data/helpfiles/ircii/load/load (1.1),
+	data/helpfiles/ircii/load/local (1.1),
+	data/helpfiles/ircii/load/lynx_ircrc (1.1),
+	data/helpfiles/ircii/load/meta1 (1.1),
+	data/helpfiles/ircii/load/meta2 (1.1),
+	data/helpfiles/ircii/load/msg (1.1),
+	data/helpfiles/ircii/load/mudlike (1.1),
+	data/helpfiles/ircii/load/nemesis (1.1),
+	data/helpfiles/ircii/load/netsplit (1.1),
+	data/helpfiles/ircii/load/newaway (1.1),
+	data/helpfiles/ircii/load/nicks (1.1),
+	data/helpfiles/ircii/load/oldping (1.1),
+	data/helpfiles/ircii/load/oper (1.1),
+	data/helpfiles/ircii/load/prefix (1.1),
+	data/helpfiles/ircii/load/recursion (1.1),
+	data/helpfiles/ircii/load/repeat (1.1),
+	data/helpfiles/ircii/load/screen (1.1),
+	data/helpfiles/ircii/load/service (1.1),
+	data/helpfiles/ircii/load/shell (1.1),
+	data/helpfiles/ircii/load/silent (1.1),
+	data/helpfiles/ircii/load/smileys (1.1),
+	data/helpfiles/ircii/load/suggestions (1.1),
+	data/helpfiles/ircii/load/tabkey (1.1),
+	data/helpfiles/ircii/load/time (1.1),
+	data/helpfiles/ircii/load/traces (1.1),
+	data/helpfiles/ircii/load/troy (1.1),
+	data/helpfiles/ircii/load/uhnotify (1.1),
+	data/helpfiles/ircii/load/version (1.1),
+	data/helpfiles/ircii/load/wallopstat (1.1),
+	data/helpfiles/ircii/load/whowas (1.1),
+	data/helpfiles/ircii/load/window (1.1),
+	data/helpfiles/ircii/note/antiwall (1.1),
+	data/helpfiles/ircii/note/count (1.1),
+	data/helpfiles/ircii/note/deny (1.1),
+	data/helpfiles/ircii/note/find (1.1),
+	data/helpfiles/ircii/note/flag (1.1), data/helpfiles/ircii/note/key
+	(1.1), data/helpfiles/ircii/note/log (1.1),
+	data/helpfiles/ircii/note/ls (1.1), data/helpfiles/ircii/note/news
+	(1.1), data/helpfiles/ircii/note/note (1.1),
+	data/helpfiles/ircii/note/rm (1.1), data/helpfiles/ircii/note/save
+	(1.1), data/helpfiles/ircii/note/send (1.1),
+	data/helpfiles/ircii/note/sent (1.1),
+	data/helpfiles/ircii/note/service (1.1),
+	data/helpfiles/ircii/note/spy (1.1),
+	data/helpfiles/ircii/note/stats (1.1),
+	data/helpfiles/ircii/note/user (1.1),
+	data/helpfiles/ircii/note/waitfor (1.1),
+	data/helpfiles/ircii/note/wall (1.1),
+	data/helpfiles/ircii/note/wallops (1.1),
+	data/helpfiles/ircii/on/action (1.1),
+	data/helpfiles/ircii/on/channel_nick (1.1),
+	data/helpfiles/ircii/on/channel_signoff (1.1),
+	data/helpfiles/ircii/on/connect (1.1), data/helpfiles/ircii/on/ctcp
+	(1.1), data/helpfiles/ircii/on/ctcp_reply (1.1),
+	data/helpfiles/ircii/on/dcc_chat (1.1),
+	data/helpfiles/ircii/on/dcc_raw (1.1),
+	data/helpfiles/ircii/on/disconnect (1.1),
+	data/helpfiles/ircii/on/exec (1.1),
+	data/helpfiles/ircii/on/exec_errors (1.1),
+	data/helpfiles/ircii/on/exec_exit (1.1),
+	data/helpfiles/ircii/on/exec_prompt (1.1),
+	data/helpfiles/ircii/on/flood (1.1), data/helpfiles/ircii/on/help
+	(1.1), data/helpfiles/ircii/on/hook (1.1),
+	data/helpfiles/ircii/on/idle (1.1), data/helpfiles/ircii/on/input
+	(1.1), data/helpfiles/ircii/on/invite (1.1),
+	data/helpfiles/ircii/on/join (1.1), data/helpfiles/ircii/on/leave
+	(1.1), data/helpfiles/ircii/on/list (1.1),
+	data/helpfiles/ircii/on/mail (1.1), data/helpfiles/ircii/on/mode
+	(1.1), data/helpfiles/ircii/on/msg (1.1),
+	data/helpfiles/ircii/on/msg_group (1.1),
+	data/helpfiles/ircii/on/names (1.1),
+	data/helpfiles/ircii/on/nickname (1.1),
+	data/helpfiles/ircii/on/note (1.1), data/helpfiles/ircii/on/notice
+	(1.1), data/helpfiles/ircii/on/notify_signoff (1.1),
+	data/helpfiles/ircii/on/notify_signon (1.1),
+	data/helpfiles/ircii/on/numeric (1.1), data/helpfiles/ircii/on/on
+	(1.1), data/helpfiles/ircii/on/public (1.1),
+	data/helpfiles/ircii/on/public_msg (1.1),
+	data/helpfiles/ircii/on/public_notice (1.1),
+	data/helpfiles/ircii/on/public_other (1.1),
+	data/helpfiles/ircii/on/raw_irc (1.1),
+	data/helpfiles/ircii/on/send_action (1.1),
+	data/helpfiles/ircii/on/send_dcc_chat (1.1),
+	data/helpfiles/ircii/on/send_msg (1.1),
+	data/helpfiles/ircii/on/send_notice (1.1),
+	data/helpfiles/ircii/on/send_public (1.1),
+	data/helpfiles/ircii/on/send_talk (1.1),
+	data/helpfiles/ircii/on/serial_numbers (1.1),
+	data/helpfiles/ircii/on/server_notice (1.1),
+	data/helpfiles/ircii/on/signoff (1.1), data/helpfiles/ircii/on/talk
+	(1.1), data/helpfiles/ircii/on/timer (1.1),
+	data/helpfiles/ircii/on/topic (1.1), data/helpfiles/ircii/on/wall
+	(1.1), data/helpfiles/ircii/on/wallop (1.1),
+	data/helpfiles/ircii/on/who (1.1), data/helpfiles/ircii/on/window
+	(1.1), data/helpfiles/ircii/on/window_kill (1.1),
+	data/helpfiles/ircii/set/always_split_biggest (1.1),
+	data/helpfiles/ircii/set/auto_unmark_away (1.1),
+	data/helpfiles/ircii/set/auto_whowas (1.1),
+	data/helpfiles/ircii/set/beep (1.1),
+	data/helpfiles/ircii/set/beep_max (1.1),
+	data/helpfiles/ircii/set/beep_on_msg (1.1),
+	data/helpfiles/ircii/set/beep_when_away (1.1),
+	data/helpfiles/ircii/set/bold_video (1.1),
+	data/helpfiles/ircii/set/channel_name_width (1.1),
+	data/helpfiles/ircii/set/client_information (1.1),
+	data/helpfiles/ircii/set/clock (1.1),
+	data/helpfiles/ircii/set/clock_24hour (1.1),
+	data/helpfiles/ircii/set/clock_alarm (1.1),
+	data/helpfiles/ircii/set/cmdchars (1.1),
+	data/helpfiles/ircii/set/command_mode (1.1),
+	data/helpfiles/ircii/set/continued_line (1.1),
+	data/helpfiles/ircii/set/dcc_block_size (1.1),
+	data/helpfiles/ircii/set/debug (1.1),
+	data/helpfiles/ircii/set/display (1.1),
+	data/helpfiles/ircii/set/eight_bit_characters (1.1),
+	data/helpfiles/ircii/set/encrypt_program (1.1),
+	data/helpfiles/ircii/set/exec_protection (1.1),
+	data/helpfiles/ircii/set/flood_after (1.1),
+	data/helpfiles/ircii/set/flood_rate (1.1),
+	data/helpfiles/ircii/set/flood_users (1.1),
+	data/helpfiles/ircii/set/flood_warning (1.1),
+	data/helpfiles/ircii/set/full_status_line (1.1),
+	data/helpfiles/ircii/set/help_pager (1.1),
+	data/helpfiles/ircii/set/help_path (1.1),
+	data/helpfiles/ircii/set/help_prompt (1.1),
+	data/helpfiles/ircii/set/help_service (1.1),
+	data/helpfiles/ircii/set/help_window (1.1),
+	data/helpfiles/ircii/set/hide_private_channels (1.1),
+	data/helpfiles/ircii/set/highlight_char (1.1),
+	data/helpfiles/ircii/set/history (1.1),
+	data/helpfiles/ircii/set/history_file (1.1),
+	data/helpfiles/ircii/set/hold_mode (1.1),
+	data/helpfiles/ircii/set/hold_mode_max (1.1),
+	data/helpfiles/ircii/set/indent (1.1),
+	data/helpfiles/ircii/set/input_aliases (1.1),
+	data/helpfiles/ircii/set/input_prompt (1.1),
+	data/helpfiles/ircii/set/input_protection (1.1),
+	data/helpfiles/ircii/set/insert_mode (1.1),
+	data/helpfiles/ircii/set/inverse_video (1.1),
+	data/helpfiles/ircii/set/lastlog (1.1),
+	data/helpfiles/ircii/set/lastlog_level (1.1),
+	data/helpfiles/ircii/set/load_path (1.1),
+	data/helpfiles/ircii/set/log (1.1),
+	data/helpfiles/ircii/set/logfile (1.1),
+	data/helpfiles/ircii/set/mail (1.1),
+	data/helpfiles/ircii/set/max_recursions (1.1),
+	data/helpfiles/ircii/set/menu (1.1),
+	data/helpfiles/ircii/set/minimum_servers (1.1),
+	data/helpfiles/ircii/set/minimum_users (1.1),
+	data/helpfiles/ircii/set/no_ctcp_flood (1.1),
+	data/helpfiles/ircii/set/notify_handler (1.1),
+	data/helpfiles/ircii/set/notify_level (1.1),
+	data/helpfiles/ircii/set/notify_on_termination (1.1),
+	data/helpfiles/ircii/set/novice (1.1),
+	data/helpfiles/ircii/set/pause_after_motd (1.1),
+	data/helpfiles/ircii/set/realname (1.1),
+	data/helpfiles/ircii/set/scroll (1.1),
+	data/helpfiles/ircii/set/scroll_lines (1.1),
+	data/helpfiles/ircii/set/send_ignore_msg (1.1),
+	data/helpfiles/ircii/set/set (1.1), data/helpfiles/ircii/set/shell
+	(1.1), data/helpfiles/ircii/set/shell_flags (1.1),
+	data/helpfiles/ircii/set/shell_limit (1.1),
+	data/helpfiles/ircii/set/show_away_once (1.1),
+	data/helpfiles/ircii/set/show_channel_names (1.1),
+	data/helpfiles/ircii/set/show_end_of_msgs (1.1),
+	data/helpfiles/ircii/set/show_numerics (1.1),
+	data/helpfiles/ircii/set/show_status_all (1.1),
+	data/helpfiles/ircii/set/show_who_hopcount (1.1),
+	data/helpfiles/ircii/set/status_away (1.1),
+	data/helpfiles/ircii/set/status_channel (1.1),
+	data/helpfiles/ircii/set/status_chanop (1.1),
+	data/helpfiles/ircii/set/status_clock (1.1),
+	data/helpfiles/ircii/set/status_dquery (1.1),
+	data/helpfiles/ircii/set/status_format (1.1),
+	data/helpfiles/ircii/set/status_hold (1.1),
+	data/helpfiles/ircii/set/status_hold_lines (1.1),
+	data/helpfiles/ircii/set/status_insert (1.1),
+	data/helpfiles/ircii/set/status_mail (1.1),
+	data/helpfiles/ircii/set/status_mode (1.1),
+	data/helpfiles/ircii/set/status_notify (1.1),
+	data/helpfiles/ircii/set/status_oper (1.1),
+	data/helpfiles/ircii/set/status_overwrite (1.1),
+	data/helpfiles/ircii/set/status_query (1.1),
+	data/helpfiles/ircii/set/status_server (1.1),
+	data/helpfiles/ircii/set/status_umode (1.1),
+	data/helpfiles/ircii/set/status_user (1.1),
+	data/helpfiles/ircii/set/status_window (1.1),
+	data/helpfiles/ircii/set/suppress_server_motd (1.1),
+	data/helpfiles/ircii/set/tab_max (1.1),
+	data/helpfiles/ircii/set/translation (1.1),
+	data/helpfiles/ircii/set/underline_video (1.1),
+	data/helpfiles/ircii/set/use_old_msg (1.1),
+	data/helpfiles/ircii/set/user_information (1.1),
+	data/helpfiles/ircii/set/user_wallops (1.1),
+	data/helpfiles/ircii/set/verbose_ctcp (1.1),
+	data/helpfiles/ircii/set/warn_of_ignores (1.1),
+	data/helpfiles/ircii/set/xterm_options (1.1),
+	data/helpfiles/ircii/window/add (1.1),
+	data/helpfiles/ircii/window/back (1.1),
+	data/helpfiles/ircii/window/balance (1.1),
+	data/helpfiles/ircii/window/bind (1.1),
+	data/helpfiles/ircii/window/channel (1.1),
+	data/helpfiles/ircii/window/create (1.1),
+	data/helpfiles/ircii/window/delete (1.1),
+	data/helpfiles/ircii/window/goto (1.1),
+	data/helpfiles/ircii/window/grow (1.1),
+	data/helpfiles/ircii/window/hide (1.1),
+	data/helpfiles/ircii/window/hide_others (1.1),
+	data/helpfiles/ircii/window/hold_mode (1.1),
+	data/helpfiles/ircii/window/kill (1.1),
+	data/helpfiles/ircii/window/kill_others (1.1),
+	data/helpfiles/ircii/window/lastlog_level (1.1),
+	data/helpfiles/ircii/window/level (1.1),
+	data/helpfiles/ircii/window/list (1.1),
+	data/helpfiles/ircii/window/log (1.1),
+	data/helpfiles/ircii/window/logfile (1.1),
+	data/helpfiles/ircii/window/move (1.1),
+	data/helpfiles/ircii/window/name (1.1),
+	data/helpfiles/ircii/window/new (1.1),
+	data/helpfiles/ircii/window/next (1.1),
+	data/helpfiles/ircii/window/notify (1.1),
+	data/helpfiles/ircii/window/notify_level (1.1),
+	data/helpfiles/ircii/window/number (1.1),
+	data/helpfiles/ircii/window/pop (1.1),
+	data/helpfiles/ircii/window/previous (1.1),
+	data/helpfiles/ircii/window/prompt (1.1),
+	data/helpfiles/ircii/window/push (1.1),
+	data/helpfiles/ircii/window/refnum (1.1),
+	data/helpfiles/ircii/window/remove (1.1),
+	data/helpfiles/ircii/window/scroll (1.1),
+	data/helpfiles/ircii/window/server (1.1),
+	data/helpfiles/ircii/window/show (1.1),
+	data/helpfiles/ircii/window/shrink (1.1),
+	data/helpfiles/ircii/window/stack (1.1),
+	data/helpfiles/ircii/window/swap (1.1),
+	data/helpfiles/ircii/window/unbind (1.1),
+	data/helpfiles/ircii/window/window (1.1), doc/CodingStyle (1.1),
+	mysql/.cvsignore (1.1), mysql/blitzed.sql (1.1),
+	mysql/blitzed_udf.c (1.1), mysql/make (1.1), old-docs/Changes
+	(1.1), old-docs/Changes.lang (1.1), old-docs/FAQ (1.1),
+	old-docs/KnownBugs (1.1), old-docs/README (1.1),
+	old-docs/README.UPGRADE (1.1), old-docs/TODO (1.1),
+	old-docs/WhatsNew (1.1), src/.cvsignore (1.1), src/Makefile.am
+	(1.1), src/Makefile.in (1.1), src/actions.c (1.1), src/akill.c
+	(1.1), src/auth.c (1.1), src/autojoin.c (1.1), src/cache.c (1.1),
+	src/channels.c (1.1), src/chanserv.c (1.1), src/commands.c (1.1),
+	src/commands.h (1.1), src/compat.c (1.1), src/config.c (1.1),
+	src/config.h (1.1), src/defs.h (1.1), src/extern.h (1.1),
+	src/helpserv.c (1.1), src/init.c (1.1), src/ircmacros.c (1.1),
+	src/language.c (1.1), src/log.c (1.1), src/main.c (1.1),
+	src/memory.c (1.1), src/memoserv.c (1.1), src/messages.c (1.1),
+	src/messages.h (1.1), src/misc.c (1.1), src/mysql.c (1.1),
+	src/news.c (1.1), src/nickserv.c (1.1), src/operserv.c (1.1),
+	src/process.c (1.1), src/pseudo.h (1.1), src/quarantine.c (1.1),
+	src/rotatelogs.sh (1.1), src/send.c (1.1), src/servers.c (1.1),
+	src/services.h (1.1), src/sessions.c (1.1), src/sha1.c (1.1),
+	src/sockutil.c (1.1), src/svschk.sh (1.1), src/sysconf.h.in (1.1),
+	src/timeout.c (1.1), src/timeout.h (1.1), src/users.c (1.1),
+	src/vsnprintf.c (1.1), src/cracklib/.cvsignore (1.1),
+	src/cracklib/HISTORY (1.1), src/cracklib/LICENCE (1.1),
+	src/cracklib/MANIFEST (1.1), src/cracklib/Makefile.am (1.1),
+	src/cracklib/Makefile.in (1.1), src/cracklib/POSTER (1.1),
+	src/cracklib/README (1.1), src/cracklib/cracklib/.cvsignore (1.1),
+	src/cracklib/cracklib/Makefile (1.1),
+	src/cracklib/cracklib/fascist.c (1.1),
+	src/cracklib/cracklib/genrules.pl (1.1),
+	src/cracklib/cracklib/mess.h (1.1), src/cracklib/cracklib/packer.h
+	(1.1), src/cracklib/cracklib/packlib.c (1.1),
+	src/cracklib/cracklib/rules.c (1.1),
+	src/cracklib/cracklib/stringlib.c (1.1),
+	src/cracklib/util/.cvsignore (1.1), src/cracklib/util/Makefile
+	(1.1), src/cracklib/util/mkdict (1.1), src/cracklib/util/packer.c
+	(1.1), src/cracklib/util/testlib.c (1.1),
+	src/cracklib/util/testnum.c (1.1), src/cracklib/util/teststr.c
+	(1.1), src/cracklib/util/unpacker.c (1.1), src/db2mysql/.cvsignore
+	(1.1), src/db2mysql/Makefile.am (1.1), src/db2mysql/Makefile.in
+	(1.1), src/db2mysql/akill.c (1.1), src/db2mysql/chanserv.c (1.1),
+	src/db2mysql/db2mysql.c (1.1), src/db2mysql/db2mysql.h (1.1),
+	src/db2mysql/exception.c (1.1), src/db2mysql/extern.h (1.1),
+	src/db2mysql/files.c (1.1), src/db2mysql/memo.c (1.1),
+	src/db2mysql/memory.c (1.1), src/db2mysql/mysql.c (1.1),
+	src/db2mysql/news.c (1.1), src/db2mysql/nickserv.c (1.1),
+	src/db2mysql/operserv.c (1.1), src/db2mysql/string.c (1.1),
+	src/lang/.cvsignore (1.1), src/lang/Makefile.am (1.1),
+	src/lang/Makefile.in (1.1), src/lang/en_us.l (1.1), src/lang/es.l
+	(1.1), src/lang/index (1.1), src/lang/it.l (1.1), src/lang/ja_euc.l
+	(1.1), src/lang/ja_jis.l (1.1), src/lang/ja_sjis.l (1.1),
+	src/lang/jconv.pl (1.1), src/lang/langcomp.c (1.1), src/lang/pt.l
+	(1.1), src/lang/tr.l (1.1): Initial revision
+

@@ -1,0 +1,52 @@
+Blitzed Services Bulk Registration Tools
+----------------------------------------
+
+$Id$
+
+In this directory you will find some tools to make it easier to bulk-register
+nicks and channels.  We (Blitzed) find these tools useful in situations such
+as:
+
+- A channel based around a large web forum is founded, and the owner of the
+  forum/channel wishes for all their forum users to have the same IRC nick and
+  password as their forum name and password.  This is often desirable because
+  a) it makes it easier on the users, and b) it stops IRC-smart forum users
+  from preregistering all the other users' nicks.
+
+- Another IRC network with services is assimilated.  If there is already code
+  to bulk-register nicks and channels, then only the code to read the existing
+  network's databases needs to be written.
+
+I'm sure you can think of more uses.
+
+All of the scripts accept the command line option --help to give you a brief
+usage overview.  register_nick.pl and register_chan.pl also have some variables
+that you may want to change if you don't use the same default nick/chan
+settings that Blitzed uses.  Patches to make these scripts read services.conf
+are welcome.
+
+If you have any further questions or suggestions about these scripts, please
+contact services@lists.blitzed.org.
+
+register_nick.pl
+----------------
+
+Expects nick details to be sent on STDIN, in this format:
+
+nickname	password	email
+
+The above data is separated by tabs.  "password" is in clear text.  "email" is
+optional, but will produce a warning if missed off.  If a given nickname is
+already registered, this script will warn and skip that nick.
+
+
+register_chan.pl
+----------------
+
+Expects channel details to be sent on STDIN, in this format:
+
+#channel	founder		password	description
+
+The above data is separated by tabs.  "password is in clear text.
+"description" continues until end of line.  If a given channel is already
+registered, this script will warn and skip that channel.

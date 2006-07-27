@@ -1,0 +1,59 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(blitzed_udf, 0.2)
+AC_CONFIG_SRCDIR(blitzed_udf.c)
+AM_CONFIG_HEADER(conf.h)
+AM_INIT_AUTOMAKE()
+AC_PREFIX_DEFAULT([\${HOME}/services])
+AM_MAINTAINER_MODE
+AC_COPYRIGHT([$Id$])
+
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_LIBTOOL_DLOPEN
+AC_PROG_LIBTOOL
+AC_PROG_INSTALL
+
+dnl Checks for header files.
+AC_HEADER_STDC
+
+AC_ARG_WITH(extra-fascism,
+    AC_HELP_STRING([--with-extra-fascism],
+    [Add extra gcc3-specific warning flags]),
+    [CFLAGS="$CFLAGS -W -Wfloat-equal -Wbad-function-cast -Wconversion -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs"])
+
+dnl MySQL stuff
+
+AC_ARG_WITH(mysql,
+    AC_HELP_STRING([--with-mysql=PFX],
+    [Prefix where MySQL is installed (usually /usr/local)]))
+AC_ARG_WITH(mysql-includes, 
+    AC_HELP_STRING([--with-mysql-includes=PFX],
+    [Prefix where MySQL includes are found (usually /usr/local/include/mysql)]))
+
+if test "x$with_mysql_includes" != "x"; then
+	AC_CHECK_HEADER([$with_mysql_includes/mysql_version.h],
+		[CFLAGS="$CFLAGS -I$with_mysql_includes"],
+		[AC_MSG_ERROR([Need MySQL includes!])])
+fi
+
+if test "x$with_mysql" != "x"; then
+	if test "x$with_mysql_includes" = "x"; then
+		AC_CHECK_HEADER($with_mysql/include/mysql/mysql_version.h,
+			[CFLAGS="$CFLAGS -I$with_mysql/include/mysql"],
+			[AC_MSG_ERROR(Need MySQL includes!)])
+	fi
+else
+	if test "x$with_mysql_includes" = "x"; then
+		AC_CHECK_HEADER(/opt/include/mysql/mysql_version.h,
+		    [CFLAGS="$CFLAGS -I/opt/include/mysql"],
+		    [AC_CHECK_HEADER(/usr/local/include/mysql/mysql_version.h,
+			[CFLAGS="$CFLAGS -I/usr/local/include/mysql"],
+			[AC_CHECK_HEADER(/usr/include/mysql/mysql_version.h,
+			    [CFLAGS="$CFLAGS -I/usr/include/mysql"],
+			    [AC_MSG_ERROR(Need MySQL includes!)])])])
+	fi
+fi
+
+dnl End of MySQL stuff
+AC_OUTPUT(Makefile)

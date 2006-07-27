@@ -1,0 +1,125 @@
+$Id$
+
+Here's a (surely incomplete) list of things that wrecked or other services
+have that our services do not, which we MAY wish to implement:
+
+GENERAL
+
+- An overhaul of command line options is needed, probably with getopt, and
+  decisions made on what can be set at runtime or only at compile time.
+
+- Batch mode changes.
+
+- Autoconf test for MySQL *VERSION* - we need 4.x at the moment.
+
+- Don't let any of the FORBID commands work on an already forbidden
+  nick/chan.
+
+
+NICKSERV
+
+- SET WATCHACCESS, any time a user's chanlist is modified send them a
+  notice telling them that their access has been added/changed/deleted.
+
+- Merge ghost/regain/recover/release into as few commands as possible.
+
+- INFO to show whether ENFORCE or QUICK ENFORCE is set, but to owner only.
+  From Taras.
+
+- Add AutoPromote nick setting.  When enabled, this will op/voice (whichever is
+  the highest access they have) the user in every channel they are in every
+  time they IDENTIFY.
+
+- Add optional NOJOIN and NOPROMOTE flags on the end of the NickServ IDENTIFY
+  command to disable the effect of AUtoJoin and AutoPromote nick options on
+  that IDENTIFY.
+
+
+CHANSERV
+
+- HOSTMSG command suggested by Crappy and specced by strtok in:
+
+  http://lists.blitzed.org/pipermail/public/2001-July/000069.html
+
+- Channel option for ban mask type.  When a user matches an AKICK mask and
+  bantype is set, the mask will be constructed based on that type rather than
+  what is in the AKICK list.  This will allow AKICKs to be matched by ident for
+  example, but placed only on the full hostname.
+
+- MARK/UNMARK as for nicks.
+
+- Send a notice to user upon REGISTER with a URL showing them all the cool
+  things they can now do with a channel.
+
+- Services Admins CURRENTLY can:
+    - view channel access lists
+    - view AND MODIFY (!!!!) channel akick lists
+    - change channel settings
+    - set noexpire
+    - change levels settings
+
+  at will with no form of globops, log message or warning to the user.  We
+  should look into restricting some or all of these abilities down to the
+  bare minimum required for support purposes.
+
+- Extra syntax for ACCESS DEL/LIST:
+
+    ACCESS LIST <16
+
+  to list every access entry below 16.  Is this idea better done with a web
+  interface?
+
+- Optional penis enlarging wallops when registered channels passes certain
+  boundaries.
+
+- New command to op or voice (depending on their highest access) every
+  user in a specific channel.  Can anyone suggest a name?
+
+- Have ChanServ send a notice to a channel on (un)register.  The (un)setting of
+  cmode r was the only way users could tell this had happened, and we no longer
+  use cmode r so now they have no way to know.
+
+
+MEMOSERV
+
+ircservices MEMOSERV actually has more features than wrecked/magick's.
+Still a couple of things however:
+
+- FORWARD to forward an individual memo to another person.
+
+- REPLY, which writes a memo back to sender with the prefix "[REPLY]"
+
+- Services Admins CURRENTLY can:
+    - View & change limits on user & channel memo box size
+    - View memo info for any user (but strangely, not channels)
+
+  at will with no form of globops, log message or warning to the user.  We
+  should look into restricting some or all of these abilities down to the
+  bare minimum required for support.
+
+- All memos currently go to the master nick, but when reading memos it reads
+  from the current nick.  Memos should always be read from master nick.
+
+
+OPERSERV
+
+- Add an "override" command that sets a flag on the services admin's ni.
+  All the routines that deop, akick etc., should check for this flag.  If it is
+  present these routines will send a globops saying what they would do, instead
+  of doing it.
+
+- Need to add the nick of the person who added OPERNEWS, at least in the GLOBOPS.
+
+- Should probably do a GLOBOPS when OPERNEWS is deleted.
+
+- Manipulation of AKILL list by number as well as mask.
+
+- IGNORE, tell services to ignore people
+
+- REHASH, reread services.conf without SQUITting (have a feeling this will be
+  hard).  Maybe this is now better done by working out how to stop services
+  mass-op/voicing everyone when it starts?  Without the mass-op/voice, users
+  probably would not be able to tell that services has restarted.
+
+- Before an akill is placed for session limiting, display some details
+  about which channels the clients were in.

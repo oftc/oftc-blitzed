@@ -1,0 +1,12 @@
+Get umode +R recognition, so that NickServ doesn't try to re-identify folks
+    who have already registered.
+Port FloodServ from old services.
+Come up with some scheme for generic user cloaking;
+    - Hash based on IP address or hostmask?
+    - Generic user.cloaked.oftc.net?
+    - Good god.
+
+Done
+====
+Cloaking: "SET CLOAKSTRING cloak.string", "SET CLOAK (ON|OFF)"
+    - Aug 23, 2002

@@ -1,0 +1,473 @@
+Blitzed Services
+----------------
+
+$Id$
+
+Blitzed Services are copyright (c) 2000-2002 Blitzed Services Team.  There
+is absolutely NO WARRANTY provided with this program.  Blitzed Services may
+be freely redistributed; see the GNU General Public License (in the
+file "COPYING") for details.
+
+TABLE OF CONTENTS
+      1. Credits
+      2. Introduction
+      3. Reaching The Authors
+      4. Public Mailing List
+      5. Changes
+     
+
+1. CREDITS
+
+     Blitzed Services are based on ircservices 4.4.8 copyright Andy
+Church and Andrew Kempe.  Additional development of Blitzed Services has
+been done by the Blitzed Services Team for the benefit of the Blitzed IRC
+Network.
+
+2. INTRODUCTION
+
+     Please thoroughly read all the ircservices documentation in the
+old-docs/ directory, ircservices provide the real backbone of Blitzed and
+Blitzed Services as they are now could never have existed without the work that
+Andrew Church et al have done on ircservices.  Please do not expect to get
+support for Blitzed Services from ircservices mailing lists and developers,
+however.  If you need some help you can find us in #blitzed on the server
+irc.blitzed.org.
+
+     Blitzed Services are tested and developed solely for dalnet's Bahamut
+ircd.  Please don't ask for support of any other ircd.  Provided you have
+a network of Bahamut ircds, Blitzed will happily provide nickname and
+channel services for you.
+
+3. REACHING THE AUTHORS
+
+We can be found on irc.blitzed.org in #blitzed, though email is much better
+for detailed discussion.  You can email us at services@lists.blitzed.org.
+
+4. SERVICES PUBLIC MAILING LIST
+
+     There is also a public mailing list, services@lists.blitzed.org, for 
+discussion of, and announcements regarding, Services. The list is unmoderated, 
+but you must be subscribed to the list in order to post to it.  To subscribe, 
+send an E-mail message to:
+
+	services-request@lists.blitzed.org
+
+with the following in the body of the message:
+
+	subscribe <your-address>
+
+where <your-address> is your E-mail address (without the angle brackets).
+Unsubscription works the same way, but use "unsubscribe" instead of
+"subscribe".
+
+5. CHANGES
+
+     Here follows a brief list of features/changes.
+
+- Version 3.0.18, 10th September 2002
+
+	Fixed MemoServ crash when MemoServ SEND was used with no arguments.
+
+	Again fixed the "This nickname is itself a linked nick" nick typo, as
+	the last change was mistakenly backed out.
+
+	Fixed ChanServ crash when trying to delete an unregistered nick
+	from a channel access list.
+
+- Version 3.0.17, 6th September 2002
+
+	Fixed a typo that caused services to crash when NickServ LIST was
+	used to view SUSPENDED nicks.
+
+	Fixed a typo that caused garbled "This nickname is itself a linked
+	nick" messages.
+
+	Fixed a coding error that would allow anyone to set the last quit
+	time and message for any of your linked nicks, as long as you were
+	identified to one of the nicks at the time.
+
+	Fixed typo that was preventing AKILLs from expiring properly.
+
+	Added a simple check to stop people trying to run Services with
+	MySQL 3.x, which is not supported.
+
+	NSExtraGrace and CSExtraGrace options, which allow long-time users
+	more leeway on nick and channel expiry, were implemented.
+
+Massive changes made between November 2001 and August 2002 to produce a version
+of ircservices with a custom MySQL backend.  Blitzed Services 3.x is born.
+
+- Version 2.0.14, 29th November 2001
+
+	A Services Admin command to alter the registration time for
+	arbitrary nicks was added.
+
+	NickServ REGAIN security problem fixed by recording the unique
+	ID of the user issuing the REGAIN command.
+
+	Problems with the display format of ChanServ AKICK VIEW fixed.
+
+	Crash related to channels setting AOP level negative was fixed.
+
+- Version 2.0.13, 16th September 2001
+
+	Services now automatically restarts when it loses contact with its
+	uplink.
+
+	All AKILLs are now placed in lowercase, since parts of services and
+	ircd were case sensitive.
+
+	Services is now capable of NICKIP, a bahamut extension which
+	propogates every user's IP address across the network.  The
+	practical benefit of this is that Services can now operate with
+	both host names and IP addresses in AKICKs, NickServ ACCESS lists,
+	EXCEPTION lists, AKILLS and so on.
+
+	An example crontab script to periodically check and restart
+	services has been added.
+
+	ChanServ SYNC was added in order to allow users to more easily
+	remove the effects of any desync that may occur.
+
+	The NickServ REGAIN command was disabled due to reported flaws
+	that resulted in a nickname being lost.  The command will remain
+	disabled until we can get to the bottom of the matter.
+
+	A channel is now regarded as "last used" whenver any member of the
+	channel has cause to use their access in any manner.  Previously,
+	a channel's "last used" time was only updated when a user became
+	opped on join by ChanServ.  This led to expiry of the channel
+	after 30 days. (Reported by #thefalls and RuneGod, sorry!)
+
+	Extra ChanServ ACCESS information is now available using ChanServ
+	ACCESS VIEW.  Extra information:
+		- Time the access was added
+		- Who added it (their nick at the time)
+		- Time the access was last modified
+		- Who modified it (their nick at the time)
+		- Time the access was last used
+		- Time the owner of the access last read channel memos
+
+	Minor code cleanups for the vop/aop/sop functions and access list
+	sorting routines.
+
+	Extra ChanServ AKICK information is now available using ChanServ
+	AKICK VIEW:
+		- Time AKICK was added
+		- Time AKICK was last used
+
+	Better usage notices for NickServ RECOVER and ChanServ OP.
+	(Reported by blitz and dg respectively)
+
+	If a channel has new memos since the last time they were read this
+	is now reported to users on-join.  A notice is also sent to users
+	who are in the channel at the time a memo is sent to the channel.
+
+	The MEMO ChanServ LEVEL setting has been broken up into MEMO-SEND
+	and MEMO-READ, so that founders may allow people to read, but not
+	send channel memos.
+
+	A new ChanServ LEVEL setting was added: AKICK-LIST.  This allows
+	use of the ChanServ AKICK LIST and VIEW commands alone.
+
+	AKILL policy has been changed.  Now any global oper may add an
+	AKILL that lasts no more than 12 hours and affects no more than 20
+	people at once.  They may remove AKILLs placed by themselves only.
+	Services Opers and Services Admins may place AKILLs of arbitrary
+	duration affecting any number of users.  Services Admins may
+	additionally override the "wildcard threshold" by using the FORCE
+	parameter.
+
+- Version 2.0.12, 23rd May 2001
+
+	Removed ability for non-opers to add or remove mode O (oper-only
+	channel) in a channel's MLOCK.  Reported by silencer@blitzed.org.
+
+	Updated informational message from NickServ REGISTER which was pointing
+	users at a nonexistant help file regarding hiding their email address.
+
+	Fixed typo in original ircservices code which allowed FORBIDDEN
+	channels to still be dropped by their founder.
+
+	ChanServ OP command is now more stringent about who it ops when
+	channel is set SECURE or SECUREOPS.  If a channel is set SECURE
+	then the target nick must be identified to NickServ.  If the
+	channel is set SECUREOPS then the target nick needs to be on the
+	access list at level AUTOOP or higher.
+
+- Version 2.0.10, 26th February 2001
+
+	Removing code for other ircds introduced two major bugs: ChanServ
+	started joining channels in order to enforce AutoKicks, and AutoKills
+	no longer expired correctly.  Both these bugs were fixed.
+
+	Minor fixes to help files.
+
+- Version 2.0.9, 15th February 2001
+
+	Users may now change nick between their linked nicknames without
+	needing to re-identify to services.
+
+	Fixed problem where AutoKills placed due to exceeding session
+	limits (cloning) could not be removed.
+
+	Renamed ChanServ SET OPNOTICE option to VERBOSE.  All uses of
+	ChanServ on VERBOSE channels are logged to the channel operators
+	in the form of a notice.
+
+	Added support for the new Blitzed channel mode +a (Anonymous Ops).
+
+	Minor changes to helpfiles and MOTD information.
+
+- Version 2.0.7, 31st January 2001
+
+	Andrew Church released ircservices-4.5pre.  Blitzed Services is
+	based on ircservices 4.4.8 and so this upgrade mainly merges
+	in any applicable or desired new features.
+
+	Support for ircd's other than Bahamut (and blitzed versions of it)
+	removed.
+
+	RFC compliant string matching (from ircservices-4.5pre) so that
+	nicks and channels with []{}\| in them behave correctly.
+
+	Fixed bug where a channel founder whose nick was dropped or
+	expired whilst they were also on the channel's access list would
+	leave the access list corrupted. (from ircservices-4.5pre).
+
+	Number of channels registered is now checked on nick link.
+	(from ircservices-4.5pre).
+
+	Fixed bug where a channel's successor could also be made the
+	founder. (from ircservices-4.5pre).
+
+	Fixed cosmetic bug where setting only +l or +k as a modelock
+	would report the modelock as cleared. (from ircservices-4.5pre).
+
+	Fixed bug where ChanServ CLEAR MODES wasn't clearing mode +O
+
+	OperServ STATS ALL now shows separate memory usage for MemoServ.
+	(from ircservices-4.5pre).
+
+	Services will now reopen logfiles when it receives SIGUSR2
+	(from ircservices-4.5pre).
+
+	Mixed time intervals are now allowed (e.g. 1h30m) (from
+	ircservices-4.5pre).
+
+	Simpler Guest-nick generation algorithm. (from ircservices-4.5pre).
+
+	Cleaned up problems with nick linking (from ircservices-4.5pre).
+
+	Fixed "Currently online" being shown in NickServ INFO even when the
+	(from ircservices-4.5pre).
+
+	Support for services stamps to enhance split recovery.
+
+	Added support for +a user mode (services admin).  Non-services
+	admins trying to set this mode will have it taken from them.  This
+	still needs some work, but it basically is working okay.
+
+	Better Turkish translation, courtesy of SuPeRGiRL.
+	
+- Version 2.0.6, 25th January 2001
+
+	Emergency fixes to NickServ LISTCHANS internals which were causing
+	random segmentation faults of services.
+
+- Version 2.0.5, 24th January 2001
+
+	NickServ LISTCHANS command added, which allows users to list all
+	channels in which they have access.  Services admins can specify
+	any nick.
+
+	NSRegExtraInfo config option added.  An optional string to send
+	to users as a notice when they register a nickname.
+
+	NickServ LISTLINKS modified to allow users to use this command
+	on their own nicks.
+
+	MemoServ GLOBALSEND, OPERSEND and CSOPSEND added, to send memos
+	to all registered nicks, all registered IRC operators and all
+	services operators, respectively.
+
+	"ALL" option added to MemoServ READ to allow all memos to be
+	sent, whether previously unread or not.
+
+	NickServ LIST now has an option to match nicks set as IRC
+	operators.
+
+	OperServ AKILL VIEW now shows the full time and date of the
+	AutoKill as opposed to just the date.
+
+- Version 2.0.4, 20th January 2001
+
+	Fixed denial of service when massive ranges were specified, e.g.
+	/msg memoserv del 1-9999999999999999 would cause services to
+	loop until it pinged out.
+
+	Added a wallops to notify opers of a new max user count.
+
+	Wallops sent when autokills are added and deleted were made more
+	verbose.
+
+	NickServ REGAIN command added.  "/msg nickserv regain nick pass"
+	will kill "nick", change your nick to nick and then identify you
+	to services, provided that your password is correct.
+
+- Version 2.0.2, 9th January 2001
+
+	Fixes to help files after NickServ KILL was removed.
+
+	Fixed wrongly formatted reports to the snoop channel when services
+	admins used NickServ SET on other users.
+
+	The appropriate users are now notified immediately when a new item
+	of oper news or logon news is added.
+
+	Modifying an access list with the VOP/AOP/SOP commands could cause
+	it to become disordered, this has now been fixed.
+
+	As of version 2.0.1 channel access lists were sorted by access
+	level, but entries of equal access level were randomly placed.
+	Entries with the same level are now sorted alphabetically.
+
+	/info services.* now displays the correct information.
+
+	New channel LEVELS LEV-CHANGE and LEV-LIST allow channel founders
+	to decide who can list their levels settings (/msg ChanServ levels
+	#channel list) and who can change them.
+
+	ChanServ LIST is now case insensitive.
+
+	ChanServ CLEAR MODES now clears mode +R (only allow registered
+	nicknames into the channel).
+
+	NickServ NOEXPIRE has been made to properly log, snoop and wallops
+	on successful use.
+
+	A wallops is now sent when SENDPASS is used.
+
+- Version 2.0.1, 3rd January 2001
+
+	VOICE and DEVOICE commands added to ChanServ.
+
+	Channel access lists are now kept sorted by access level.
+
+	VOP/AOP/SOP ADD commands added to ChanServ as shortcuts to the
+	usual ACCESS ADD syntax.
+
+	Configuration options added to show a wallops when nicks and
+	channels are registered
+
+	Chanserv OP/DEOP commands modified so that if the "nick" parameter
+	is missed off they op/deop the person using them.
+
+	NickServ FORBID made to log in snoop channel.
+
+	ChanServ FORBID made to log in snoop channel and to send a
+	wallops.
+
+	NickServ SENDPASS made to send a wallops.
+
+	NickServ ACCESS lists can be manipulated by number.
+
+- Version 2.0.0, 29th December 2000
+
+	import-wrecked-db made from existing import-db, correctly imports
+	a Wrecked v1.1.6 services database to ircservices format.  New -t
+	option sets all nick and channel passwords to "testnet" which is
+	useful for allowing developers to play with a real network's
+	database.
+
+	NickServ messages regarding nick enforcement were made a bit more
+	readable.
+
+	All options regarding killing people who use your nick were
+	removed.  Forcing a nickname change was made the default.
+	NickServ SET KILL became NickServ SET ENFORCE.
+
+	Services could be forced to segfault when MemoServ commands were
+	used on forbidden channels.  This problem was reported by Scott
+	Seufert <scotts@ure.net>, additional fixes from Sean Kelly
+	<smkelly@zombie.org>.
+
+	Wallops are now sent when services admins:
+		- Change user's NickServ settings.
+		- Unlink people's nicks.
+		- FORBID nicks.
+		- DROP nicks.
+
+	SENDPASS was added to NickServ and ChanServ.  This command allows
+	a nick or channel password to be emailed to the owner without the
+	operator ever seeing the password.  This also required extra config
+	options.
+
+	NickServ SET MARK was added.  A MARKED nick may not be GET, SET or
+	SENDPASSED except by a services admin.
+
+	NickServ SET IRCOP was added.  Any opered client without this nick
+	option set is nagged about it.
+
+	A problem preventing services from being restarted more than once
+	under Linux was fixed.
+
+	NickServ SET NOOP was added.  This option prevents people from
+	adding you to any channel access list.
+
+	Configuration options were added to send a URL to a user when they
+	register a nick or channel, the idea being to tell them on that
+	page all of the things they can do with their new nick/channel.
+
+	A dynamic MOTD for services showing some global settings and
+	listing available services admins was added.  Visible with the
+	/motd services.* command.
+
+	The development libraries of Red Hat 7 produce a services binary
+	which segfaults on empty config lines.  This proved to have a
+	trivial workaround.
+
+	ircservices does not allow services admins to be AutoKicked.  An
+	option which disables this feature was added.
+
+	ircservices gives channel operator status to all services admins in
+	every channel.  An option which disables this feature was added.
+
+	An option was added to make the provision of an email address
+	mandatory when a nickname is registered.
+
+	Users are optionally informed of the time remaining before the next
+	database update, when they register a nick or channel.
+
+	ID and REG shortcuts for IDENTIFY and REGISTER added to both
+	NickServ and ChanServ.
+
+	Services clients made to respond to CTCP VERSION.
+
+	Support for an optional "snoop" channel added.  This channel
+	receives logging information from the services clients.
+
+	ChanServ REGISTER, IDENTIFY, DROP, AND GETPASS now log to snoop
+	channel also.
+
+	NickServ REGISTER, IDENTIFY, DROP, LINK, UNLINK, RECOVER, RELEASE,
+	GHOST AND GETPASS now log to snoop channel also.
+
+	All use of OperServ is logged in snoop channel.
+
+	All services clients now have a header and footer on their HELP
+	output.
+
+	NickServ INFO for a nick now displays how long ago a nick was
+	registered, e.g.:
+
+		"Time registered: Oct 31 05:41:39 2000 GMT (9 weeks, 1 day, 06:42:17 ago)"
+
+	NickServ INFO output given a general overhaul.
+
+	Fixed a few typos.
+
+	Nicks can now be JUPED.
+
+	When a server is JUPED it is SQUIT first.
+

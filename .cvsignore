@@ -1,0 +1,7 @@
+config.cache
+*.sw[op]
+autom4te-2.53.cache
+config.status
+Makefile
+config.log
+libtool

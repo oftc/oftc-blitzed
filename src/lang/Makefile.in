@@ -1,0 +1,99 @@
+#
+# Makefile.in for services/src
+#
+# $Id$
+#
+@SET_MAKE@
+
+CC		        = @CC@
+CFLAGS          = @OUR_CFLAGS@
+INSTALL		    = @INSTALL@
+INSTALL_BIN	    = @INSTALL_PROGRAM@
+INSTALL_DATA	= @INSTALL_DATA@
+LEX		        = @LEX@
+LDFLAGS   	    = @OUR_LDFLAGS@
+MKDEP		    = @MKDEP@
+STDOUT		    = @STDOUT@
+MV		        = @MV@
+RM		        = @RM@
+SED		        = @SED@
+PERL			= @PERL@
+
+prefix		    = @prefix@
+exec_prefix	    = @exec_prefix@
+bindir		    = @bindir@
+sysconfdir	    = @sysconfdir@
+localstatedir	= @localstatedir@
+
+# must not have whitespace here
+CLOBBER=@CLOBBER@
+
+PROGS		= services
+
+INCLUDES	= -I../include
+CPPFLAGS	= ${INCLUDES} @CPPFLAGS@ @MYSQL_INCLUDES@
+
+LANGOBJS = dk de en_us es it ja_euc ja_jis ja_sjis pt tr psycho
+LANGSRCS = dk.l de.l en_us.l es.l it.l ja_euc.l ja_jis.l ja_sjis.l pt.l \
+    tr.l psycho.l
+
+LANGCOMP = ./langcomp
+#LANGCOMP = ./langcomp -w
+
+build: all
+
+all: $(LANGOBJS)
+
+install: all
+	mkdir -p $(prefix)/languages
+	cp $(LANGOBJS) $(prefix)/languages
+	chmod 600 $(prefix)/languages/*
+
+clean:
+	rm -f $(LANGOBJS) langcomp
+
+spotless: clean
+	rm -f language.h
+
+distclean: spotless
+ 
+en_us:    en_us.l    langcomp index                            
+	$(LANGCOMP) $@.l
+es:       es.l       langcomp index
+	$(LANGCOMP) $@.l
+it:       it.l       langcomp index
+	$(LANGCOMP) $@.l
+ja_euc:   ja_euc.l   langcomp index
+	$(LANGCOMP) $@.l
+ja_jis:   ja_jis.l   langcomp index
+	$(LANGCOMP) $@.l
+ja_sjis:  ja_sjis.l  langcomp index
+	$(LANGCOMP) $@.l
+pt:       pt.l       langcomp index
+	$(LANGCOMP) $@.l
+tr:       tr.l       langcomp index
+	$(LANGCOMP) $@.l
+psycho:   psycho.l   langcomp index
+	$(LANGCOMP) $@.l
+de:       de.l       langcomp index
+	$(LANGCOMP) $@.l
+dk:       dk.l       langcomp index
+	$(LANGCOMP) $@.l
+ja_jis.l: ja_euc.l jconv.pl
+	$(PERL) jconv.pl -jis <ja_euc.l >$@
+ja_sjis.l: ja_euc.l jconv.pl
+	$(PERL) jconv.pl -sjis <ja_euc.l >$@
+
+langcomp: langcomp.c
+	$(CC) $(CFLAGS) langcomp.c -o $@
+
+language.h: index Makefile
+	$(PERL) -e <index >$@ '\
+        print STDERR "Generating language.h... "; \
+        $$i=0; \
+        while (<>) { \
+            chop; \
+            printf "#define %-32s (unsigned int)%d\n", $$_, $$i++; \
+        } \
+        print "\n#define NUM_STRINGS $$i\n"; \
+        print STDERR "$$i strings\n";'

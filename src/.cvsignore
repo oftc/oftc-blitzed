@@ -1,0 +1,12 @@
+.deps
+Makefile
+language.h
+services
+stamp-h
+stamp-h.in
+version.h
+sysconf.h
+*.sw[op]
+stamp-h2
+stamp-h1
+.libs

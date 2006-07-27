@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This is an example script for crontab purposes, it will restart your
+# services should it ever die
+
+#
+# configurables here
+svspath="/home/andy/services/"
+svsbin="bin/services"
+pidfile="lib/services.pid"
+
+# --- DON'T CHANGE ANYTHING BELOW HERE ---
+
+cd $svspath
+if test -r $pidfile; then
+        pid=`cat $pidfile`
+        if `kill -CHLD $pid >/dev/null 2>&1`; then
+                echo "services is already running, PID: $pid"
+                exit 0
+        fi
+        echo "stale $pidfile file, erasing..."
+        rm -f $pidfile
+fi
+echo "services is dead, reloading..."
+./$svsbin

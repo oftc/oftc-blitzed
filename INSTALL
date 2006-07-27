@@ -1,0 +1,280 @@
+
+BLITZED SERVICES - INSTALLATION NOTES
+=====================================
+
+$Id$
+
+1. REQUIREMENTS
+---------------
+
+- The ability to read this entire file before doing anything or coming and
+  telling us that it doesn't work for you.
+- A supported ircd: currently bahamut or bahamut+blitzed. (hybrid 7 in the
+  works!)
+- Admin access to MySQL 4.x
+- MySQL 4.x client development libraries.
+- OpenSSL development libraries.
+- GNU Autoconf, GNU Automake, GNU Libtool, GNU Make.
+- An ANSI C compiler.
+
+
+2. Configure
+------------
+
+Using ./configure alone will cause configure to ask you what it needs to know.
+Alternatively you can use the following arguments to configure:
+
+ --with-irc=blitzed             You are linking services to Bahamut+Blitzed
+                                ircd.
+           =bahamut             You are linking services to Bahamut ircd.
+
+ --with-domain=example.com      The domain name of your network is
+                                example.com.
+
+ --with-wordlist=/file          Use /file as your wordlist for cracklib
+                                (defaults to /usr/share/dict/words).
+
+There are also some other useful optional arguments:
+
+ --with-dictpath=PFX            Path to cracklib compressed dictionaries,
+                                defaults to DATADIR/pw_dict.
+ --with-logdir=DIR		Where to store logs.  Defaults to
+                                $localstatedir/log.
+ --with-extra-fascism           Enable extra and excessive gcc3-specific
+                                warnings.
+ --with-profiling		Enable extra gprof instrumentation.
+
+Services needs to know the location of header files and libraries for MySQL.
+Normally configure will search for these in several common places, but you can
+also specify an exact path for each:
+
+ --with-mysql=PFX               Prefix where MySQL is installed (defaults
+                                to /usr/local)
+ --with-mysql-includes=PFX      Prefix where MySQL includes are found
+                                (defaults to /usr/local/include/mysql).
+ --with-mysql-libraries=PFX     Prefix where MySQL libraries are found
+                                (defaults to /usr/local/lib/mysql).
+
+All the other common configure options are available, see ./configure --help
+for full details.
+
+
+3. Make
+-------
+
+You need GNU Make for this. If someone can show me how to make Autoconf and
+Automake produce portable Makefiles then I'll do it, but until then you need
+GNU Make.  On BSD it will probably be installed as gmake.
+
+Anyway:
+
+ $ make install
+
+
+4. Create Database Structure
+----------------------------
+
+In the mysql/ directory you will find a file called blitzed.sql which is a dump
+of the structure of the database that Blitzed Services requires.  In order to
+create this database properly you need to do something like this:
+
+  $ mysql -u root services < mysql/blitzed.sql
+
+In the above command, "-u root" tells the mysql client to run as the MySQL root
+user.  "services" is the database name.  It does not have to be "services".  On
+Blitzed, for example, we use "liveservices".  Most sane people have a password
+for their root user, so they need to also use -p.
+
+You should now have a database with a whole bunch of pretty but empty tables.
+If there was some sort of error, you need to fix it, because Services is never
+going to work until you do.
+
+About database conversion - grifferz wrote a database converter for our fork of
+ircservices.  The code is provided in case you are interested, and can be found
+in src/db2mysql.
+
+If:
+
+  a) You already have some form of services that has some concept of nick and
+     channel registration.
+
+  b) It has some databases and the code for reading them is available.
+
+  c) You haven't a clue how to convert them to MySQL suitable for use by this
+     Services package.
+
+  d) But you desperately need to.
+
+then we might be willing to write some software for you to do that.  However
+we're very busy and so may not do this for free (but grifferz has an Amazon
+wishlist!).  A lot also depends on how common your current services are, i.e.
+if other people could benefit.  You can always ask us.
+
+
+5. Load The User-Defined Functions
+----------------------------------
+
+Once of the files that got installed when you did "make install" was
+blitzed_udf.so.  It went into $prefix/lib.  This library contains some
+(currently just one, but that may change) MySQL user-defined functions that
+Services needs and those functions need to be loaded into your MySQL before
+Services will run properly.  Here is how:
+
+  a) Move (or symlink) blitzed_udf.so into a directory that your system looks
+     for shared libraries in (/usr/lib is a safe bet).  Alternatively in the
+     script that starts your MySQL you could set LD_LIBRARY_PATH to contain the
+     directory that blitzed_udf.so has been installed in, and then restart
+     MySQL.
+
+  b) Connect to MySQL with the command-line client, as the MySQL root user,
+     and type:
+
+     CREATE FUNCTION irc_match RETURNS INTEGER SONAME "blitzed_udf.so";
+
+     This should return 0 rows and be happy.  If it prints an error, you
+     must fix it.
+
+At this point, you have installed user-defined functions from the shared
+library "blitzed_udf.so" into your MySQL.  These functions will be loaded
+everytime MySQL is started, provided that the shared library is still
+accessible.  If you update that library later (e.g. by installing a newer
+version of these Services) then you should restart MySQL.
+
+If you wish to remove these functions from your MySQL, all you have to do
+is:
+
+  DROP FUNCTION irc_match;
+
+But be aware that if you do this, Services will quickly crash if running or
+refuse to start if not.
+
+
+6. Edit Your Config File
+------------------------
+
+Take a look at $prefix/etc/services.conf.  It should be a copy of the
+example.conf, which is pretty well commented so that everything should be
+self-explanatory.
+
+
+7. Start Services
+-----------------
+
+This should do it:
+
+ $ $prefix/bin/services
+
+If Services does not link right away, there is a problem.  See
+$prefix/var/log/services.log.  Most of the old ircservices command-line options
+are still present as well, but PLEASE DON'T RELY ON THEM e.g. in scripts or
+anything, because we plan to rewrite them soon.  However for debugging
+purposes, -nofork and -debug prove helpful.
+
+Here's the command-line options that currently work:
+
+ -remote HOST[:PORT]    Address of IRC server to connect to.  Overrides the
+                        RemoteServer config directive.
+
+ -local HOST[:PORT]     Address and port to connect FROM.  Overrides the
+                        LocalAddress config directive.
+
+ -name SERVERNAME       Server name that Services will use when trying to
+                        link to the IRC network.  Overrides the ServerName
+			config directive.
+
+ -user USERNAME         Username of Services pseudoclients.  Overrides the
+                        ServicesUser config directive.
+
+ -host HOSTNAME         Hostname of the Services pseudoclients.  Overrides
+                        the ServicesHost config directive.
+
+ -log FILENAME          Filename that Services will log to.  Defaults to
+                        "services.log".
+
+ -expire SECONDS        How often to check for expired nicks and channels.
+                        Overrides the ExpireTimeout config directive.
+
+ -debug                 Run in debug mode.  This option can be specified
+                        multiple times to increase debug level.  Level 2
+			(-debug twice) is enough to log the content of all
+			IRC traffic that Services sees.
+
+ -nofork                Do not fork into background.  All logging will go
+                        to stderr.
+
+ -noexpire              Do not expire nicks or channels.
+
+But again, PLEASE DO NOT DEPEND ON THESE BEING PRESENT.
+
+
+Other Notes
+-----------
+
+- Logging
+
+At present Services logs normal ircservices-style things to services.log.  It
+also by default logs every SQL query to mysql.log, this is enabled by default
+because this software is still kinda beta and it helps to track down problems.
+You can turn it off via OperServ and soon it will be off by default - it's a
+bit of a security flaw since it contains passwords in cleartext.
+
+Like ircservices the logs can be reopened by sending SIGUSR2.  There is a
+script in contrib/ that you can place in your crontab to do this weekly or
+whatever.
+
+- Backups
+
+The best method of backing up your services database is to use MySQL
+replication.  In this scenario, every database write is replicated to one or
+more remote MySQL servers so that they can maintain an exact an always up to
+date copy of your database.  This is quite cool because it means that if you
+know your main services are going to be offline for a long while, you can start
+up services again from your backup host and the database will be as up to date
+as possible.
+
+A discussion of how to set up MySQL replication is beyond the scope of this
+document, but it's not hard and it is explained well in the MySQL online
+manual.  Do let us know if you set up anything interesting such as
+bidirectional replication with some sort of hot-spare arrangement.
+
+If you can't replicate then the next best thing is a mysqladmin dump.  This can
+be done without shutting MySQL down.  If you must just copy the files (e.g.
+with rsync) you should shut MySQL down first (which will result in your
+Services exiting).  If you don't do this then you risk copying a database that
+cannot be loaded.
+
+- Cool web interfaces and other gimmicks
+
+The entire point of using a MySQL backend is so that you can interface lots of
+other things with your Services.  That's why we wrote this.  Admittedly we got
+kind of caught up in the whole writing-it part and haven't yet put a lot of
+thought into the using-it bit.
+
+That said, over at blitzed.org we do already have a couple of neat things that
+are only possible when your services databases are in a Proper Database Engine.
+Unfortunately none of them are really in a state to be bundled with these
+services in a generic form.  Also, these clever things are generally written by
+the Blitzed Web People, not us Services People.
+
+If you're interested then the best thing to do is probably to go and look at
+http://blitzed.org.  If you see something that you think is only possible with
+access to the Services database then come to #blitzed and ask how it was done.
+Someone will probably explain it to you, and possibly give you the code.
+
+One particularly cool thing is the three-way web authentication system.  This
+allows known third-party web sites to authenticate your users against their
+nickname and nickserv password, without the users having to type their password
+into any web site but your own.
+
+Plainly speaking this means that people can build web services that interact
+with your Services, without them having to have direct access to your database
+or any passwords.  For an example of such a thing on Blitzed, see
+http://quotes.strugglers.net (notably the "log in" link).
+
+- More IRC/MySQL toys
+
+Have a look at thales (http://www.lucas-nussbaum.net/thales/), it is a
+MySQL/IRC gateway, meaning that it sits on your network listening to the
+network state and recording it in a MySQL database.  This can be useful for
+accessing the data that isn't necessarily relevant to Services, such as who is
+on IRC, what channels exist, etc. etc..

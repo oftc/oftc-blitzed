@@ -1,0 +1,12 @@
+*.sw[op]
+.deps
+Makefile
+autom4te-*
+conf.h
+config.log
+config.status
+libtool
+stamp-h*
+.libs
+blitzed_udf.la
+blitzed_udf.lo

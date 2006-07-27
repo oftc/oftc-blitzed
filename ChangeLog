@@ -1,0 +1,5303 @@
+2002-09-10 07:48  andy
+
+	* src/channels.c:
+	
+	Remove debug message.
+
+2002-09-10 01:10  andy
+
+	* configure, configure.in:
+	
+	Up version number
+
+2002-09-10 01:07  andy
+
+	* src/chanserv.c:
+	
+	No need to free nickinfo when there isn't a nickinfo!
+
+2002-09-10 01:06  andy
+
+	* src/channels.c:
+	
+	Temporary debugging log message.
+
+2002-09-08 13:17  andy
+
+	* src/nickserv.c:
+	
+	Fix again the "nick has X links" message whose fix got backed out
+	for some reason..
+
+2002-09-08 13:17  andy
+
+	* src/memoserv.c:
+	
+	Dumb case of using something without checking if it is null first.
+
+2002-09-06 16:21  andy
+
+	* ChangeLog, README:
+	
+	Update changelog & README for new release
+
+2002-09-06 15:55  andy
+
+	* configure, configure.in, data/example.conf, src/chanserv.c,
+	src/config.c, src/extern.h, src/nickserv.c:
+	
+	Autoconf update for version increase.
+	
+	NSExtraGrace and CSExtraGrace implemented as discussed:
+	http://lists.blitzed.org/pipermail/services/2002-August/000468.html
+
+2002-09-06 13:26  andy
+
+	* src/mysql.c:
+	
+	Quick check to stop people running services with mysql 3.x.  Really
+	something needs to go in configure.in.
+
+2002-09-06 11:54  andy
+
+	* src/akill.c:
+	
+	Fix typo - need to check for @ character in row[1] not row[0]! 
+	This will fix bug where akills seem to never be expired.
+
+2002-09-02 03:08  andy
+
+	* src/users.c:
+	
+	Must only update last_seen/last_quit stuff if the *real_id* is
+	identified, not the nick_id.  Spotted by Silencer.
+
+2002-09-02 00:37  andy
+
+	* src/nickserv.c:
+	
+	Fix broken "nick is link" message.
+
+2002-08-14 07:50  andy
+
+	* src/nickserv.c:
+	
+	Typo.
+
+2002-08-09 16:19  andy
+
+	* configure, configure.in:
+	
+	up version
+
+2002-08-08 15:30  andy
+
+	* src/: channels.c, chanserv.c, extern.h, services.h:
+	
+	autolimit and clearbans code rewritten to use only online channel
+	data.  autolimit and clearbans data now stored in Channel
+	structure, updated on channel creation, destruction, or when
+	settings are changed.
+
+2002-08-06 21:33  andy
+
+	* configure, configure.in:
+	
+	Up version
+
+2002-08-06 19:00  andy
+
+	* src/: extern.h, nickserv.c, users.c:
+	
+	mysql_update_last_seen() is a better name for
+	mysql_identify_nick(), especially because now it needs to set
+	different nick status, not just NS_IDENTIFIED.
+
+2002-08-06 18:49  andy
+
+	* src/: extern.h, nickserv.c, users.c, lang/en_us.l, lang/index:
+	
+	Don't let people link a nick that already has links, to another
+	nick.
+	
+	mysql_identify_nick() function added to centralise code that
+	updates the "last seen" columns (last_seen, last_usermask, etc.).
+	
+	Update "last seen" stuff when someone changes nick to one of their
+	linked nicks.
+
+2002-08-06 18:45  andy
+
+	* src/chanserv.c:
+	
+	Tracked down the source of spurious "out of sync" errors: parts of
+	chanserv access list/view do row by row queries and send notices
+	inside the while loop.	notice_lang() will do an SQL query if the
+	nick cache is out of date or not present for that nick.  To fix
+	this, the cache needs to be updated for that nick before hand.
+
+2002-08-01 12:32  andy
+
+	* configure, configure.in, src/mysql.c:
+	
+	Temporarily turn SQL logging on all the time to try and find a bug.
+	
+	Up version.
+
+2002-07-30 04:53  andy
+
+	* src/akill.c:
+	
+	Forgot to send akill when people match it!
+
+2002-07-30 00:49  andy
+
+	* src/chanserv.c:
+	
+	typo, spotted by ron.
+
+2002-07-28 16:58  phil
+
+	* src/lang/: en_us.l, es.l, it.l, ja_euc.l, ja_jis.l, ja_sjis.l,
+	pt.l, tr.l:
+	
+	added autojoin to the generic list of commands in nickserv help
+
+2002-07-28 00:27  andy
+
+	* configure, configure.in, src/chanserv.c:
+	
+	Allow non-id'd nicks to id for channels again.	(OK you convinced
+	me Andryan)
+
+2002-07-27 10:36  andy
+
+	* src/chanserv.c:
+	
+	Make sure people are id'd to a nick before they can id to a channel
+
+2002-07-27 10:35  andy
+
+	* src/process.c:
+	
+	typo
+
+2002-07-25 01:43  andy
+
+	* mysql/blitzed.sql:
+	
+	New database schema.
+
+2002-07-25 01:41  andy
+
+	* configure, configure.in, data/example.conf, src/config.c,
+	src/extern.h, src/init.c, src/memoserv.c, src/misc.c:
+	
+	rot13 memo content if MSROT13 option is given in config file.  Also
+	found and fixed SQL syntax error when there is 1 unread memo and
+	check_memo() is called.
+
+2002-07-24 04:10  andy
+
+	* configure, configure.in:
+	
+	up version
+
+2002-07-24 04:09  andy
+
+	* src/memoserv.c:
+	
+	Fix memos so they always go to the master nick.
+
+2002-07-23 16:09  andy
+
+	* configure, configure.in, src/akill.c:
+	
+	Fix akill reasons not being used.
+
+2002-07-23 05:31  andy
+
+	* src/: process.c, sockutil.c:
+	
+	Added hack to get around the odd -1-in-net-buffer problem when
+	rotating logs.
+
+2002-07-23 05:30  andy
+
+	* src/lang/en_us.l:
+	
+	Add missing LOGSQL help.
+
+2002-07-23 00:59  phil
+
+	* src/lang/en_us.l:
+	
+	Fixed CHANSERV and NICKSERV password retrieval e-mails to use
+	PASSWORD rather than PASS in the example SET command.
+
+2002-07-22 21:49  andy
+
+	* configure, configure.in, src/chanserv.c:
+	
+	missing return causes crash when auth code is wrong in chanserv
+	sendpass.  up version number
+
+2002-07-21 09:37  andy
+
+	* configure, configure.in, src/Makefile.am, src/Makefile.in,
+	src/extern.h, src/init.c, src/messages.c, src/mysql.c,
+	src/operserv.c, src/version.h, src/version.sh, src/lang/en_us.l,
+	src/lang/index:
+	
+	Add ability to turn mysql logging on and off.
+	
+	Remove version.sh as we get version stuff from autoconf now. 
+	version.h can be made into a static header.
+
+2002-07-21 07:52  andy
+
+	* src/: extern.h, messages.c, operserv.c:
+	
+	Remove list of "people available to retrieve passwords" from the
+	motd.  It was never completely correct and is now useless since
+	anyone can sendpass.
+
+2002-07-20 04:01  andy
+
+	* src/: chanserv.c, extern.h, init.c, main.c, memoserv.c,
+	messages.c, mysql.c, news.c, nickserv.c, operserv.c, rotatelogs.sh,
+	sessions.c, lang/en_us.l:
+	
+	Added logging of SQL queries, logfile to be cycled when SIGUSR2 is
+	caught.
+	
+	Removed all references to "read only" mode as it isn't used
+	anymore.
+
+2002-07-19 04:14  andy
+
+	* src/: rotatelogs.sh, svschk.sh:
+	
+	Some example cron scripts to keep services running and rotate logs
+
+2002-07-19 01:21  andy
+
+	* src/db2mysql/: Makefile.am, Makefile.in:
+	
+	Disable extra devel warnings
+
+2002-07-18 17:52  andy
+
+	* src/nickserv.c:
+	
+	Do not set +a if user is not +o.  Patch from Andryan.
+
+2002-07-18 15:37  andy
+
+	* config.guess, config.sub:
+	
+	More autoconf crap that I don't even understand (!)
+
+2002-07-18 15:36  andy
+
+	* src/nickserv.c:
+	
+	SVSKILL doesn't seem to be working for us.
+
+2002-07-18 12:41  andy
+
+	* configure, configure.in, src/memoserv.c, src/mysql.c:
+	
+	Another instance of free_channelinfo() when not needed.  Up
+	version.
+
+2002-07-18 02:28  andy
+
+	* Makefile.in, aclocal.m4, configure, configure.in, depcomp,
+	install-sh, missing, mkinstalldirs, data/Makefile.in,
+	src/Makefile.am, src/Makefile.in, src/cracklib/Makefile.in,
+	src/db2mysql/Makefile.in, src/lang/Makefile.in:
+	
+	Updated autoconf and automake stuff to work with 2.53/1.6.  Added
+	new configure option --with-extra-fascism wqhich enables all the
+	extra gcc3 warning flags I use that aren't generally needed.
+
+2002-07-17 23:52  andy
+
+	* src/: channels.c, chanserv.c:
+	
+	Remove the rest of the cmode +r stuff.
+
+2002-07-17 23:06  andy
+
+	* configure, configure.in, src/memoserv.c, src/messages.c:
+	
+	Fix accidentally calling free_channelinfo() on null ci, which was
+	causing segfault.
+	
+	Another missing version number.
+
+2002-07-17 17:51  andy
+
+	* configure:
+	
+	grr, forgot to remake autoconf
+
+2002-07-17 17:49  andy
+
+	* src/users.c:
+	
+	Don't check modes on SJOIN during first few secs of uptime.
+
+2002-07-17 17:48  andy
+
+	* src/: mysql.c, services.h:
+	
+	More robust mysql query routine, automatically reconencts to server
+	with up to 10 retries.
+
+2002-07-17 17:45  andy
+
+	* src/init.c:
+	
+	More missing version bits.
+
+2002-07-17 17:45  andy
+
+	* src/: chanserv.c, channels.c, extern.h:
+	
+	Ignore SJOINs in the first few secs of services uptime to avoid
+	mode flood.
+
+2002-07-17 17:44  andy
+
+	* configure.in:
+	
+	Up version
+
+2002-07-16 22:22  andy
+
+	* src/channels.c:
+	
+	Channel mode +r is not used anymore.
+
+2002-07-15 22:36  andy
+
+	* configure, configure.in, src/chanserv.c, src/helpserv.c,
+	src/memoserv.c, src/nickserv.c, src/operserv.c, src/version.sh:
+	
+	Get version number from autoconf.  Up version number.
+
+2002-07-15 22:23  andy
+
+	* configure:
+	
+	up version
+
+2002-07-15 22:18  andy
+
+	* mysql/blitzed.sql:
+	
+	db schema changes
+
+2002-07-15 22:17  andy
+
+	* configure.in, src/quarantine.c:
+	
+	renumber_quarantines() rewritten.  up version number.
+
+2002-07-15 21:55  andy
+
+	* src/nickserv.c:
+	
+	renumber_nick_access() rewritten
+
+2002-07-15 20:58  andy
+
+	* src/memoserv.c:
+	
+	renumber_memos() rewritten.
+
+2002-07-15 20:09  andy
+
+	* src/chanserv.c:
+	
+	renumber_akicks() rewritten.
+
+2002-07-15 19:37  andy
+
+	* src/autojoin.c:
+	
+	renumber_autojoins rewritten
+
+2002-07-15 19:18  andy
+
+	* src/chanserv.c:
+	
+	sort_chan_access reimplemented in a way that actually works.  Other
+	renumber-style functions to follow.
+
+2002-07-15 17:56  andy
+
+	* src/nickserv.c:
+	
+	SVSJOIN after SVSMODE +r.
+
+2002-07-15 14:29  andy
+
+	* src/: version.sh, lang/en_us.l:
+	
+	Typo.
+
+2002-07-15 14:15  andy
+
+	* src/: nickserv.c, version.sh, lang/en_us.l:
+	
+	regain reverted back to using kill because of odd collisions. 
+	Pointless autojoin message rewording to satisfy Andryan.
+
+2002-07-15 14:01  andy
+
+	* src/version.sh:
+	
+	Up version
+
+2002-07-15 14:01  andy
+
+	* src/lang/en_us.l:
+	
+	Typo
+
+2002-07-15 10:06  andy
+
+	* mysql/blitzed.sql:
+	
+	sync with db changes
+
+2002-07-15 09:50  andy
+
+	* configure, configure.in, src/db2mysql/db2mysql.h,
+	src/db2mysql/nickserv.c:
+	
+	Better mysql include detection.
+	
+	Set all nicks to have the autojoin option by default.
+
+2002-07-15 09:37  andy
+
+	* src/db2mysql/: db2mysql.h, mysql.c:
+	
+	quick hack for mysql_port / mysql_socket
+
+2002-07-15 09:14  andy
+
+	* configure:
+	
+	testing better mysql include detection
+
+2002-07-15 09:13  andy
+
+	* configure.in:
+	
+	Testing better mysql include detection
+
+2002-07-15 08:07  andy
+
+	* data/example.conf, src/config.c, src/extern.h, src/mysql.c:
+	
+	Added config options MySQLPort and MySQLSocket to connect to
+	nonstandard MySQL port/socket paths.
+
+2002-07-15 07:48  andy
+
+	* src/chanserv.c:
+	
+	mlock fixes - key handling was completely broken.  still not sure
+	about this.  do_set_mlock and check_modes need rewriting IMHO.
+
+2002-07-14 10:05  andy
+
+	* src/: autojoin.c, extern.h, users.c:
+	
+	AutoJoin can now automatically invite you through modes +bikl as
+	long as you have enough access to use /cs INVITE.
+
+2002-07-14 08:38  andy
+
+	* src/autojoin.c:
+	
+	Fixed a few typos and silly errors (tireeeed).	Added IRC wildcard
+	matches for channels in autojoin list/del.
+
+2002-07-14 08:27  andy
+
+	* src/: autojoin.c, chanserv.c, extern.h, nickserv.c:
+	
+	/ns AutoJoin implemented.  Basic features at the moment, simply
+	joins you to all channels in your autojoin list that you aren't
+	currently on, each time you ID.  Care is taken to remove channels
+	from autojoin list when they are dropped or expire.
+
+2002-07-14 07:05  andy
+
+	* data/example.conf, src/Makefile.am, src/Makefile.in,
+	src/autojoin.c, src/config.c, src/extern.h, src/nickserv.c,
+	src/lang/en_us.l, src/lang/index:
+	
+	Management of autojoin list implemented.  List still doesn't do
+	anything though.
+
+2002-07-14 03:48  andy
+
+	* data/example.conf, src/config.c, src/extern.h, src/nickserv.c,
+	src/services.h, src/lang/en_us.l, src/lang/index:
+	
+	AutoJoin nick setting added, but doesn't yet do anything.
+
+2002-07-13 18:29  andy
+
+	* src/: extern.h, quarantine.c, servers.c:
+	
+	SQLINE propogate on link to services hub.
+
+2002-07-13 16:25  andy
+
+	* src/nickserv.c:
+	
+	Oops, typo
+
+2002-07-13 15:08  andy
+
+	* version.sh:
+	
+	moved to src/
+
+2002-07-13 15:05  andy
+
+	* actions.c, akill.c, channels.c, chanserv.c, commands.c, compat.c,
+	config.c, datafiles.c, encrypt.c, extern.h, helpserv.c, init.c,
+	ircmacros.c, language.c, list.c, log.c, main.c, memory.c,
+	memoserv.c, messages.c, misc.c, news.c, nickserv.c, operserv.c,
+	process.c, pseudo.h, send.c, servers.c, services.h, sessions.c,
+	sockutil.c, statistics.c, timeout.c, users.c:
+	
+	Moved to src/
+
+2002-07-13 15:01  andy
+
+	* Makefile, Makefile.am, Makefile.in, README, acinclude.m4,
+	aclocal.m4, commands.h, config.h, configure, configure.in,
+	datafiles.h, defs.h, depcomp, encrypt.h, import-db.c,
+	import-wrecked-db.c, install-sh, messages.h, missing,
+	mkinstalldirs, timeout.h, vsnprintf.c, data/Makefile.am,
+	data/Makefile.in, data/example.conf, doc/CodingStyle,
+	mysql/blitzed.sql, mysql/blitzed_udf.c, mysql/make,
+	src/Makefile.am, src/Makefile.in, src/actions.c, src/akill.c,
+	src/auth.c, src/cache.c, src/channels.c, src/chanserv.c,
+	src/commands.c, src/commands.h, src/compat.c, src/config.c,
+	src/config.h, src/defs.h, src/extern.h, src/helpserv.c, src/init.c,
+	src/ircmacros.c, src/language.c, src/log.c, src/main.c,
+	src/memory.c, src/memoserv.c, src/messages.c, src/messages.h,
+	src/misc.c, src/mysql.c, src/news.c, src/nickserv.c,
+	src/operserv.c, src/process.c, src/pseudo.h, src/quarantine.c,
+	src/send.c, src/servers.c, src/services.h, src/sessions.c,
+	src/sha1.c, src/sockutil.c, src/sysconf.h.in, src/timeout.c,
+	src/timeout.h, src/users.c, src/version.sh, src/vsnprintf.c,
+	src/cracklib/HISTORY, src/cracklib/LICENCE, src/cracklib/MANIFEST,
+	src/cracklib/Makefile.am, src/cracklib/Makefile.in,
+	src/cracklib/POSTER, src/cracklib/README,
+	src/cracklib/cracklib/Makefile, src/cracklib/cracklib/fascist.c,
+	src/cracklib/cracklib/genrules.pl, src/cracklib/cracklib/mess.h,
+	src/cracklib/cracklib/packer.h, src/cracklib/cracklib/packlib.c,
+	src/cracklib/cracklib/rules.c, src/cracklib/cracklib/stringlib.c,
+	src/cracklib/util/Makefile, src/cracklib/util/mkdict,
+	src/cracklib/util/packer.c, src/cracklib/util/testlib.c,
+	src/cracklib/util/testnum.c, src/cracklib/util/teststr.c,
+	src/cracklib/util/unpacker.c, src/db2mysql/Makefile.am,
+	src/db2mysql/Makefile.in, src/db2mysql/akill.c,
+	src/db2mysql/chanserv.c, src/db2mysql/db2mysql.c,
+	src/db2mysql/db2mysql.h, src/db2mysql/exception.c,
+	src/db2mysql/extern.h, src/db2mysql/files.c, src/db2mysql/memo.c,
+	src/db2mysql/memory.c, src/db2mysql/mysql.c, src/db2mysql/news.c,
+	src/db2mysql/nickserv.c, src/db2mysql/operserv.c,
+	src/db2mysql/string.c, src/lang/Makefile.am, src/lang/Makefile.in,
+	src/lang/en_us.l, src/lang/es.l, src/lang/index, src/lang/it.l,
+	src/lang/ja_euc.l, src/lang/ja_jis.l, src/lang/ja_sjis.l,
+	src/lang/jconv.pl, src/lang/langcomp.c, src/lang/pt.l,
+	src/lang/tr.l:
+	
+	SQL branch merged
+
+2002-07-13 14:57  andy
+
+	* data/example.conf, src/config.c, src/extern.h, src/nickserv.c,
+	src/lang/en_us.l, src/lang/index:
+	
+	Config option NSRegNeedAuth added to specify whether nick
+	registration involves AUTH codes.  Support added in do_register().
+
+2002-07-13 01:32  andy
+
+	* mysql/blitzed.sql:
+	
+	mysql/blitzed.sql:	New SQL setup taking into consideration
+	recent database changes.  TODO: 	SQLINE stuff is done now!
+
+2002-07-13 01:29  andy
+
+	* src/chanserv.c:
+	
+	A bit of AKICK functionality that I completely forgot about: the
+	ability to delete akicks by giving the mask.  Not a biggie, since
+	only silly people delete by mask (doing it by index number is
+	easier and faster).
+
+2002-07-13 00:56  andy
+
+	* src/: Makefile.am, Makefile.in, channels.c, extern.h, messages.c,
+	operserv.c, quarantine.c, services.h, users.c, lang/en_us.l,
+	lang/index:
+	
+	Quarantine support added.  Quarantines are implemented via bahamut
+	SQLINEs.  Services now learns SQLINEs from the network and adds
+	them to the internal Quarantine list.
+	
+	All SQLINE manipulation should be done via the /os QUARANTINE
+	command.  ADD results in an SQLINE being sent to the network, DEL
+	sends UNSQLINE.  Added Quarantine regular expressions are compiled
+	and discarded on error.
+
+2002-07-13 00:56  andy
+
+	* src/quarantine.c:
+	
+	file quarantine.c was initially added on branch
+	REL-2-0-16-ANDY-SQL.
+
+2002-07-12 02:25  andy
+
+	* src/mysql.c:
+	
+	Added some startup checks for the required MySQL user-defined
+	functions IRC_MATCH() and SHA1() so that services will bail if they
+	are not present and working.
+
+2002-07-11 12:01  andy
+
+	* src/: channels.c, chanserv.c, extern.h:
+	
+	TOPICLOCK to only come into effect when the topic is set by someone
+	who could not have used /cs TOPIC instead.
+
+2002-07-11 11:10  andy
+
+	* src/: nickserv.c, services.h, users.c, lang/en_us.l, lang/index:
+	
+	Add a last quit time field to nickserv info (only shown if quit
+	messages are).	Request by IZS.  Also changed a few localtime() to
+	gmtime().
+
+2002-07-11 10:13  andy
+
+	* src/: chanserv.c, lang/en_us.l, lang/index:
+	
+	Show what last matched each akick in the akick view output. 
+	Request by dg.
+
+2002-07-11 08:39  andy
+
+	* src/nickserv.c:
+	
+	SVSKILL for REGAIN.  Some TODO changes.
+
+2002-07-11 08:26  andy
+
+	* src/: extern.h, ircmacros.c:
+	
+	copyrights etc.
+
+2002-07-11 08:26  andy
+
+	* src/: nickserv.c, actions.c:
+	
+	Use SVSKILL for GHOST
+
+2002-07-11 08:26  andy
+
+	* mysql/: blitzed_udf.c, make:
+	
+	Path updates
+
+2002-07-11 08:02  andy
+
+	* src/lang/langcomp.c:
+	
+	file langcomp.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/tr.l:
+	
+	file tr.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/pt.l:
+	
+	file pt.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/ja_sjis.l:
+	
+	file ja_sjis.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/ja_jis.l:
+	
+	file ja_jis.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/jconv.pl:
+	
+	file jconv.pl was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/ja_euc.l:
+	
+	file ja_euc.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/es.l:
+	
+	file es.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/index:
+	
+	file index was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/it.l:
+	
+	file it.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/en_us.l:
+	
+	file en_us.l was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/Makefile.am:
+	
+	file Makefile.am was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/Makefile.in:
+	
+	file Makefile.in was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 08:02  andy
+
+	* src/lang/: Makefile.am, Makefile.in, en_us.l, es.l, index, it.l,
+	ja_euc.l, ja_jis.l, ja_sjis.l, jconv.pl, langcomp.c, pt.l, tr.l:
+	
+	Aha, I know why these files did not merge. CVS doesn't like the
+	fact that they've all moved.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/string.c:
+	
+	file string.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/operserv.c:
+	
+	file operserv.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/akill.c:
+	
+	file akill.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/extern.h:
+	
+	file extern.h was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/files.c:
+	
+	file files.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/Makefile.in:
+	
+	file Makefile.in was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/exception.c:
+	
+	file exception.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/nickserv.c:
+	
+	file nickserv.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/: Makefile.am, Makefile.in, akill.c, chanserv.c,
+	db2mysql.c, db2mysql.h, exception.c, extern.h, files.c, memo.c,
+	memory.c, mysql.c, news.c, nickserv.c, operserv.c, string.c:
+	
+	ditto.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/db2mysql.h:
+	
+	file db2mysql.h was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/news.c:
+	
+	file news.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/memory.c:
+	
+	file memory.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/chanserv.c:
+	
+	file chanserv.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/Makefile.am:
+	
+	file Makefile.am was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/memo.c:
+	
+	file memo.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/db2mysql.c:
+	
+	file db2mysql.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:56  andy
+
+	* src/db2mysql/mysql.c:
+	
+	file mysql.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:54  andy
+
+	* src/cracklib/util/mkdict:
+	
+	file mkdict was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/unpacker.c:
+	
+	file unpacker.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/testlib.c:
+	
+	file testlib.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/testnum.c:
+	
+	file testnum.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/teststr.c:
+	
+	file teststr.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/packer.c:
+	
+	file packer.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:53  andy
+
+	* src/cracklib/util/: packer.c, testlib.c, testnum.c, teststr.c,
+	unpacker.c, Makefile, mkdict:
+	
+	ditto.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/rules.c:
+	
+	file rules.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/: cracklib/Makefile, util/Makefile:
+	
+	file Makefile was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/: Makefile, fascist.c, genrules.pl, mess.h,
+	packer.h, packlib.c, rules.c, stringlib.c:
+	
+	ditto
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/fascist.c:
+	
+	file fascist.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/packlib.c:
+	
+	file packlib.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/mess.h:
+	
+	file mess.h was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/packer.h:
+	
+	file packer.h was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/stringlib.c:
+	
+	file stringlib.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:52  andy
+
+	* src/cracklib/cracklib/genrules.pl:
+	
+	file genrules.pl was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/Makefile.in:
+	
+	file Makefile.in was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/README:
+	
+	file README was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/POSTER:
+	
+	file POSTER was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/: HISTORY, LICENCE, MANIFEST, Makefile.am,
+	Makefile.in, POSTER, README:
+	
+	Somehow forgot to merge these
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/LICENCE:
+	
+	file LICENCE was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/HISTORY:
+	
+	file HISTORY was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/Makefile.am:
+	
+	file Makefile.am was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:51  andy
+
+	* src/cracklib/MANIFEST:
+	
+	file MANIFEST was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-07-11 07:05  andy
+
+	* extern.h:
+	
+	Another file I forgot to remove.
+
+2002-07-11 06:51  andy
+
+	* services.h:
+	
+	Oops, forgot to remove this
+
+2002-07-11 06:35  andy
+
+	* Makefile, Makefile.am, Makefile.in, acinclude.m4, aclocal.m4,
+	actions.c, akill.c, auth.c, cache.c, channels.c, chanserv.c,
+	commands.c, commands.h, compat.c, config.c, config.h, configure,
+	configure.in, defs.h, depcomp, helpserv.c, init.c, install-sh,
+	ircmacros.c, language.c, log.c, main.c, memory.c, memoserv.c,
+	messages.c, messages.h, misc.c, missing, mkinstalldirs, mysql.c,
+	news.c, nickserv.c, operserv.c, process.c, pseudo.h, send.c,
+	servers.c, sessions.c, sha1.c, sockutil.c, timeout.c, timeout.h,
+	users.c, version.sh, vsnprintf.c, data/Makefile.am,
+	data/Makefile.in, src/Makefile.am, src/Makefile.in, src/actions.c,
+	src/akill.c, src/auth.c, src/cache.c, src/channels.c,
+	src/chanserv.c, src/commands.c, src/commands.h, src/compat.c,
+	src/config.c, src/config.h, src/defs.h, src/extern.h,
+	src/helpserv.c, src/init.c, src/ircmacros.c, src/language.c,
+	src/log.c, src/main.c, src/memory.c, src/memoserv.c,
+	src/messages.c, src/messages.h, src/misc.c, src/mysql.c,
+	src/news.c, src/nickserv.c, src/operserv.c, src/process.c,
+	src/pseudo.h, src/send.c, src/servers.c, src/services.h,
+	src/sessions.c, src/sha1.c, src/sockutil.c, src/sysconf.h.in,
+	src/timeout.c, src/timeout.h, src/users.c, src/version.sh,
+	src/vsnprintf.c:
+	
+	Merging in changes from SQL-AUTOCONF branch.  Briefly:
+	
+	- Directory structure has been made more sane, with db2mysql, lang
+	and   cracklib falling under src.
+	
+	- All of services core, all of db2mysql, and parts of lang and
+	cracklib   have been converted to use autoconf/automake.
+	
+	- configure now tries to autodetect MySQL and SSL libs/includes
+	(yay!)
+	
+	- Many of the more bizarre Andrew Church config tests have been
+	thrown out   but will probably reappear as needed if ever I find a
+	system that needs   them.
+	
+	- Services will now install into more directories, each of which is
+	tunable   with configure options (see ./configure --help).  They
+	are:	   o $prefix/bin	   Binaries	   o $prefix/share 
+	       Language files, example conf,			      
+	cracklib dicts	o $prefix/var/log	Services logfiles	o
+	$prefix/etc	      services.conf
+	
+	TODO:
+	
+	- An overhaul of command line options is needed, probably with
+	getopt, and   decisions made on what can be set at runtime or only
+	at compile time.
+	
+	- Better automake support for cracklib and lang, which is currently
+	beyond	 me.
+	
+	Hope you all enjoy this huge commit email as much as I enjoyed
+	having my head fucked backwards with a blunt spork by autoconf for
+	the last 18 hours.
+
+2002-07-11 06:16  andy
+
+	* src/version.sh:
+	
+	file version.sh was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/sysconf.h.in:
+	
+	file sysconf.h.in was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/users.c:
+	
+	file users.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/vsnprintf.c:
+	
+	file vsnprintf.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/sockutil.c:
+	
+	file sockutil.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/timeout.c:
+	
+	file timeout.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/timeout.h:
+	
+	file timeout.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/sessions.c:
+	
+	file sessions.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/pseudo.h:
+	
+	file pseudo.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/services.h:
+	
+	file services.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/send.c:
+	
+	file send.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/sha1.c:
+	
+	file sha1.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/servers.c:
+	
+	file servers.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/process.c:
+	
+	file process.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/operserv.c:
+	
+	file operserv.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/misc.c:
+	
+	file misc.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/messages.h:
+	
+	file messages.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/mysql.c:
+	
+	file mysql.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/news.c:
+	
+	file news.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/nickserv.c:
+	
+	file nickserv.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/main.c:
+	
+	file main.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/memoserv.c:
+	
+	file memoserv.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/memory.c:
+	
+	file memory.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/helpserv.c:
+	
+	file helpserv.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/init.c:
+	
+	file init.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/messages.c:
+	
+	file messages.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/language.c:
+	
+	file language.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/log.c:
+	
+	file log.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/ircmacros.c:
+	
+	file ircmacros.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/config.c:
+	
+	file config.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/config.h:
+	
+	file config.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/defs.h:
+	
+	file defs.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/extern.h:
+	
+	file extern.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/commands.c:
+	
+	file commands.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/commands.h:
+	
+	file commands.h was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/compat.c:
+	
+	file compat.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/channels.c:
+	
+	file channels.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/cache.c:
+	
+	file cache.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/actions.c:
+	
+	file actions.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/akill.c:
+	
+	file akill.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/auth.c:
+	
+	file auth.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* src/chanserv.c:
+	
+	file chanserv.c was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* mkinstalldirs:
+	
+	file mkinstalldirs was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* missing:
+	
+	file missing was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* install-sh:
+	
+	file install-sh was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* depcomp:
+	
+	file depcomp was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* Makefile.am, data/Makefile.am, src/Makefile.am:
+	
+	file Makefile.am was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* aclocal.m4:
+	
+	file aclocal.m4 was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* Makefile, Makefile.am, Makefile.in, acinclude.m4, aclocal.m4,
+	actions.c, akill.c, auth.c, cache.c, channels.c, chanserv.c,
+	commands.c, commands.h, compat.c, config.c, config.h, defs.h,
+	depcomp, extern.h, helpserv.c, init.c, install-sh, ircmacros.c,
+	language.c, log.c, main.c, memory.c, memoserv.c, messages.c,
+	messages.h, misc.c, missing, mkinstalldirs, mysql.c, news.c,
+	nickserv.c, operserv.c, process.c, pseudo.h, send.c, servers.c,
+	services.h, sessions.c, sha1.c, sockutil.c, timeout.c, timeout.h,
+	users.c, version.sh, vsnprintf.c, data/Makefile.am,
+	data/Makefile.in, src/Makefile.am, src/Makefile.in, src/actions.c,
+	src/akill.c, src/auth.c, src/cache.c, src/channels.c,
+	src/chanserv.c, src/commands.c, src/commands.h, src/compat.c,
+	src/config.c, src/config.h, src/defs.h, src/extern.h,
+	src/helpserv.c, src/init.c, src/ircmacros.c, src/language.c,
+	src/log.c, src/main.c, src/memory.c, src/memoserv.c,
+	src/messages.c, src/messages.h, src/misc.c, src/mysql.c,
+	src/news.c, src/nickserv.c, src/operserv.c, src/process.c,
+	src/pseudo.h, src/send.c, src/servers.c, src/services.h,
+	src/sessions.c, src/sha1.c, src/sockutil.c, src/sysconf.h.in,
+	src/timeout.c, src/timeout.h, src/users.c, src/version.sh,
+	src/vsnprintf.c:
+	
+	ENJOY K THX!
+
+2002-07-11 06:16  andy
+
+	* Makefile.in, data/Makefile.in, src/Makefile.in:
+	
+	file Makefile.in was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:16  andy
+
+	* acinclude.m4:
+	
+	file acinclude.m4 was initially added on branch SQL-AUTOCONF.
+
+2002-07-11 06:06  andy
+
+	* configure, configure.in:
+	
+	Autoconf madness
+
+2002-07-11 06:06  andy
+
+	* configure.in:
+	
+	file configure.in was initially added on branch SQL-AUTOCONF.
+
+2002-07-07 14:57  phil
+
+	* README, extern.h, services.h:
+	
+	Couple of 2000-2001 copyright tags changed to 2000-2002
+
+2002-07-06 18:57  andy
+
+	* misc.c, operserv.c:
+	
+	Display months in disect_time().
+
+2002-07-06 18:27  andy
+
+	* operserv.c:
+	
+	Show oper's nick in global message.
+
+2002-07-06 18:26  andy
+
+	* messages.c:
+	
+	Typo.
+
+2002-07-06 18:01  andy
+
+	* messages.c:
+	
+	Make services ignore CHATOPS message.
+
+2002-07-06 18:01  andy
+
+	* mysql.c:
+	
+	Some tidyups.
+
+2002-07-06 17:37  andy
+
+	* akill.c:
+	
+	do_akill cleaned up slightly.  make sure people are id'd before
+	they can add akills.  Spotted by IZS.
+
+2002-07-06 17:08  andy
+
+	* mysql/blitzed.sql:
+	
+	Forgot to update akill.who column type.  Spotted by IZS.
+
+2002-07-06 15:49  andy
+
+	* send.c:
+	
+	Fix format string vuln.
+
+2002-07-06 14:24  andy
+
+	* mysql/blitzed.sql:
+	
+	Drop the tables first.
+
+2002-06-17 22:11  andy
+
+	* version.sh:
+	
+	Update version
+
+2002-06-17 22:09  andy
+
+	* extern.h, messages.c, operserv.c:
+	
+	Remove now pointless MOTD text.
+
+2002-06-17 21:09  andy
+
+	* operserv.c:
+	
+	operserv.c:	Only show services admins in the motd if they are
+	actually online.
+
+2002-06-17 20:17  andy
+
+	* send.c, version.sh:
+	
+	send.c: 	Fix format string vuln. in opnotice().
+	
+	version.sh:	Up version number.
+
+2002-06-11 03:10  andy
+
+	* mysql/blitzed.sql:
+	
+	Database schema!
+
+2002-06-11 03:10  andy
+
+	* mysql/blitzed.sql:
+	
+	file blitzed.sql was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-06-11 02:46  andy
+
+	* users.c:
+	
+	Cleanups, prefix entry message with channel name, idea from dg.
+
+2002-06-09 16:22  andy
+
+	* messages.c:
+	
+	Tidied up services MOTD handling.
+
+2002-06-07 19:35  andy
+
+	* operserv.c:
+	
+	Code tidying.
+
+2002-06-05 20:48  andy
+
+	* datafiles.c, datafiles.h, import-db.c, import-wrecked-db.c:
+	
+	Why weren't these files removed?
+
+2002-06-04 16:57  andy
+
+	* akill.c:
+	
+	More locks to remove.
+
+2002-06-04 16:52  andy
+
+	* akill.c:
+	
+	These lock/unlocks not needed.
+
+2002-06-04 16:50  andy
+
+	* chanserv.c:
+	
+	Cut off needlessly massive channel names in ChanServ INFO.
+
+2002-06-04 14:28  andy
+
+	* chanserv.c:
+	
+	Check that cmd has been set before strcmp()'ing with it!
+
+2002-06-04 13:56  andy
+
+	* mysql.c:
+	
+	Remember to check n1 is within bounds also
+
+2002-06-04 11:53  andy
+
+	* chanserv.c:
+	
+	More memory corruptions in ChanServ SYNC this time.
+
+2002-06-04 11:49  andy
+
+	* chanserv.c, mysql.c:
+	
+	Fix memory corruption in sendpass
+
+2002-06-04 11:18  andy
+
+	* cache.c:
+	
+	typo
+
+2002-06-04 11:13  andy
+
+	* cache.c:
+	
+	And make nick cache debugging harder to see.
+
+2002-06-04 11:12  andy
+
+	* mysql.c:
+	
+	Put mysql debug at a higher debug level.
+
+2002-06-04 11:01  andy
+
+	* helpserv.c, nickserv.c:
+	
+	Fixed a few memory corruptions.
+
+2002-06-04 10:42  andy
+
+	* nickserv.c:
+	
+	Removed unnecessary channel count code in NickServ link.  Fixed
+	memory corruption from calling free_nickinfo() on an uninitialised
+	structure.
+
+2002-06-04 09:05  andy
+
+	* memoserv.c:
+	
+	Fix weird memo ordering.
+
+2002-06-04 08:05  andy
+
+	* memoserv.c:
+	
+	OPERSEND implemented.  Last one was actually CSOPSEND when it
+	should have been CSOPSEND, oops.
+
+2002-06-04 07:48  andy
+
+	* memoserv.c:
+	
+	OPERSEND implemented.
+
+2002-06-04 07:47  andy
+
+	* operserv.c:
+	
+	FInally fix OPER and ADMIN to use IDs instead of nicks.
+
+2002-06-04 06:56  andy
+
+	* memoserv.c:
+	
+	GLOBALSEND implemented.
+
+2002-06-04 03:04  andy
+
+	* chanserv.c, config.c, extern.h, memoserv.c, misc.c:
+	
+	chanserv.c:	Only people with at least CA_AKICK access can now
+	add people with       negative access.	CA_AKICK access is also
+	needed to remove negative     access.
+	
+	Memoserv.c:	INFO implemented.
+
+2002-06-01 14:58  andy
+
+	* log.c:
+	
+	Tidy up and fix memory corruption in log()
+
+2002-06-01 14:49  andy
+
+	* chanserv.c, extern.h, memoserv.c, nickserv.c, services.h:
+	
+	MemoServ SET implemented
+
+2002-05-28 17:03  andy
+
+	* cache.c, commands.c, config.c, extern.h, memoserv.c, messages.c,
+	misc.c, news.c, nickserv.c, operserv.c, process.c, send.c,
+	servers.c, sessions.c, sha1.c, sockutil.c, timeout.c, users.c:
+	
+	Code cleanups, MemoServ READ implemented.
+
+2002-05-28 01:39  andy
+
+	* chanserv.c, users.c:
+	
+	Add channel name to entry message notice.
+	
+	Fix bug where a single channel's topic details were recorded for
+	every channel.
+
+2002-05-28 01:25  andy
+
+	* memoserv.c:
+	
+	MemoServ LIST implemented.
+
+2002-05-28 01:24  andy
+
+	* cache.c:
+	
+	Memory corruption error
+
+2002-05-28 01:23  andy
+
+	* Makefile:
+	
+	Need -gstabs for valgrind
+
+2002-05-28 01:14  andy
+
+	* channels.c, users.c:
+	
+	Fix long standing logic error in SJOIN!
+	
+	This was not a major error but caused potential memory corruption
+	(reading uninitiliased storage) and led to services having
+	inconsistent view of network after a split.
+
+2002-05-27 14:09  andy
+
+	* akill.c:
+	
+	check_akill() rewritten to take advantage of IRC_MATCH, and a
+	possible memory corruption fixed.
+
+2002-05-27 09:36  andy
+
+	* chanserv.c, mysql.c, extern.h:
+	
+	Fixing memory corruption errors in smysql_build_query().
+
+2002-05-27 00:41  andy
+
+	* chanserv.c, extern.h, memoserv.c, nickserv.c, services.h:
+	
+	Need to check clearbans parameter for sanity.
+
+2002-05-22 01:01  andy
+
+	* Makefile, chanserv.c, config.c, extern.h, helpserv.c, init.c,
+	language.c, log.c, memory.c, memoserv.c, misc.c, nickserv.c,
+	pseudo.h, services.h:
+	
+	code cleanups.
+	
+	Work begins on MemoServ.
+
+2002-05-21 01:48  andy
+
+	* commands.c, compat.c, config.c:
+	
+	cleanups
+
+2002-05-21 00:36  andy
+
+	* chanserv.c:
+	
+	code cleanups, moved level sanity check higher in do_access ADD so
+	that bogus levels don't get permission denied.
+
+2002-05-20 18:44  andy
+
+	* channels.c, extern.h, main.c, services.h, sockutil.c:
+	
+	Cleanups to remove warnings.
+	
+	lang/en_us.l:	Typo missed #channel from channel set example
+
+2002-05-20 18:43  andy
+
+	* chanserv.c:
+	
+	Logic error in check_kick() allowed akicks to match on any
+	channel's akick.
+
+2002-05-20 18:39  andy
+
+	* mysql/: blitzed_udf.c, make:
+	
+	Some well needed debugging info
+
+2002-05-20 05:31  andy
+
+	* channels.c, chanserv.c, services.h:
+	
+	SYNC implemented.  Channel mode +M added, +a removed.
+
+2002-05-20 03:26  andy
+
+	* chanserv.c:
+	
+	STATUS implemented.
+
+2002-05-19 16:25  andy
+
+	* mysql/blitzed_udf.c:
+	
+	MySQL 4 seems to like having these functions created and dropped in
+	lower case.
+
+2002-05-19 06:52  andy
+
+	* chanserv.c, nickserv.c:
+	
+	Remove old SENDPASS AUTH entries when someone correctly AUTHs.
+
+2002-05-19 05:59  andy
+
+	* chanserv.c, nickserv.c:
+	
+	ChanServ SENDPASS implemented.	NickServ GETPASS and ChanServ
+	GETPASS removed.
+
+2002-05-17 17:09  andy
+
+	* chanserv.c:
+	
+	CLEAR implemented
+
+2002-05-17 15:37  andy
+
+	* chanserv.c:
+	
+	UNBAN implemented
+
+2002-05-17 15:27  andy
+
+	* chanserv.c:
+	
+	VOICE and DEVOICE implemented.
+
+2002-05-17 15:07  andy
+
+	* chanserv.c:
+	
+	DEOP implemented
+
+2002-05-17 04:37  andy
+
+	* chanserv.c:
+	
+	Missed one more check to see if the user exists when opping them.
+
+2002-05-17 04:35  andy
+
+	* chanserv.c:
+	
+	Added message to tell you when you've tried to op someone who isn't
+	in the channel.
+
+2002-05-17 04:16  andy
+
+	* chanserv.c:
+	
+	OP implemented.
+
+2002-05-17 03:54  andy
+
+	* chanserv.c:
+	
+	INVITE implemented.
+
+2002-05-17 02:50  andy
+
+	* chanserv.c:
+	
+	Some optimisation of the AKICK matching query in check_kick()
+
+2002-05-17 02:25  andy
+
+	* mysql/blitzed_udf.c:
+	
+	And the same fixes for sha1()
+
+2002-05-17 02:02  andy
+
+	* mysql/blitzed_udf.c:
+	
+	irc_match() was done completely wrong - mysql string args are not
+	necessarily null terminated and care must be taken with their
+	lengths.
+
+2002-05-16 23:32  andy
+
+	* chanserv.c:
+	
+	LIST implemented.
+
+2002-05-13 21:01  andy
+
+	* chanserv.c:
+	
+	chanserv.c:	LEVELS implemented.
+	
+	lang/en_us.l:	Added missing LISTCHANS entry to NickServ help.
+
+2002-05-13 15:09  andy
+
+	* chanserv.c:
+	
+	AKICK DEL implemeted.
+
+2002-05-12 09:16  andy
+
+	* chanserv.c:
+	
+	AKICK VIEW implemented.
+
+2002-05-11 21:05  andy
+
+	* chanserv.c, nickserv.c:
+	
+	chanserv.c:	AKICK LIST implemented.  nickserv.c:   
+	find_nickinfo() now sets ni->nick_id to 0 if the nick is not found.
+
+2002-05-09 10:56  andy
+
+	* chanserv.c:
+	
+	Here's AKICK ADD and COUNT
+
+2002-05-09 06:18  andy
+
+	* Makefile, chanserv.c:
+	
+	Makefile:	Fix instbin and install targets to build cracklib.
+	
+	chanserv.c:	VOP/AOP/SOP commands implemented.
+
+2002-05-09 04:32  andy
+
+	* chanserv.c, extern.h, misc.c:
+	
+	chanserv.c:	access_del_callback() modified to delete a single
+	row from the  chanaccess table.  ACCESS DEL command implemented,
+	all of ACCESS	     is now done.
+	
+	extern.h:	Alter prototype for range callback functions, as it
+	now takes an	    unsigned int instead of an int.
+	
+	misc.c: 	process_numlist() reformatted.
+
+2002-05-07 09:29  andy
+
+	* chanserv.c:
+	
+	Here's a working ACCESS VIEW, plus fixed get_chanaccess_level to
+	update last_used time.
+
+2002-05-07 07:42  andy
+
+	* Makefile, actions.c, akill.c, auth.c, cache.c, channels.c,
+	chanserv.c, defs.h, extern.h, memory.c, messages.c, mysql.c,
+	nickserv.c, services.h:
+	
+	Makefile:	Extra debugging during development.
+	
+	defs.h: 	Macros to help shut up warnings about rcsid being
+	unused.
+	
+	actions.c: akill.c: auth.c: cache.c:	Use RCSID macro to shut up
+	warnings.
+	
+	channels.c:	Use RCSID macro to shut up warnings.
+	
+		findchan_by_id() finds Channel structure given a
+	channel_id.
+	
+		source parameter of do_topic removed since it is
+	unnecessary.
+	
+	chanserv.c:	ACCESS LIST now fully working.
+	
+	extern.h:	Corrected prototypes for do_topic(), *alloc().
+	
+	memory.c:	Corrected prototypes for *alloc().
+	
+	mysql.c:	Add debugging to smysql_query().
+	
+	services.h:	ChanAccess rewritten now that it does not need to
+	be written to	      file.
+	
+	cracklib/util/Attic/testlib.c:	Corrected for slightly different
+	FascistCheck().
+	
+	lang/en_us.l:	"time ago" strings for channel info.
+
+2002-04-18 04:35  andy
+
+	* chanserv.c:
+	
+	do_set_desc() converted to SQL.
+
+2002-04-18 04:21  andy
+
+	* chanserv.c:
+	
+	do_register(), add password checking code.
+	
+	do_set_password() converted to SQL.
+
+2002-04-18 02:24  andy
+
+	* chanserv.c:
+	
+	do_set_successor() converted to SQL
+
+2002-04-18 01:35  andy
+
+	* chanserv.c:
+	
+	typo
+
+2002-04-17 05:14  andy
+
+	* chanserv.c, extern.h, mysql.c, nickserv.c, services.h:
+	
+	chanserv.c:	Rewrote count_chans_reged_by() to take account of
+	channels      registered by linked nicks.
+	
+		Removed check_channel_flags() since its fucntionality is
+	duplicated
+		in get_chan_flags(), changed all occurences.
+	
+	extern.h:	check_chunk() from mysql.c needs to be extern now
+	so that it can be     called from elsewhere (count_chans_reged_by()
+	uses it now).
+	
+	mysql.c:	Remove static scope from check_chunk().
+	
+	nickserv.c:	Missed an instance of check_channel_limit() which
+	has now been  renamed to check_chan_limit() for consistency.
+	
+	services.h:	channelmax member of NickInfo moved further up to
+	indicate that it      is now a property of the master nick only.
+
+2002-04-17 03:00  andy
+
+	* chanserv.c:
+	
+	Some consistency in function names
+
+2002-04-17 02:56  andy
+
+	* chanserv.c:
+	
+	check_channel_limit() now calls two other functions,
+	get_channelmax() and count_chans_reged_by().
+	
+	do_set() converted to use SQL, but only one sub function,
+	do_set_founder() converted so far.
+
+2002-04-16 06:12  andy
+
+	* chanserv.c:
+	
+	do_drop(), make sure flags is initialised.
+
+2002-04-16 06:09  andy
+
+	* chanserv.c:
+	
+	And here's chanserv DROP converted to MySQL.
+
+2002-04-16 05:59  andy
+
+	* chanserv.c, nickserv.c, services.h:
+	
+	No need to store "channelcount" in the database, it can easily be
+	obtained via a query.  So check_channel_limit() modified to perform
+	the query, everything else modified to use check_channel_limit(). 
+	This saves us having to keep incrementing and decrementing the
+	channel count.
+
+2002-04-16 05:24  andy
+
+	* chanserv.c, services.h:
+	
+	chanserv.c:	Tidy up some prototypes.
+	
+		Coding standard and typo fixes in check_kick().
+	
+		Typo fixes in restore_topic().
+	
+		Make do_register() set all the correct values in the
+	ChannelInfo
+		before passing to insert_new_channel().
+	
+		insert_new_channel() now clearer, and sets all values from
+	the
+		ChanelInfo
+	
+		do_indentify now complaint with coding standards and
+	converted to
+		use SQL.
+	
+		Remove old check_chan_password() routine.
+	
+		Fixed several typos in get_entrymsg().
+	
+	services.h:	Added some missing members to ChannelInfo
+	structure, and tidying of     comments.
+
+2002-04-16 02:56  andy
+
+	* chanserv.c, main.c:
+	
+	Oops, broke SIGHUP behaviour.
+
+2002-04-16 00:51  andy
+
+	* actions.c, akill.c, channels.c, commands.c, compat.c,
+	datafiles.c, helpserv.c, ircmacros.c, language.c, log.c, memory.c,
+	memoserv.c, messages.c, mysql.c, news.c, operserv.c, process.c,
+	send.c, servers.c, sessions.c, sockutil.c, timeout.c, users.c,
+	vsnprintf.c:
+	
+	Lots of missed rcsid lines!
+
+2002-04-16 00:38  andy
+
+	* chanserv.c:
+	
+	somehow forgot the rcsid
+
+2002-04-16 00:34  andy
+
+	* services.h:
+	
+	Some structures reorganised and useless members removed
+
+2002-04-16 00:33  andy
+
+	* nickserv.c:
+	
+	Removed findnick, getlink which have been replaced with mysql
+	versions, or are no longer needed.
+
+2002-04-16 00:07  andy
+
+	* main.c:
+	
+	Remove chanserv db saving and supporting code.
+
+2002-04-16 00:06  andy
+
+	* init.c:
+	
+	Remove chanserv db loading, as it's now coming from SQL.
+
+2002-04-16 00:05  andy
+
+	* akill.c, channels.c, chanserv.c, extern.h, memoserv.c,
+	operserv.c, users.c:
+	
+	Minimum amount of changes required to get a skeleton chanserv
+	functioning.  Currently only chanserv register actually works.
+
+2002-04-10 08:44  andy
+
+	* nickserv.c, services.h:
+	
+	NickServ SET SENDPASS command added, can be set to ON or OFF to
+	enable or disable SENDPASS on a per-nick basis.  Added nick flag
+	NOSENDPASS and added info display for admins and user only. 
+	Suggestion from Tom Gilder <tom@tom.me.uk>
+
+2002-04-10 08:40  andy
+
+	* misc.c:
+	
+	strtolower(), strtoupper(): gcc3 complained about possibly
+	undefined behaviour so I took the opportunity to simplify this.
+
+2002-04-10 06:24  andy
+
+	* data/example.conf:
+	
+	New config option AuthExpireTimeout
+
+2002-04-10 06:23  andy
+
+	* version.sh:
+	
+	Copyright notice updates
+
+2002-04-10 06:23  andy
+
+	* misc.c:
+	
+	validate_password(): There's no need to check their registered nick
+	and links, if they don't have a registered nick.
+
+2002-04-10 06:22  andy
+
+	* Makefile:
+	
+	OpenSSL libs/include paths don't usually have to be set.
+	
+	Added ident target I'm working on for packaging releases.
+
+2002-04-10 02:01  andy
+
+	* nickserv.c:
+	
+	Implemented idea of Andryan and Tom's to send nick|user@host of
+	user requesting sendpass in the auth email.
+
+2002-04-08 06:57  andy
+
+	* init.c:
+	
+	This is just some temporary signal experimentation
+
+2002-04-08 06:56  andy
+
+	* extern.h, nickserv.c:
+	
+	nickserv.c:	do_sendpass() modified as per Tom Gilder's
+	suggestions.  That is,	     users are now allowed to use sendpass.
+	 This generates an AUTH code	 which is mailed to the user's
+	registered email.  After they come	  back and fill in the AUTH
+	code, they are assigned a new random  password as before and this
+	is mailed to them.
+	
+		This has been done so that users can request their password
+		themselves (especially via a link on the web site), but it
+	does
+		not end up resetting the user's password until they
+	authroise it.
+
+2002-04-08 06:52  andy
+
+	* config.c:
+	
+	Added AuthExpireTimeout config parameter, to control how often the
+	Auth expire loop runs
+
+2002-04-08 06:51  andy
+
+	* auth.c:
+	
+	file auth.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-04-08 06:51  andy
+
+	* Makefile, auth.c, main.c:
+	
+	main.c: 	Some cleanups of main loop, added section to
+	periodically call  expire_auth() Makefile, auth.c:	   Routines
+	related to auth codes.	Just one routine so far;      
+	expire_auth().	This one runs every AuthExpireTimeout and checks   
+	    for any auth entries more than 24hrs old.
+
+2002-04-06 03:53  andy
+
+	* nickserv.c:
+	
+	Fixed lots of nick escaping problems, which caused services to
+	crash whenever someone used a nick with \ in it.  Found by Tom
+	Gilder <tom@tom.me.uk>
+
+2002-04-06 03:48  andy
+
+	* extern.h, misc.c, mysql.c:
+	
+	misc.c, extern.h:	New fatal_error() function provides for
+	SQUITting from the network	and dumping core in order to give a
+	backtrace.
+	
+	mysql.c:	Use new fatal_error() function to make tracking
+	down MySQL problems	easier.
+
+2002-04-05 23:49  andy
+
+	* nickserv.c:
+	
+	Don't free_nickinfo() if the ni has not been populated!
+
+2002-03-29 11:55  andy
+
+	* nickserv.c:
+	
+	nickserv.c:	do_identify(), spotted a memory leak where
+	get_email_from_id() was      used but the return value never
+	free()d.
+	
+		do_register(), spotted memory leak where esc_authcode was
+	never
+		free()d in some circumstances.
+	
+		do_drop(), converted to use the AUTH system in same manner
+	as
+		do_register.
+	
+	lang/en_us.l, lang/index:	Language strings for do_drop()
+	AUTH.
+
+2002-03-29 11:39  andy
+
+	* config.h, configure, extern.h:
+	
+	copyrights
+
+2002-03-29 07:59  andy
+
+	* version.sh:
+	
+	Up version
+
+2002-03-29 07:56  andy
+
+	* misc.c, misc.c:
+	
+	From: David Leadbeater <dgl@dgl.cx> 14:54 <@dg> basically [] and {}
+	characters are treated differentlyby the ircd 14:54 <@dg> but not
+	in serivces 14:55 <@dg> meaning if someone is ided to dg[] 14:55
+	<@dg> then dg{} comes online 14:55 <@dg> dg{} can drop dg[]
+
+2002-03-29 07:38  andy
+
+	* Makefile, cache.c, init.c, main.c, config.c, mysql/blitzed_udf.c:
+	
+	keywords and copyright
+
+2002-03-29 07:10  andy
+
+	* nickserv.c, sha1.c:
+	
+	keyword subst tweaks
+
+2002-03-29 06:56  andy
+
+	* sha1.c:
+	
+	rcsid and copyright notice
+
+2002-03-29 06:25  andy
+
+	* nickserv.c:
+	
+	keyword subst tweaks
+
+2002-03-29 06:20  andy
+
+	* nickserv.c:
+	
+	Testing this CVS keyword substitution.
+
+2002-03-28 07:08  andy
+
+	* Makefile, config.c, messages.c, nickserv.c, data/example.conf:
+	
+	Makefile:	misc.o now depends on a cracklib header I added.
+	
+	config.c, messages.c, data/example.conf:	Remove NSNeedMail
+	as a config option as it is now pointless - we	      always
+	require email addresses.
+	
+	nickserv.c:	Modified do_register() to send an "AUTH" code in
+	email, instead of      immediately registering the nick.  The
+	pending AUTH codes are kept in	 the auth MySQL table, the code
+	itself being formed from a SHA1 hash of  the nickname and a random
+	string.
+	
+		It is intended that this mechanism be used for other
+	"sensitive"
+		operations, so I have tried to make it generic.  When a
+	nick
+		register is attempted, the AUTH table is checked to make
+	sure that
+		nobody else has an AUTH pending.  Assuming they don't, a
+	row is
+		inserted and a mail containing the code is sent out.
+	
+		The AUTH option to the REGISTER command is used to finalise
+	the
+		nick registration.  It first checks the codes match, and
+	then
+		completes the registration as normal, finally removing the
+	row from
+		the auth table.
+	
+		It is intended that rows be purged from the auth table
+	every 24
+		hours, though I have not decided yet if that should be part
+	of
+		services or not.
+	
+	lang/index, lang/en_us.l:	Various strings for the above
+	functionality.	Note that the email	  with the AUTh code for
+	registering a nick can only be sent in	 services default language,
+	because at the time it is sent the user      has no registered nick
+	(and therefore no language settings)
+	
+	cracklib/cracklib/fascist.c:	Moved #defines for messages out to
+	separate header.
+	
+	cracklib/.cvsignore:	Seems to make a file called "installed"
+	whcih can be ignored.
+
+2002-03-28 01:53  andy
+
+	* nickserv.c:
+	
+	validate_password() on nick registration.
+
+2002-03-27 07:17  andy
+
+	* nickserv.c:
+	
+	do_set_password(): hook in validate_passsword to check
+	functionality..  seems to work :)
+	
+	More uses of validate_email to come.
+
+2002-03-27 07:16  andy
+
+	* extern.h, misc.c:
+	
+	misc.c: 	validate_password() runs a series of checks on a
+	password to test       its strength.  Checks implemented:	   
+	   - must not equal current nickname		   - must not equal
+	ident/username		       - must not equal real name	   
+	   - must not equal any of the user's linked nicks		  
+	- must not equal channel name (for channels only)		-
+	must not equal password of nick or any linked nick (for 	   
+	    channels only)		  - must not equal the pasword of
+	any of the user's other 		  channels (for channels
+	only)  via Alec Muffet's cracklib:	       - must be 5+
+	characters long 	   - must have varied characters	  
+	- must not match any well known patterns (e.g. 123456,		 
+	qwerty, and so on)	      - must not look like a National
+	Insurance/Social Security		  number		-
+	must not be a dictionary word or simple variation of one	   
+	  - must not be a reversed dictionary word or simple		   
+	variation of one.
+
+2002-03-27 03:22  andy
+
+	* Makefile, configure:
+	
+	First stab at importing Alec Muffet's cracklib sources.  I'll be
+	later using the FascistCheck function from here to check passwords
+	against.
+
+2002-03-21 17:33  andy
+
+	* config.h, init.c, misc.c, nickserv.c, services.h:
+	
+	nickserv.c:	Modified to use a 16 character long random salt for
+	passwords.  config.h:	    SALTMAX to account for salt length. 
+	init.c:    Move setting of random seed to here.  Doing it inside  
+	make_random_string() meant that calling that function twice within 
+	    same second led to identical strings being created.  Maybe we  
+	should use a better rand() function? misc.c:	As above. 
+	services.h:  NickInfo fields for salt and last_sendpass_salt. 
+	lang/en_us.l:	      Give out the salt on a getpass.
+
+2002-03-21 17:15  andy
+
+	* doc/CodingStyle:
+	
+	file CodingStyle was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-03-21 17:15  andy
+
+	* doc/CodingStyle:
+	
+	Services coding style for all new code.
+
+2002-03-20 14:42  andy
+
+	* nickserv.c:
+	
+	[14:35:29] <tom> I think I found a bug in services btw [14:36:01]
+	<tom> when you create a nick [14:36:12] <tom> the idx of the
+	default hostmark is set to 0 [14:36:19] <tom> it should be 1 I
+	think?
+
+2002-03-20 06:05  andy
+
+	* config.h, extern.h, misc.c, nickserv.c, services.h:
+	
+	config.h:	PASSMAX set to 41, as SHA1 digests are 40 bytes
+	when represented	in hex.
+	
+	extern.h:	Prototype for make_random_string.
+	
+	misc.c: 	make_random_string() fills a buffer with random
+	alphabetical	characters, for use in generating new passwords.
+	
+	nickserv.c:	do_sendpass() modified to use SHA1 hashed password.
+	 Now generates	    a new password and sets that, mails it to the
+	user.  The old hash	  is saved in the last_sendpass_pass column
+	for audit purposes.
+	
+	services.h:	Two more NickInfo fields, last_sendpass_pass holds
+	the password	     hash that was current when sendpass was last
+	used,	   last_sendpass_time is the timestamp of the last sendpass
+	usage.
+	
+	lang/en_us.l:	Updated the nick SENDPASS text to reflect new
+	behaviour.
+
+2002-03-20 05:58  andy
+
+	* list.c:
+	
+	This code no longer needed.
+
+2002-03-20 04:44  andy
+
+	* Makefile, extern.h:
+	
+	Slight mods for sha1.c to be compiled.
+
+2002-03-20 04:43  andy
+
+	* sha1.c:
+	
+	file sha1.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-03-20 04:43  andy
+
+	* sha1.c:
+	
+	Here's a quick SHA1 function using OpenSSL.  Really doesn't seem
+	worth reinventing the wheel on this one, especially when I am not a
+	crypto expert, so I'll leave it to those who are.
+
+2002-03-20 04:42  andy
+
+	* mysql/: blitzed_udf.c, make:
+	
+	Added new SHA1 MySQl function, for computing SHA-1
+	cryptographically secure message digests.  This is the algorithm
+	we'll use for services passwords, mainly because it is not
+	soemthing that every kiddie password cracking tool has built in. 
+	To brute force this they will require a modicum of clue.
+	
+	Benchmark suggests it is also twice as fast as the MD5 routine that
+	is bundles with MySQL, though this could well be because the MD5
+	routine is actually more secure (if it uses salts etc.).
+
+2002-03-19 16:58  andy
+
+	* nickserv.c, cache.c, extern.h:
+	
+	do_identify():	Now flushes the nick cache every time the nick is
+	identified to,	      which will be less confusing for people
+	changing language from the	web interface.
+
+2002-03-15 10:20  andy
+
+	* sessions.c:
+	
+	All occurences of REPLACE() removed.
+
+2002-03-15 10:08  andy
+
+	* sessions.c:
+	
+	do_session():	In the process of removing one instance of
+	REPLACE() found a logic      error too - SESSION LIST was showing
+	hosts that had exceptions in	   place, whether they were above
+	the requested count or not.
+
+2002-03-15 09:38  andy
+
+	* nickserv.c:
+	
+	All other occurences of REPLACE removed.
+
+2002-03-15 09:14  andy
+
+	* mysql/blitzed_udf.c:
+	
+	Er, no, it was previously correct.  No idea why I thought it
+	wasn't.
+
+2002-03-15 09:07  andy
+
+	* mysql/blitzed_udf.c:
+	
+	Oops got the case sensitivity switch backwards.
+
+2002-03-15 08:41  andy
+
+	* nickserv.c:
+	
+	Start to remove SQL queries with REPLACE() in favour of the new
+	IRC_MATCH(), looks a lot better doesn't it? :)
+
+2002-03-15 03:35  andy
+
+	* mysql/blitzed_udf.c:
+	
+	Need to check the third argument of IRC_MATCH is not NULL,
+	otherwise dereferencing it will kill the server.
+
+2002-03-15 03:29  andy
+
+	* mysql/blitzed_udf.c:
+	
+	file blitzed_udf.c was initially added on branch
+	REL-2-0-16-ANDY-SQL.
+
+2002-03-15 03:29  andy
+
+	* mysql/make:
+	
+	file make was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-03-15 03:29  andy
+
+	* mysql/: blitzed_udf.c, make:
+	
+	This code forms a MySQL user-defined function IRC_MATCH() to do
+	IRC-style wildcard matching on strings from within MySQL. 
+	Instructions for installation are currently inside blitzed_udf.c.
+
+2002-03-08 06:00  andy
+
+	* nickserv.c:
+	
+	do_access():	DEL now needs the nickaccess table to be write
+	locked.  This is	 because we have one query deleting entries
+	and then another     renumbering every row for a given nick.  If
+	another modification	    were to happen between the two (say
+	from a web site) then there is	    scope for entries to get
+	completely jumbled or for services to  crash.
+
+2002-03-08 05:52  andy
+
+	* mysql.c:
+	
+	mysql_simple_query():	Add logging simple queries too.  This
+	function is really badly  named actually - you have to handle all
+	the errors yourself, and	work out whether the query should
+	have returned rows etc.  Not  simple at all, just "unmanaged".
+
+2002-03-08 05:50  andy
+
+	* nickserv.c:
+	
+	mysql_renumber_nick_access():	Renumber the idx column for a given
+	nick's access list in order to	    remove gaps after entries are
+	deleted.
+
+2002-03-08 04:24  andy
+
+	* nickserv.c:
+	
+	After discussion with tom have decided that I really need to keep
+	an index in every list per user or channel or whatever.  For
+	example, the nickaccess table holds every user's nick access list
+	entries so the row IDs alone will not be contiguous for any given
+	user.
+	
+	So, here is the start of my plan to add an index column into every
+	table that is holding "list" data.
+	
+	do_access():	LIST now displays the access index rather than the
+	internal row ID.     ADD now inserts an incremented index.
+
+2002-01-31 10:03  andy
+
+	* Makefile, chanserv.c, configure, encrypt.c, encrypt.h,
+	nickserv.c, pseudo.h, services.h:
+	
+	Removed encrypt.c, encrypt.h and all encryption code as it has
+	never been used and does not make sense for it ever to be used.
+	
+	chanserv.c:	check_channel_password()		Check a
+	user's supplied channel apssword against the		founder
+	pass.
+
+2002-01-31 07:46  andy
+
+	* config.c, extern.h, operserv.c, data/example.conf:
+	
+	Remove KillClones options and code (which was superceded by session
+	limiting and has never been used).
+
+2002-01-31 07:33  andy
+
+	* config.c, extern.h, data/example.conf:
+	
+	Remove StatServ-related config options
+
+2002-01-31 05:05  andy
+
+	* Makefile, config.c, configure, extern.h, init.c, main.c,
+	messages.c, operserv.c, servers.c, services.h, statistics.c,
+	users.c:
+	
+	Remove all traces of StatServ, which we have never used.
+
+2002-01-31 04:44  andy
+
+	* Makefile, chanserv.c, config.c, config.h, main.c, operserv.c,
+	users.c:
+	
+	Remove #defines for STREAMLINED mode, which we never have used and
+	never will use.
+
+2002-01-31 04:33  andy
+
+	* Makefile, cache.c, extern.h, language.c, main.c, nickserv.c:
+	
+	cache.c:	Added a "nick cache" which holds certain
+	information about each	       nick which is either private to
+	services (nick status) or is rarely	changed but often used
+	(language setting).  Caching these values	 within services
+	saves many many MySQL queries.
+	
+		The overall design is an array of circularly linked lists
+	holding
+		the heads of each hash chain, as the nicks are hashed they
+	are
+		added onto the end of the relevant chain.
+	
+		Each structure holds the nick_id, the status and the
+	language, and
+		a timestamp for each of status and language.  The hash
+	needs to be
+		updated every time a change is made from services, and is
+	also
+		updated if the data is ever more than an hour out of date.
+	
+		Currently this file contains only nickcache routines and
+		structures.  As ChanServ is converted to SQL, chancache
+	structures
+		and routines will be added.
+	
+		nickcache_init()
+			Initialise each chain with a zero'd structure as
+	its head.
+	
+		nickcache_delall()
+			Free up the entire hash prior to services exit.
+	
+		nickcache_insert()
+			Insert an up-to-date entry into the cache for the
+	specified
+			nick requesting the data from MySQL.
+	
+		dump_cache_chain()
+			Debug function which lists all the nicks on a cache
+	chain.
+	
+		nickcache_find()
+			Return a pointer to the nickcache structure for the
+	given
+			nick_id.  If it is not found, a new one is inserted
+	using
+			nickcache_insert() abive, and a pointer to this
+	returned.
+	
+		nickcache_del()
+			Remove an entry from the nickcache.  In practice
+	only used
+			when a nick ceases to exist in MySQL.
+	
+		nickcache_update()
+			Updates the entire contents of the nickcache entry
+	for the
+			given nick.  The logic being that it is the setting
+	up of
+			the MySQL query that is expensive, so we may as
+	well get
+			all the data we want each time.
+	
+		nickcache_get_language()
+			Return a given nick's language from the cache.
+	
+		nickcache_set_language()
+			Set a given nick's language in the cache, adding
+	them an
+			entry if there is none present already.
+	
+		nickcache_get_status()
+			Return a given nick's status.
+	
+		nickcache_set_status()
+			Set a given nick's status, adding an entry if there
+	is not
+			one already.
+	
+		nickcache_add_status()
+			Add a status to the status that a nick already has,
+			inserting a new entry into the cache if there is
+	not one
+			present already.
+	
+		nickcache_remove_status()
+			Remove a status from the status that a given nick
+	already
+			has, inserting a new entry into the cache if there
+	is not
+			one present already.
+	Makefile:	Added file cache.c
+	
+	language.c:	Retrieve language settings from the nickcache
+	instead of MySQL.
+	
+	main.c: 	Delete the nickcache at shutdown.
+	
+	nickserv.c:	During ns_init, also clear regainid, and initialise
+	nickcache.
+	
+		Almost all status readings are now taken from nickcache,
+	with
+		status changes updating the cache.  Same goes for language
+		settings.
+
+2002-01-31 04:33  andy
+
+	* cache.c:
+	
+	file cache.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2002-01-27 18:13  andy
+
+	* chanserv.c:
+	
+	chanserv.c:	Allow normal users to use ChanServ STATUS
+	lang/en_us.l, index:  Alter help for STATUS command to reflect this
+
+2002-01-21 23:09  andy
+
+	* users.c:
+	
+	Removing some more debug
+
+2002-01-21 22:33  andy
+
+	* nickserv.c:
+	
+	Remove a few commented debug lines
+
+2002-01-21 19:39  andy
+
+	* extern.h, nickserv.c, operserv.c, services.h, users.c:
+	
+	extern.h
+
+2002-01-21 18:38  andy
+
+	* mysql.c:
+	
+	Some extra logging of MySQL queries on debug.
+
+2002-01-21 18:37  andy
+
+	* chanserv.c:
+	
+	check_channel_limit()	Converted to SQL.
+
+2002-01-13 19:43  andy
+
+	* nickserv.c:
+	
+	insert_new_nick()	Modified so that the MemoInfo and access
+	paramters can be left NULL     and will not therefore be set.
+	
+	do_forbid()	Converted to SQL
+
+2002-01-13 13:12  andy
+
+	* nickserv.c:
+	
+	do_sendpass()	Converted to SQL
+
+2002-01-13 02:38  andy
+
+	* nickserv.c:
+	
+	do_getpass()	Converted to SQL.
+
+2002-01-13 02:13  andy
+
+	* nickserv.c:
+	
+	do_regain()	Converted to SQL
+
+2002-01-13 01:48  andy
+
+	* nickserv.c:
+	
+	do_ghost()	Converted to SQL
+
+2002-01-13 01:42  andy
+
+	* nickserv.c:
+	
+	Corrections to timeout code.
+	
+	ns_init()	Set the status of all nicks to 0 to clear any
+	status left over  from last run.
+	
+	do_release()	Converted to SQL.
+
+2002-01-13 01:38  andy
+
+	* language.c:
+	
+	Removed annoying debug notices.
+
+2002-01-12 20:34  andy
+
+	* nickserv.c:
+	
+	do_recover()	Converted to SQL.
+
+2002-01-12 20:21  andy
+
+	* nickserv.c:
+	
+	do_list()	Converted to SQL
+
+2002-01-12 16:27  andy
+
+	* nickserv.c:
+	
+	do_listchanaccess()	Converted to SQL.
+
+2002-01-12 15:28  andy
+
+	* nickserv.c:
+	
+	do_access()	ACCESS DEL now converted to SQL
+
+2002-01-12 15:25  andy
+
+	* mysql.c:
+	
+	This is causing segfaults at the moment :/
+
+2002-01-11 15:55  andy
+
+	* nickserv.c:
+	
+	do_access()	ACCESS ADD converted to SQL.
+
+2002-01-10 12:26  andy
+
+	* nickserv.c:
+	
+	do_access:	LIST converted to SQL.
+
+2002-01-08 16:04  andy
+
+	* commands.c, extern.h, nickserv.c:
+	
+	All do_set.. functions converted to SQL.
+
+2002-01-08 15:38  andy
+
+	* version.sh:
+	
+	I can't believe I missed this one "copyright 2001" thing...
+
+2002-01-08 14:46  andy
+
+	* chanserv.c, commands.c, memoserv.c, nickserv.c, operserv.c,
+	version.sh:
+	
+	That last do_help() fix actually broke help commands with multiple
+	parts e.g. "help set url".  Now skip over the leading spaces in
+	commands.c:help_cmd()
+
+2002-01-07 11:20  andy
+
+	* chanserv.c, helpserv.c, memoserv.c, nickserv.c, operserv.c:
+	
+	do_drop()	Converted to SQL.
+
+2002-01-05 07:46  andy
+
+	* actions.c, akill.c, channels.c, chanserv.c, commands.c, compat.c,
+	config.c, datafiles.c, encrypt.c, helpserv.c, init.c, ircmacros.c,
+	language.c, list.c, log.c, main.c, memory.c, memoserv.c,
+	messages.c, misc.c, news.c, nickserv.c, operserv.c, process.c,
+	send.c, servers.c, sessions.c, sockutil.c, statistics.c, timeout.c,
+	users.c, version.sh:
+	
+	Some much-needed updating of copyright notices.
+	
+	Slight fix to allow help requests with leading spaces (e.g. "/ns
+	help   command") to work the same as the command itself, reported
+	by Baseciq <baseciq@baseciq.org>
+
+2002-01-02 03:43  andy
+
+	* extern.h, nickserv.c, operserv.c:
+	
+	do_info()	Converted to SQL.
+	
+	mysql_findnickinfo()	Populate a NickInfo structure from the data
+	in the DB.  Useful for	    when we need to get ALL info about a
+	nick.
+
+2002-01-01 10:04  andy
+
+	* akill.c, chanserv.c, extern.h, language.c, memoserv.c,
+	nickserv.c, operserv.c, send.c, sessions.c:
+	
+	Language functions edited to support MySQL.  getstring written as a
+	function instead of a #define, as it now needs to do an SQL query.
+
+2002-01-01 08:27  andy
+
+	* operserv.c:
+	
+	nick_is_services_admin()	Some tweaks to take into account
+	change in table format.
+	
+	/os restart now works
+
+2002-01-01 08:24  andy
+
+	* encrypt.c, extern.h, nickserv.c, operserv.c, users.c:
+	
+	There is just too much to describe here.  All of the underlying
+	nickserv and user stuff has been rewritten to work from SQL.  Now
+	it is time to convert each one, one by one.  There are still a lot
+	of lines commented out with /* XXX */ as they need fixing later
+	when more is done.
+	
+	At this point virtually nothing of services works.  "Hey, it
+	compiles."
+
+2001-12-30 03:09  andy
+
+	* main.c, nickserv.c, services.h:
+	
+	makenick()	Converted to SQL, but no longer used in
+	do_register().
+	
+	do_register()	Converted to SQL.
+	
+	getstatus()	Return the status flags of an already registered
+	nick by ID.
+	
+	getflags()	Return the nick flags of an already registered nick
+	by ID.
+	
+	insert_new_nick()	Insert a just-registered nick into the
+	nick, nickaccess and	 memoinfo tables.  A new nick will have a
+	single nickaccess row  to describe its current host and the
+	memoinfo row will describe its	   maximum memo limit.
+	
+	services.h	Tidying up of NickInfo structure.
+
+2001-12-30 03:05  andy
+
+	* operserv.c:
+	
+	is_services_admin() is_services_oper()	Table format changed
+	slightly
+
+2001-12-29 02:51  andy
+
+	* Makefile, init.c, main.c, nickserv.c:
+	
+	Removed NickServ load and save routines, removed command line list
+	nicks/channels functionality (obsolete with SQL db's)
+
+2001-12-29 02:41  andy
+
+	* nickserv.c:
+	
+	get_nick_stats()	Converted to SQL
+
+2001-12-29 02:40  andy
+
+	* operserv.c:
+	
+	Removing more CheckClones stuff
+
+2001-12-29 01:40  andy
+
+	* operserv.c:
+	
+	Removing CheckClones stuff.
+
+2001-12-29 01:38  andy
+
+	* operserv.c, users.c:
+	
+	is_services_admin() is_services_oper() nick_is_services_admin()    
+	    Converted to SQL
+	
+	CheckClones functionality removed (obsoleted by session limiting).
+
+2001-12-28 19:55  andy
+
+	* memoserv.c, nickserv.c:
+	
+	Removed old memoserv db load routines (new load routines are still
+	part of NickServ)
+
+2001-12-28 19:51  andy
+
+	* memoserv.c:
+	
+	get_memo_stats()	Converted to SQL
+
+2001-12-28 17:03  andy
+
+	* sessions.c:
+	
+	Sessions structure and list, and Exception list and number not
+	needed anymore.
+
+2001-12-28 17:00  andy
+
+	* news.c:
+	
+	display_news()	Converted to SQL
+
+2001-12-28 02:48  andy
+
+	* news.c:
+	
+	del_newsitem()	Converted to SQL
+
+2001-12-28 02:36  andy
+
+	* news.c:
+	
+	do_news_list()	Converted to SQL
+
+2001-12-28 02:13  andy
+
+	* news.c:
+	
+	add_newsitem()	Converted to SQL
+
+2001-12-28 01:52  andy
+
+	* init.c, main.c, news.c:
+	
+	Remove news load and save routines
+
+2001-12-28 01:50  andy
+
+	* news.c:
+	
+	get_news_stats()	Get table stats from SQL
+
+2001-12-28 00:45  andy
+
+	* operserv.c, users.c:
+	
+	read/write max user stats from/to SQL
+
+2001-12-28 00:44  andy
+
+	* init.c:
+	
+	mysql init needs to happen first
+
+2001-12-27 19:02  andy
+
+	* chanserv.c, nickserv.c:
+	
+	Make SET PASS work the same as SET PASSWORD
+
+2001-12-24 03:25  andy
+
+	* operserv.c:
+	
+	do_oper()	Converted to SQL
+
+2001-12-24 02:27  andy
+
+	* operserv.c:
+	
+	do_admin()	ADMIN DEL now deletes rows from admin table.
+	
+		Some tidying up.
+	
+		Remember to escape strings.
+
+2001-12-24 02:06  andy
+
+	* operserv.c:
+	
+	do_admin()	ADMIN LIST selects from admin table
+
+2001-12-24 01:45  andy
+
+	* operserv.c:
+	
+	do_admin()	ADMIN ADD now inserts rows in admin table.
+
+2001-12-24 01:12  andy
+
+	* init.c, main.c, operserv.c:
+	
+	Removed load_os_db and save_os_db as they are going to be converted
+	to SQL
+
+2001-12-23 23:30  andy
+
+	* sessions.c:
+	
+	expire_exceptions()	Converted to SQL.
+
+2001-12-23 22:27  andy
+
+	* sessions.c:
+	
+	delete_session()	Converted to use SQL.
+
+2001-12-23 16:47  andy
+
+	* sessions.c:
+	
+	findsession()	Removed.
+	
+	add_session()	Converted to use SQL.  An INSERT is attempted first
+	as most new	    users will be from unique hosts.  That may fail
+	due to there	already being users from that host; if so we do a
+	SELECT to get	      the current info.
+
+2001-12-23 16:04  andy
+
+	* mysql.c:
+	
+	Delete everything in the session table as soon as mysql connection
+	happens (session table is online data and only has meaning when
+	services starts is running)
+
+2001-12-22 21:04  andy
+
+	* sessions.c:
+	
+	do_session()	VIEW now reading from SQL
+
+2001-12-22 19:43  andy
+
+	* sessions.c:
+	
+	do_session()	LIST now reading from SQL
+	
+	find_host_exception()	Now returning info from SQL, but this
+	function will probably be	  removed soon as it is only
+	required by other non-SQL'd functions.
+
+2001-12-22 11:14  andy
+
+	* sessions.c:
+	
+	exception_del() exception_del_callback()	Removed.
+	
+	do_exception()	DEL now supported, MOVE removed because it is no
+	longer needed.
+
+2001-12-22 11:11  andy
+
+	* mysql.c:
+	
+	smysql_escape_string()	Doh!  That was never going to work.
+
+2001-12-21 23:48  andy
+
+	* akill.c, extern.h, mysql.c:
+	
+	smysql_escape_string()	Helper function to escape query strings
+
+2001-12-21 21:51  andy
+
+	* akill.c:
+	
+	*sigh* forgot to escape strings - this can cause mysql query errors
+	:(
+
+2001-12-20 15:52  andy
+
+	* sessions.c:
+	
+	exception_list() exception_view() exception_view_callback()    
+	Removed.
+	
+	do_exception()	Modified VIEW to query SQL for both simple and
+	complex queries.
+
+2001-12-20 15:11  andy
+
+	* sessions.c:
+	
+	exception_list_callback()	Removed.
+	
+	do_exception()	More complicated LIST commands now supported
+	through use of	   mysql_build_query().
+
+2001-12-20 15:09  andy
+
+	* extern.h, mysql.c:
+	
+	check_chunk() build_mysql_query()	Routine to build a MySQL
+	query for commands which previously used       process_numlist from
+	misc.c.  Used in most LIST and VIEW commands.
+
+2001-12-20 14:46  andy
+
+	* configure, log.c:
+	
+	NO, that form of snprintf is completely correct
+
+2001-12-20 12:28  andy
+
+	* sessions.c:
+	
+	do_exception()	Modified to LIST from MySQL *for simple queries
+	only* - doesn't 	yet handle "LIST 2,4,5-8,10" format yet.
+
+2001-12-20 11:48  andy
+
+	* sessions.c:
+	
+	snoop + log when trying to add dupe exception
+
+2001-12-20 11:40  andy
+
+	* sessions.c:
+	
+	Exception structures now have an ID which we'll match against the
+	exception_id column in MySQL.
+	
+	Removed code to load/save exception db's.
+	
+	mysql_insert_exception()	Function that does the actual
+	insertion of an Exception structure	  into the table.
+	
+	exception_add() 	Modified to insert into MySQL.	The only
+	error we ignore silently       is trying to add duplicate masks.
+	
+	get_exception_stats() get_session_stats()	Modified to return
+	sizes from MySQL.
+	
+	num_exceptions()	Returns the number of rows in the exception
+	table.
+
+2001-12-20 11:36  andy
+
+	* init.c:
+	
+	No need to load/save these
+
+2001-12-20 11:35  andy
+
+	* extern.h, main.c:
+	
+	No need to be load/saving these db's now
+
+2001-12-20 10:12  andy
+
+	* extern.h, main.c, mysql.c:
+	
+	smysql_cleanup()	Clean up when we need to close our MySQL
+	connection
+
+2001-12-20 09:59  andy
+
+	* extern.h, language.c, log.c, main.c:
+	
+	free_langs()	Free the language strings prior to exit.
+
+2001-12-19 17:34  andy
+
+	* Makefile, config.c, extern.h, main.c:
+	
+	free_directives()	free() all of the memory allocated during
+	config parsing.
+
+2001-12-19 14:14  andy
+
+	* init.c:
+	
+	Let's use getgrnam instead (it's simpler)
+
+2001-12-18 10:28  andy
+
+	* akill.c:
+	
+	expire_akills() 	Modified to operate on the MySQL table.
+
+2001-12-18 09:39  andy
+
+	* akill.c:
+	
+	Add a new id member to the Akill structure; the akill_id is a
+	useful thing to be storing as it is a guaranteed index into the
+	akill table.
+	
+	Correct previous mistake of turning akill id's into ints when they
+	should be unsigned ints.
+	
+	Remove those SAFE() #defines that were used for database load/save.
+	
+	send_akill()	Modified the "reason" sent to include the Akill ID.
+	
+	check_akill()	Modified to check from MySQL.
+	
+	del_akill()	Modified to keep the akill ID inside the Akill
+	structure.
+	
+	mysql_insert_akill()	Modified to request the last Akill ID
+	(akill_id is an   AUTO_INCREMENT column) and populate the Akill
+	structure with it.
+
+2001-12-18 07:41  andy
+
+	* akill.c:
+	
+	del_akill()	Modified to delete akills from MySQL.
+	
+	mysql_delete_akill()	Function for sending the actual DELETE
+	query.
+
+2001-12-18 03:27  andy
+
+	* main.c:
+	
+	Need sigjmp_buf available to other files.
+	
+	Comment out akill dbase saving because it's being converted to SQL.
+
+2001-12-18 03:26  andy
+
+	* services.h:
+	
+	Need mysqld_error.h for parsing mysql errors.
+	
+	Added constants for Akill errors.
+
+2001-12-18 03:08  andy
+
+	* mysql.c:
+	
+	mysql_simple_query()	Execute a query and store the result, leave
+	error handling to the	    caller.
+	
+	count_matching_rows()	Simple helper function to count the number
+	of rows in a table which     have a column that matches (case
+	insensitive, exact match) a    specified string.
+	
+	read_lock_table() write_lock_table()	lock a single table.  If we
+	need to lock more than one table we	    must do it manually.
+	
+	unlock()	Remove all locks.
+
+2001-12-18 02:59  andy
+
+	* extern.h:
+	
+	[no log message]
+
+2001-12-18 02:59  andy
+
+	* akill.c:
+	
+	akill_size no longer needed.
+	
+	mysql_insert_akill()	Helper function to insert an akill into the
+	akill table.
+	
+	add_akill()	Now returns an error code to cope with the error of
+	inserting a	    duplicate row.
+	
+		Now calls mysql_insert_akill().
+	
+	do_akill()	Fix silly error of null pointer deref in "akill
+	add" with no args.
+
+2001-12-18 02:12  andy
+
+	* akill.c:
+	
+	Fix silly null pointer deref.
+
+2001-12-18 02:12  andy
+
+	* version.sh:
+	
+	This will be part of next release.
+
+2001-12-17 08:20  andy
+
+	* mysql.c:
+	
+	handle_mysql_error()	Generates a hopefully informative error
+	string then terminates	services.
+	
+	smysql_bulk_query()	Takes a formatted mysql query and executes
+	it, then fetches all the     data at once, returning a result
+	pointer.  This will store all data     at once into memory.  Caller
+	should take care to use 	mysql_free_result() on the result
+	when finished.
+	
+	smysql_query()	Takes a formatted mysql query and executes it, uses
+	the result and	    returns the result pointer.  The caller should
+	then fetch every	 row individually.  Useful for possibly
+	large amounts of data as	 only stores one row at a time. 
+	Caller should take care to use	mysql_free_result() on the result
+	when finished.
+	
+	smysql_fetch_row()	Fetch the next row from the current query
+	and returns it.
+	
+	get_table_stats()	Stores the number of rows and the total
+	data size for the specified	table into the pointers passed in.
+	
+	get_table_rows()	Return the number of rows in the given
+	table.
+
+2001-12-17 08:06  andy
+
+	* init.c:
+	
+	load_akill() commented out for now as it is being converted to SQL.
+
+2001-12-17 08:05  andy
+
+	* extern.h:
+	
+	[no log message]
+
+2001-12-17 08:03  andy
+
+	* akill.c:
+	
+	get_akill_stats() reading from SQL.
+	
+	num_akills() counts rows in "akill" table of SQL.
+	
+	load and save akill code removed.
+	
+	AKILL LIST and AKILL VIEW reading from SQL.
+	
+	AKILL COUNT reading from SQL.
+
+2001-12-16 12:43  andy
+
+	* Makefile, extern.h, init.c, mysql.c:
+	
+	New file mysql.c to contain strictly mysql-related functions.
+	
+	sql_init() will connect us to the database.
+
+2001-12-16 12:43  andy
+
+	* mysql.c:
+	
+	file mysql.c was initially added on branch REL-2-0-16-ANDY-SQL.
+
+2001-12-16 10:36  andy
+
+	* config.c, extern.h, data/example.conf:
+	
+	Added configuration options for MySQL:
+	
+	MySQLHost - hostname of MySQL server MySQLUser - username to
+	authenticate MySQLPass - password to authenticate MySQLDB   - which
+	database to use
+
+2001-12-16 06:07  andy
+
+	* Makefile, configure, services.h, version.sh:
+	
+	This is how I link in mysql for now (yes I know it needs
+	automating), and I'll change the branch so I don't get too
+	confused.
+
+2001-12-13 08:43  andy
+
+	* version.sh:
+	
+	This is 2.0.16
+
+2001-12-13 08:42  andy
+
+	* chanserv.c, nickserv.c:
+	
+	Added ChanServ SET REGTIME in the same fashion as NickServ SET
+	REGTIME.  Spotted missing return; in nickserv code that would have
+	allowde any user to use SET REGTIME :-)
+
+2001-12-12 12:03  andy
+
+	* chanserv.c:
+	
+	Some much needed updating of ChanServ SET MLOCK help.
+	
+	ChanServ SET MLOCK syntax enforced more stringently now; to remove
+	MLOCK you must use + or OFF, anything else produces syntax_error().
+
+2001-12-12 09:18  andy
+
+	* chanserv.c, nickserv.c:
+	
+	Inform snoop channel about how many nicks/channels have expired. 
+	Suggested by Silencer <andryan@softhome.net>
+
+2001-12-12 08:50  andy
+
+	* services.h:
+	
+	Increase database version.
+	
+	bantime added to Channel structure.
+	
+	New chanban_ structure added to replace the char **bans list inside
+	each Channel.  Needed in order to store timestamps as well as ban
+	masks.
+
+2001-12-12 08:48  andy
+
+	* operserv.c:
+	
+	Increase database version.
+	
+	Convert from old ban list to new.
+
+2001-12-12 08:47  andy
+
+	* main.c:
+	
+	last_chanlimit timestamp generalised to last_chanevent, as it times
+	both limit changes and ban expiry now.
+
+2001-12-12 08:47  andy
+
+	* extern.h:
+	
+	New prototypes for ChanServ SET CLEARBANS
+
+2001-12-12 08:46  andy
+
+	* chanserv.c:
+	
+	do_set_clearbans() added to handle configuration of the new SET
+	CLEARBANS option.
+	
+	Database version increased to 11, reading an earlier database sets
+	bantime to 0 (disabled) by default.
+	
+	Conversions from old char **bans list to new Ban **bans list.
+
+2001-12-12 08:43  andy
+
+	* channels.c:
+	
+	Convert to using Ban structure instead of char * for channel bans,
+	this was necessary so that we could record the time at which each
+	ban was placed, which in turn was necessary so that we can expire
+	them after a certain amount of time.
+	
+	chan_update_autolimits() generalised to chan_update_events(), as it
+	now applies to both limits and ban expiry.
+	
+	chan_check_clearbans() to check if a given channel has any bans
+	which must be expired.
+
+2001-12-12 08:37  andy
+
+	* akill.c, news.c, nickserv.c, sessions.c:
+	
+	Increase file version for new db format
+
+2001-12-08 14:08  andy
+
+	* nickserv.c:
+	
+	Any ACCESS command except LIST needs a mask, otherwise it will
+	segfault.
+
+2001-12-08 04:10  andy
+
+	* channels.c, chanserv.c:
+	
+	Make tolerance only apply for raising the limit, not lowering it.
+	
+	Check channel limit as soon as autolimit is set.
+
+2001-12-01 20:54  andy
+
+	* akill.c, channels.c, chanserv.c, extern.h, main.c, news.c,
+	nickserv.c, operserv.c, services.h, sessions.c:
+	
+	Added /cs set #channel autolimit to automatically keep the channel
+	limit set above the number of people in the channel.
+	
+	Upped database version to 10.
+
+2001-12-01 04:53  andy
+
+	* version.sh:
+	
+	We're into 2.0.15 now
+
+2001-12-01 04:52  andy
+
+	* ChangeLog, README:
+	
+	Updated for 2.0.14 release
+
+2001-11-29 20:08  andy
+
+	* nickserv.c:
+	
+	Typo.
+
+2001-11-29 09:57  andy
+
+	* nickserv.c, services.h:
+	
+	do_set_regtime: allow services admins to change the nick
+	registration time or arbitrary nicks.  Logs, globops and snoop to
+	prevent abuse.
+	
+	do_regain: fixed security problem by recording unique services
+	stamp of the user issuing the command.	Only this user may regain
+	the nick.  ni->regainid added to store this info in.
+
+2001-11-29 08:19  andy
+
+	* chanserv.c:
+	
+	Cleared up this akick view format, too difficult to do it all in
+	one line and internationalise it correctly.
+
+2001-10-27 17:10  andy
+
+	* chanserv.c:
+	
+	get_chanaccess can return NULL, which will cause services to
+	segfault on start when it does
+	
+	last_read_time = access->memo_read;
+	
+	:(
+
+2001-09-29 04:12  andy
+
+	* ChangeLog, README, version.sh:
+	
+	Updated changelogs and readme for new release, and now we're into
+	2.0.14.
+
+2001-09-29 03:02  andy
+
+	* getnewcl.sh:
+	
+	Quick alias to update the ChangeLog
+
+2001-09-19 11:19  andy
+
+	* chanserv.c:
+	
+	Fix silly "changing access from X to X" error.
+
+2001-09-16 06:34  andy
+
+	* akill.c:
+	
+	AKILL DEL extensions complete.
+
+2001-09-16 05:13  andy
+
+	* akill.c:
+	
+	AKILL ADD extensions complete.
+
+2001-09-16 05:12  andy
+
+	* misc.c:
+	
+	produce a smaller string when only hours are specified (which is
+	common)
+
+2001-09-16 03:21  andy
+
+	* akill.c, extern.h, operserv.c, users.c:
+	
+	Now counts and displays how many people will be affected by an
+	akill.	At this stage any oper can use akill.
+
+2001-09-12 17:11  andy
+
+	* chanserv.c, extern.h, memoserv.c:
+	
+	We don't need the MemoInfo after all..
+
+2001-09-12 16:47  andy
+
+	* chanserv.c, services.h:
+	
+	New channel access level AKICK-LIST to allow people to list or view
+	the channel akicks without letting them set or delete them.
+
+2001-09-12 15:55  andy
+
+	* chanserv.c, memoserv.c, services.h:
+	
+	Created a new level setting: CA_MEMO_SEND; the access level
+	required for sending memos to a channel.  Renamed CA_MEMO to
+	CA_MEMO_READ, this still applies to reading and listing memos.
+	
+	Previously any registered nick could send a memo to a channel.	Now
+	the default is any user with 1+ access in the channel.	Old
+	behaviour can be obtained by setting the level required to zero.
+
+2001-09-12 14:28  andy
+
+	* chanserv.c, memoserv.c:
+	
+	When someone sends a memo to a channel, users inside the channel
+	with enough access are sent a notice:
+	
+	-MemoServ(services@blitzed.org)- griff has sent a memo to #blitzed.
+
+2001-09-12 13:27  andy
+
+	* chanserv.c:
+	
+	1. If we have no info about when someone last read channel memos,
+	then it should be set to 0.
+	
+	2.  Memoserv should send the notice about new channel memos.
+
+2001-09-10 23:55  andy
+
+	* chanserv.c, extern.h, users.c:
+	
+	Doh, really must learn my pointers :)
+
+2001-09-10 18:56  andy
+
+	* chanserv.c, extern.h, memoserv.c, services.h, users.c:
+	
+	Haven't had time to test this yet, but it compiles!  :)
+	
+	Will check when I get home.
+	
+	Added ci->founder_memo_read as a timestamp of when the channel
+	founder last read channel memos.  We now keep track of people
+	reading channel memos in their ChanAccess structure, but the
+	founder can read memos without having any acess in the channel!  So
+	the founder's time needs to be recorded with the main channel
+	structure.  This means it will not be accurate if the channel
+	changes founders, but oh well.	Some else can implement a data
+	structure within nickserv that records when each nick has read the
+	memops for each channel if they like.
+	
+	check_chan_memos is called every time a user joins the channel, it
+	checks if they can read memos and then if there are any new memos.
+	
+	update_memo_time copies the timestamp from the last read memo, to
+	the appropriate read timestamp (ci->founder_memo_read or
+	access->memo_read)
+	
+	get_chanaccess does exactly the same as get_access, except that it
+	takes a pointer to a ChanAccess and passes it back, as well as the
+	integer access level.
+	
+	new_chan_memos does the actual counting of which channel memos
+	haven't been read yet (based on timestamp; we don't have a "read"
+	flag for every user that could possibly read a memo)
+
+2001-09-09 14:14  andy
+
+	* chanserv.c:
+	
+	ChanServ OP now gives a more informative message if you try to use
+	it without being identified to a nick.	Reported by dg.
+
+2001-09-09 13:56  andy
+
+	* chanserv.c:
+	
+	Extended AKick struct now holds the time the akick was added and
+	the time it was last used, chanserv routines modified to update
+	these values, and visible from AKICK VIEW.
+
+2001-09-09 13:23  andy
+
+	* chanserv.c, services.h:
+	
+	ChanAccess extensions finished, also added a time_t for last
+	channel memo read time.
+
+2001-09-09 12:40  andy
+
+	* chanserv.c:
+	
+	Remove debug comments
+
+2001-09-09 12:33  andy
+
+	* chanserv.c:
+	
+	Extra ChanAccess data is now updated.
+	
+	Modified shell_sort_access to use memcopy and memset since
+	ChanAccess is a complicated structure now.
+	
+	Added ACCESS VIEW command to display all this extra data.
+	
+	Documented ACCESS VIEW and SYNC.
+
+2001-09-09 08:32  andy
+
+	* chanserv.c:
+	
+	Channel access modification routines now update the correct data in
+	the extended ChanAccess strusture.
+
+2001-09-09 07:10  andy
+
+	* chanserv.c:
+	
+	Added two new helper functions: 	populate_access 	   
+	    - Fill a new access list structure with correct data   
+	modify_access		- Modify an existing access list structure
+	
+	These were added because of the duplication of code in
+	ACCESS/VOP/AOP/SOP would mean that extending ChanAccess would
+	require adding the same code 4 times.  ChanAccess extensions to
+	follow.
+
+2001-09-09 06:18  andy
+
+	* akill.c, chanserv.c, news.c, nickserv.c, operserv.c, services.h,
+	sessions.c:
+	
+	Increase database versions to 9.
+	
+	Extend ChanAccess to include:	- time the access was added	-
+	time the access was last modified     - time the access was last
+	used	     - who added it  - who last modified it
+	
+	Extend Akick to include:	- time it was added	- time it
+	was last used
+	
+	Note that none of this is used yet, only the data structures and
+	database load/save routines have been modified so far.
+
+2001-09-09 00:26  andy
+
+	* chanserv.c:
+	
+	Update ci->last_used as long as the user has any access > 0 in the
+	channel.  Problem demonstrated by RuneGod and the good people of
+	#thefalls when it caused their channel to expire, sorry!
+
+2001-09-07 12:19  andy
+
+	* nickserv.c:
+	
+	Disable the REGAIN command until further notice.
+
+2001-09-03 01:36  andy
+
+	* chanserv.c:
+	
+	SYNC to same level as SOP by default.
+
+2001-09-02 23:36  andy
+
+	* chanserv.c, services.h:
+	
+	Changed SYNCH to SYNC, now handles ops and voices
+
+2001-08-13 03:28  andy
+
+	* chanserv.c, services.h:
+	
+	A ChanServ SYNCH command that so far removes desynch for channel
+	modes and bans (not ops/voices yet).
+
+2001-07-22 01:55  andy
+
+	* messages.c:
+	
+	Oops, an extra param means we need to move one more thing.
+
+2001-07-22 01:54  andy
+
+	* users.c:
+	
+	Move IP info to debug only mode.
+	
+	Stop users being set +a unless they are already an oper.
+
+2001-07-15 05:46  andy
+
+	* chanserv.c:
+	
+	Better comment that
+
+2001-07-15 05:25  andy
+
+	* svschk:
+	
+	Example crontab script
+
+2001-07-15 05:24  andy
+
+	* chanserv.c:
+	
+	Now that we know the IP of every user we can handle unbans by
+	ourselves
+
+2001-07-15 05:24  andy
+
+	* messages.c:
+	
+	Extra parameter in NICK now
+
+2001-07-15 05:20  andy
+
+	* init.c, send.c, users.c:
+	
+	We're now capable of NICKIP!  User's IP address is sent as unsigned
+	long just before ircname at end of NICK.
+
+2001-07-15 05:18  andy
+
+	* services.h:
+	
+	Also store user's IP as dot quad string and as struct in_addr
+
+2001-07-09 09:34  andy
+
+	* akill.c:
+	
+	Lowercase all akill masks before adding.
+
+2001-07-09 09:04  andy
+
+	* main.c, version.sh:
+	
+	Automatic restart when losing contact with uplink.
+
+2001-05-25 12:08  andy
+
+	* ChangeLog:
+	
+	Put into service in May not February!
+
+2001-05-25 11:50  andy
+
+	* ChangeLog, README:
+	
+	Updated for latest release
+
+2001-05-21 15:09  andy
+
+	* chanserv.c:
+	
+	Fixed disastrous logic error (oops)
+
+2001-05-21 04:25  andy
+
+	* chanserv.c, version.sh:
+	
+	ChanServ OP now checks the person you are trying to op, if the
+	channel has SECURE or SECUREOPS set.
+	
+	SECURE = only identified nicks may have ops SECUREOPS = only nicks
+	on the channel's access list as AOP or higher may have ops
+	
+	Returns permission denied if they cannot be opped.  Does not affect
+	channels that have neither SECURE nor SECUREOPS set.
+
+2001-03-22 22:45  andy
+
+	* chanserv.c:
+	
+	Fix typo reported to ircservices list which allows people to drop
+	channels which are forbidden.
+
+2001-03-07 13:42  andy
+
+	* chanserv.c:
+	
+	Don't let non-opers alter any +/-O in the channel's mode lock. 
+	Fixes bug reported by silencer@blitzed.org.
+
+2001-03-05 04:36  andy
+
+	* version.sh:
+	
+	Here's what the next version will be.
+
+2001-03-05 04:01  andy
+
+	* ChangeLog, README:
+	
+	Updated these for last release.
+
+2001-02-25 14:48  andy
+
+	* akill.c:
+	
+	More IRC_DALNET's lurking and screwing up akill removal, fixed.
+
+2001-02-25 14:32  andy
+
+	* chanserv.c:
+	
+	I missed a bunch of IRC_DALNET #defines which caused ChanServ to
+	join channels in order to kick people out :(
+	
+	Fixed now :)
+
+2001-02-21 23:39  andy
+
+	* nickserv.c:
+	
+	Give the correct syntax reply for NickServ REGISTER depending on if
+	we need email addresses or not.  Spotted by MetalMickey.
+
+2001-02-15 15:07  andy
+
+	* version.sh:
+	
+	Upping version number
+
+2001-02-15 14:56  andy
+
+	* ChangeLog, README:
+	
+	New changes for 2.0.9
+
+2001-02-15 13:36  andy
+
+	* users.c:
+	
+	This allows you to /nick to one of your linked nicknames and take
+	your "temporary status" with you, i.e. if you were identified
+	before then you have no need to identify again.
+
+2001-02-15 10:49  andy
+
+	* sessions.c:
+	
+	Fixed problem where session limit akills couldn't be removed (doh!)
+
+2001-02-15 10:40  andy
+
+	* actions.c, channels.c, chanserv.c, extern.h, messages.c,
+	nickserv.c, send.c, services.h, users.c, version.sh:
+	
+	ChanServ SET OPNOTICE becomes SET VERBOSE, all ChanServ fucntions
+	that affect a channel now will send a notice to channel operators
+	if VERBOSE is set.
+	
+	Added support for chanmode +a so that it can be MLOCKed and CLEAR
+	MODES affects it correctly.
+
+2001-02-06 17:28  phil
+
+	* messages.c:
+	
+	
+	
+	Found the remaining 2000 and changed it to read 2000-2001
+
+2001-02-04 14:07  andy
+
+	* configure, init.c, ircmacros.c, send.c, services.h, version.sh:
+	
+	Removing support for other ircds
+
+2001-02-04 14:05  andy
+
+	* Makefile:
+	
+	BSD tar has different options from GNU tar AGH!
+
+2001-02-04 14:01  andy
+
+	* users.c:
+	
+	SIlly error meant that the first person into a channel was not
+	recognized as opped therefore no channels could be registered (!)
+
+2001-02-04 02:59  andy
+
+	* akill.c:
+	
+	Typo
+
+2001-02-03 14:11  andy
+
+	* Makefile, version.sh:
+	
+	"dist" target to archive up the source ready for distribution.
+
+2001-02-02 06:55  andy
+
+	* README:
+	
+	Typo, and forgot turkish bit.
+
+2001-02-02 06:49  andy
+
+	* README:
+	
+	Updates for 2.0.7
+
+2001-02-01 14:51  andy
+
+	* users.c:
+	
+	Dodgy SSJOIN fix :/
+
+2001-01-31 23:02  andy
+
+	* ChangeLog:
+	
+	Changes for 2.0.7
+
+2001-01-30 11:48  andy
+
+	* channels.c, chanserv.c, extern.h, import-db.c, init.c, main.c,
+	memoserv.c, messages.c, misc.c, nickserv.c, operserv.c, process.c,
+	services.h, users.c:
+	
+	Apologies for the size of this patch.
+	
+	Removed all #defines related to ircd types - we now only support
+	Bahamut and our patches to it.
+	
+	RFC compliant string matching now used (so that nicks and channels
+	with []{}\ in them are treated correctly)
+	
+	Fixed bug where a channel founder whose nick was dropped or expired
+	whilst they were also on the channel's access list would leave the
+	access list corrupted.
+	
+	Number of channels registered is now checked on nick link.
+	
+	Fixed bug where a channel's successor could also be made the
+	founder.
+	
+	Fixed cosmetic bug where setting only +l or +k as a modelock would
+	report the modelock as cleared.
+	
+	ChanServ UNBAN cleaned up now I know it works.
+	
+	Fixed bug where ChanServ CLEAR MODES wasn't clearing mode +O
+	
+	In OperServ STATS ALL, the MemoServ database now has separate
+	memory usage report (was previously part of NickServ)
+	
+	Services is now capable of SSJOIN, a more efficient Bahamut command
+	for joining multiple users to a channel.
+	
+	Sending Services a USR2 signal now causes the logfiles to be closed
+	and then reopened.  This is necessary for log rotation scripts.
+	
+	Maximum value allowed in range commands is now 65536.
+	
+	Mixed time intervals are now allowed (e.g. 1h30m)
+	
+	Simpler Guest-nick generation algorithm.
+	
+	Fixed memory leak in process_numlist().
+	
+	Fixed bug causing invalid effective-nick pointers when a
+	link-parent is deleted.
+	
+	Fixed bug allowing improper privileges with linked nicks.  Reported
+	by <r1ch@r1ch.net>
+	
+	Fixed "Currently online" being shown in NickServ INFO even when the
+	user isn't online.
+	
+	Support for services stamps to enhance split recovery.
+	
+	Effective nicks are now set correctly upon delink for nested links.
+	
+	Fixed bug allowing nick takeover on LINK.
+	
+	Added support for +a user mode (services admin).  Non-services
+	admins trying to set this mode will have it taken from them.  This
+	still needs some work, but it basically is working okay.
+	
+	Most of this code is adapted from the new ircservices-4.5pre.
+
+2001-01-28 05:03  andy
+
+	* nickserv.c:
+	
+	Fixed problem where an oper using a linked nick would be told to
+	set ircop on even though they already had.
+
+2001-01-27 12:34  andy
+
+	* akill.c, config.c, extern.h, sessions.c, data/example.conf:
+	
+	New config option AkillWildThresh to specify the number of
+	non-wildcard characters which must be present for an AutoKill to be
+	legal, wildcards are '*', '?' and '.'.	e.g. when set to 4 it is
+	impossible to akill:
+	
+		*@*
+		*@?*
+		*@*com
+		*@*.com
+	
+	but it is possible to akill:
+	
+		*@*a.com
+	
+	Cleaned up akill add code to use above parameter.
+	
+	New config option SessionKillClues to specify how many times users
+	from a host may be killed for exceeding session limits before an
+	AutoKill is placed.
+	
+	New config option SessionAkillExpiry to specify how long an akill
+	for repeatedly exceeding session limits will last.
+	
+	Session limiting now uses above parameters to place akills when
+	session limits are repeatedly exceeded.
+	
+	OperServ SESSION LIST now displays the limit as well as the current
+	number users for each host.
+
+2001-01-27 04:54  andy
+
+	* memoserv.c:
+	
+	A previous fix to process_numlist to prevent denial of service had
+	left users unable to read their 40th memo.  Also if a services
+	admin sent users a memo which took them over their memo limit, they
+	were unable to read those memos either.
+	
+	This has been fixed by sending the largest of their memocount or
+	the max memos to process_numlist as the upper bound.
+
+2001-01-27 04:52  andy
+
+	* version.sh:
+	
+	Upped version
+
+2001-01-27 04:49  andy
+
+	* ChangeLog, README:
+	
+	Updates for 2.0.6
+
+2001-01-25 20:48  andy
+
+	* chanserv.c:
+	
+	Emergency fixes to chanlist stuff.
+	
+	I'll not try to code after being awake for 2 days again.  Far too
+	many stupid errors involving derefrencing null pointers..
+
+2001-01-25 18:59  andy
+
+	* channels.c, chanserv.c, import-wrecked-db.c, nickserv.c,
+	operserv.c, services.h, statistics.c, users.c:
+	
+	Modified ChanServ UNBAN to use SVSMODE command of bahamut.  Now a
+	user's local ircd will remove any ban that affects them, so this
+	includes bans on IP address now.
+	
+	Cleaned up the umode and cmode definitions so it is easier to refer
+	to both upper case and lower case modes.
+	
+	Channel mode O (oper-only channel) can now be mlocked properly.
+
+2001-01-25 05:14  andy
+
+	* chanserv.c:
+	
+	I forgot to add chanlist code to VOP/AOP/SOP.  Lists will be
+	incomplete (missing those channels for which VOP/AOP/SOP ADD was
+	used) until services is restarted, but it should cause no harm.
+
+2001-01-25 00:55  andy
+
+	* version.sh:
+	
+	Upped version number
+
+2001-01-25 00:51  andy
+
+	* ChangeLog, README:
+	
+	Changes for 2.0.5
+
+2001-01-24 23:09  andy
+
+	* chanserv.c, config.c, extern.h, nickserv.c, services.h,
+	data/example.conf:
+	
+	NickServ LISTCHANS added, allows users to list every channel that
+	they have access in.  Services admins can specify any nickname.
+	
+	NSRegExtraInfo config option added.  Optional string which will
+	give more information at the time someone registers a nick e.g. how
+	to subscribe to a public list.
+	
+	NickServ LISTLINKS modified to allow users to list links to their
+	own nicks.
+
+2001-01-24 07:19  andy
+
+	* extern.h, memoserv.c, nickserv.c, operserv.c, services.h:
+	
+	MemoServ OPERSEND and CSOPSEND to send memos to all registered
+	ircops and services ops respectively.
+
+2001-01-21 22:58  andy
+
+	* akill.c, memoserv.c, nickserv.c:
+	
+	MemoServ READ now has an "ALL" option to read all memos whether
+	previously read or not.
+	
+	NickServ LIST has an "IRCOP" option to match nicks with the IRCOP
+	flag set.
+	
+	OperServ AKILL VIEW now shows the full date when the akill was
+	added.
+	
+	MemoSERV GLOBALSEND is in the helpfiles but not implemented yet.
+
+2001-01-21 04:02  andy
+
+	* version.sh:
+	
+	Upped version number
+
+2001-01-21 03:59  andy
+
+	* README:
+	
+	changes for 2.0.4
+
+2001-01-21 03:54  andy
+
+	* ChangeLog:
+	
+	changes for 2.0.4
+
+2001-01-20 23:44  andy
+
+	* akill.c:
+	
+	Adding and removing akills now gives a lot more information in
+	wallops:
+	
+		[23:31] -andy-old.freebsd.test.blitzed.org- *** Global --
+	from
+		OperServ: grifferz added an AKILL for *@asdrfgsdrfgzxedrfz
+		(expires in 15 minutes) [test]
+	
+		[23:31] -andy-old.freebsd.test.blitzed.org- *** Global --
+	from
+		OperServ: grifferz removed an AKILL for
+	*@asdrfgsdrfgzxedrfz
+		(Would have expired in 14 minutes, 58 seconds) [test]
+	
+		[23:41] -andy-old.freebsd.test.blitzed.org- *** Global --
+	from
+		OperServ: grifferz added an AKILL for *@asdrfgsdrfgzxedrfz
+	(does
+		not expire) [test]
+	
+		[23:41] -andy-old.freebsd.test.blitzed.org- *** Global --
+	from
+		OperServ: grifferz removed an AKILL for
+	*@asdrfgsdrfgzxedrfz (Will
+		not expire) [test]
+	
+		[23:41] -andy-old.freebsd.test.blitzed.org- *** Global --
+	from
+		OperServ: Orginally set by grifferz on Sat Jan 20 23:40:54
+	2001 GMT
+
+2001-01-20 22:31  andy
+
+	* akill.c:
+	
+	indented for clarity
+
+2001-01-20 21:04  andy
+
+	* users.c:
+	
+	wallops when max usercount reached.
+
+2001-01-20 09:41  andy
+
+	* chanserv.c, extern.h, main.c, memoserv.c, misc.c, nickserv.c,
+	services.h, sessions.c, version.sh:
+	
+	Fixed denial of service attack where it was possible to specify an
+	extremely large range to some commands, e.g.
+	
+		/msg memoserv del 1-99999999999999999999999
+	
+	This would cause services to loop until it pinged out.
+	
+	NickServ REGAIN is now present.
+
+2001-01-19 06:01  andy
+
+	* COPYING, ChangeLog, Makefile, README, actions.c, akill.c,
+	channels.c, chanserv.c, commands.c, commands.h, compat.c, config.c,
+	config.h, configure, cp-recursive, datafiles.c, datafiles.h,
+	defs.h, encrypt.c, encrypt.h, extern.h, helpserv.c, import-db.c,
+	import-wrecked-db.c, init.c, install-script, ircmacros.c,
+	language.c, list.c, log.c, main.c, memory.c, memoserv.c,
+	messages.c, messages.h, misc.c, news.c, nickserv.c, operserv.c,
+	process.c, pseudo.h, send.c, servers.c, services.h, sessions.c,
+	sockutil.c, statistics.c, timeout.c, timeout.h, users.c,
+	version.sh, vsnprintf.c, data/example.conf, data/helpfiles/help,
+	data/helpfiles/ircii/!, data/helpfiles/ircii/.date,
+	data/helpfiles/ircii/:, data/helpfiles/ircii/abort,
+	data/helpfiles/ircii/admin, data/helpfiles/ircii/assign,
+	data/helpfiles/ircii/away, data/helpfiles/ircii/basics,
+	data/helpfiles/ircii/beep, data/helpfiles/ircii/bye,
+	data/helpfiles/ircii/cd, data/helpfiles/ircii/channel,
+	data/helpfiles/ircii/clear, data/helpfiles/ircii/commands,
+	data/helpfiles/ircii/comment, data/helpfiles/ircii/connect,
+	data/helpfiles/ircii/date, data/helpfiles/ircii/deop,
+	data/helpfiles/ircii/describe, data/helpfiles/ircii/die,
+	data/helpfiles/ircii/digraph, data/helpfiles/ircii/disconnect,
+	data/helpfiles/ircii/dmsg, data/helpfiles/ircii/dquery,
+	data/helpfiles/ircii/echo, data/helpfiles/ircii/encrypt,
+	data/helpfiles/ircii/etiquette, data/helpfiles/ircii/eval,
+	data/helpfiles/ircii/exec, data/helpfiles/ircii/exit,
+	data/helpfiles/ircii/expressions, data/helpfiles/ircii/flush,
+	data/helpfiles/ircii/foreach, data/helpfiles/ircii/help,
+	data/helpfiles/ircii/history, data/helpfiles/ircii/hook,
+	data/helpfiles/ircii/if, data/helpfiles/ircii/ignore,
+	data/helpfiles/ircii/info, data/helpfiles/ircii/input,
+	data/helpfiles/ircii/intro, data/helpfiles/ircii/invite,
+	data/helpfiles/ircii/join, data/helpfiles/ircii/kick,
+	data/helpfiles/ircii/kill, data/helpfiles/ircii/lastlog,
+	data/helpfiles/ircii/leave, data/helpfiles/ircii/links,
+	data/helpfiles/ircii/list, data/helpfiles/ircii/lusers,
+	data/helpfiles/ircii/me, data/helpfiles/ircii/menus,
+	data/helpfiles/ircii/mload, data/helpfiles/ircii/mode,
+	data/helpfiles/ircii/motd, data/helpfiles/ircii/msg,
+	data/helpfiles/ircii/names, data/helpfiles/ircii/news,
+	data/helpfiles/ircii/newuser, data/helpfiles/ircii/nick,
+	data/helpfiles/ircii/notice, data/helpfiles/ircii/notify,
+	data/helpfiles/ircii/oper, data/helpfiles/ircii/parsekey,
+	data/helpfiles/ircii/part, data/helpfiles/ircii/ping,
+	data/helpfiles/ircii/query, data/helpfiles/ircii/quit,
+	data/helpfiles/ircii/quote, data/helpfiles/ircii/rbind,
+	data/helpfiles/ircii/redirect, data/helpfiles/ircii/rehash,
+	data/helpfiles/ircii/restart, data/helpfiles/ircii/rules,
+	data/helpfiles/ircii/save, data/helpfiles/ircii/say,
+	data/helpfiles/ircii/send, data/helpfiles/ircii/sendline,
+	data/helpfiles/ircii/server, data/helpfiles/ircii/signoff,
+	data/helpfiles/ircii/sleep, data/helpfiles/ircii/squit,
+	data/helpfiles/ircii/stats, data/helpfiles/ircii/summon,
+	data/helpfiles/ircii/time, data/helpfiles/ircii/timer,
+	data/helpfiles/ircii/topic, data/helpfiles/ircii/trace,
+	data/helpfiles/ircii/type, data/helpfiles/ircii/userhost,
+	data/helpfiles/ircii/users, data/helpfiles/ircii/version,
+	data/helpfiles/ircii/wait, data/helpfiles/ircii/wallops,
+	data/helpfiles/ircii/which, data/helpfiles/ircii/while,
+	data/helpfiles/ircii/who, data/helpfiles/ircii/whois,
+	data/helpfiles/ircii/whowas, data/helpfiles/ircii/xecho,
+	data/helpfiles/ircii/xtype, data/helpfiles/ircii/alias/alias,
+	data/helpfiles/ircii/alias/functions,
+	data/helpfiles/ircii/alias/quote,
+	data/helpfiles/ircii/alias/special,
+	data/helpfiles/ircii/alias/width,
+	data/helpfiles/ircii/bind/backspace,
+	data/helpfiles/ircii/bind/backward_character,
+	data/helpfiles/ircii/bind/backward_history,
+	data/helpfiles/ircii/bind/backward_word,
+	data/helpfiles/ircii/bind/beginning_of_line,
+	data/helpfiles/ircii/bind/bind,
+	data/helpfiles/ircii/bind/clear_screen,
+	data/helpfiles/ircii/bind/command_completion,
+	data/helpfiles/ircii/bind/delete_character,
+	data/helpfiles/ircii/bind/delete_next_word,
+	data/helpfiles/ircii/bind/delete_previous_word,
+	data/helpfiles/ircii/bind/end_of_line,
+	data/helpfiles/ircii/bind/enter_digraph,
+	data/helpfiles/ircii/bind/enter_menu,
+	data/helpfiles/ircii/bind/erase_line,
+	data/helpfiles/ircii/bind/erase_to_beg_of_line,
+	data/helpfiles/ircii/bind/erase_to_end_of_line,
+	data/helpfiles/ircii/bind/examples,
+	data/helpfiles/ircii/bind/forward_character,
+	data/helpfiles/ircii/bind/forward_history,
+	data/helpfiles/ircii/bind/forward_word,
+	data/helpfiles/ircii/bind/help_character,
+	data/helpfiles/ircii/bind/keys,
+	data/helpfiles/ircii/bind/meta1_character,
+	data/helpfiles/ircii/bind/meta2_character,
+	data/helpfiles/ircii/bind/meta3_character,
+	data/helpfiles/ircii/bind/meta4_character,
+	data/helpfiles/ircii/bind/next_window,
+	data/helpfiles/ircii/bind/nothing,
+	data/helpfiles/ircii/bind/parse_command,
+	data/helpfiles/ircii/bind/previous_window,
+	data/helpfiles/ircii/bind/quit_irc,
+	data/helpfiles/ircii/bind/quote_character,
+	data/helpfiles/ircii/bind/refresh_inputline,
+	data/helpfiles/ircii/bind/refresh_screen,
+	data/helpfiles/ircii/bind/scroll_backward,
+	data/helpfiles/ircii/bind/scroll_end,
+	data/helpfiles/ircii/bind/scroll_forward,
+	data/helpfiles/ircii/bind/scroll_start,
+	data/helpfiles/ircii/bind/self_insert,
+	data/helpfiles/ircii/bind/send_line,
+	data/helpfiles/ircii/bind/stop_irc,
+	data/helpfiles/ircii/bind/switch_channels,
+	data/helpfiles/ircii/bind/toggle_insert_mode,
+	data/helpfiles/ircii/bind/toggle_stop_screen,
+	data/helpfiles/ircii/bind/transpose_characters,
+	data/helpfiles/ircii/bind/type_text,
+	data/helpfiles/ircii/bind/unstop_all_windows,
+	data/helpfiles/ircii/bind/yank_from_cutbuffer,
+	data/helpfiles/ircii/ctcp/action,
+	data/helpfiles/ircii/ctcp/clientinfo,
+	data/helpfiles/ircii/ctcp/ctcp, data/helpfiles/ircii/ctcp/echo,
+	data/helpfiles/ircii/ctcp/finger, data/helpfiles/ircii/ctcp/ping,
+	data/helpfiles/ircii/ctcp/time, data/helpfiles/ircii/ctcp/userinfo,
+	data/helpfiles/ircii/ctcp/utc, data/helpfiles/ircii/ctcp/version,
+	data/helpfiles/ircii/dcc/chat, data/helpfiles/ircii/dcc/close,
+	data/helpfiles/ircii/dcc/dcc, data/helpfiles/ircii/dcc/get,
+	data/helpfiles/ircii/dcc/list, data/helpfiles/ircii/dcc/raw,
+	data/helpfiles/ircii/dcc/rename, data/helpfiles/ircii/dcc/send,
+	data/helpfiles/ircii/dcc/talk, data/helpfiles/ircii/dcc/tmsg,
+	data/helpfiles/ircii/ircii/command_line_args,
+	data/helpfiles/ircii/ircii/copyright,
+	data/helpfiles/ircii/ircii/environment_vars,
+	data/helpfiles/ircii/ircii/ircii,
+	data/helpfiles/ircii/ircii/programming,
+	data/helpfiles/ircii/ircii/server_lists,
+	data/helpfiles/ircii/ircii/signals,
+	data/helpfiles/ircii/ircii/status_line,
+	data/helpfiles/ircii/load/bigcheese,
+	data/helpfiles/ircii/load/action, data/helpfiles/ircii/load/alias,
+	data/helpfiles/ircii/load/autoop,
+	data/helpfiles/ircii/load/basical, data/helpfiles/ircii/load/brc,
+	data/helpfiles/ircii/load/channel,
+	data/helpfiles/ircii/load/columns,
+	data/helpfiles/ircii/load/commander,
+	data/helpfiles/ircii/load/cursor,
+	data/helpfiles/ircii/load/deutsch, data/helpfiles/ircii/load/disc,
+	data/helpfiles/ircii/load/edit, data/helpfiles/ircii/load/english,
+	data/helpfiles/ircii/load/events,
+	data/helpfiles/ircii/load/extensions,
+	data/helpfiles/ircii/load/finger,
+	data/helpfiles/ircii/load/finger.who,
+	data/helpfiles/ircii/load/flood, data/helpfiles/ircii/load/fnet,
+	data/helpfiles/ircii/load/functions,
+	data/helpfiles/ircii/load/history,
+	data/helpfiles/ircii/load/irciihelp,
+	data/helpfiles/ircii/load/ircprimer,
+	data/helpfiles/ircii/load/kickmenu,
+	data/helpfiles/ircii/load/killpath,
+	data/helpfiles/ircii/load/kpstat, data/helpfiles/ircii/load/list,
+	data/helpfiles/ircii/load/load, data/helpfiles/ircii/load/local,
+	data/helpfiles/ircii/load/lynx_ircrc,
+	data/helpfiles/ircii/load/meta1, data/helpfiles/ircii/load/meta2,
+	data/helpfiles/ircii/load/msg, data/helpfiles/ircii/load/mudlike,
+	data/helpfiles/ircii/load/nemesis,
+	data/helpfiles/ircii/load/netsplit,
+	data/helpfiles/ircii/load/newaway, data/helpfiles/ircii/load/nicks,
+	data/helpfiles/ircii/load/oldping, data/helpfiles/ircii/load/oper,
+	data/helpfiles/ircii/load/prefix,
+	data/helpfiles/ircii/load/recursion,
+	data/helpfiles/ircii/load/repeat, data/helpfiles/ircii/load/screen,
+	data/helpfiles/ircii/load/service, data/helpfiles/ircii/load/shell,
+	data/helpfiles/ircii/load/silent,
+	data/helpfiles/ircii/load/smileys,
+	data/helpfiles/ircii/load/suggestions,
+	data/helpfiles/ircii/load/tabkey, data/helpfiles/ircii/load/time,
+	data/helpfiles/ircii/load/traces, data/helpfiles/ircii/load/troy,
+	data/helpfiles/ircii/load/uhnotify,
+	data/helpfiles/ircii/load/version,
+	data/helpfiles/ircii/load/wallopstat,
+	data/helpfiles/ircii/load/whowas, data/helpfiles/ircii/load/window,
+	data/helpfiles/ircii/note/antiwall,
+	data/helpfiles/ircii/note/count, data/helpfiles/ircii/note/deny,
+	data/helpfiles/ircii/note/find, data/helpfiles/ircii/note/flag,
+	data/helpfiles/ircii/note/key, data/helpfiles/ircii/note/log,
+	data/helpfiles/ircii/note/ls, data/helpfiles/ircii/note/news,
+	data/helpfiles/ircii/note/note, data/helpfiles/ircii/note/rm,
+	data/helpfiles/ircii/note/save, data/helpfiles/ircii/note/send,
+	data/helpfiles/ircii/note/sent, data/helpfiles/ircii/note/service,
+	data/helpfiles/ircii/note/spy, data/helpfiles/ircii/note/stats,
+	data/helpfiles/ircii/note/user, data/helpfiles/ircii/note/waitfor,
+	data/helpfiles/ircii/note/wall, data/helpfiles/ircii/note/wallops,
+	data/helpfiles/ircii/on/action,
+	data/helpfiles/ircii/on/channel_nick,
+	data/helpfiles/ircii/on/channel_signoff,
+	data/helpfiles/ircii/on/connect, data/helpfiles/ircii/on/ctcp,
+	data/helpfiles/ircii/on/ctcp_reply,
+	data/helpfiles/ircii/on/dcc_chat, data/helpfiles/ircii/on/dcc_raw,
+	data/helpfiles/ircii/on/disconnect, data/helpfiles/ircii/on/exec,
+	data/helpfiles/ircii/on/exec_errors,
+	data/helpfiles/ircii/on/exec_exit,
+	data/helpfiles/ircii/on/exec_prompt, data/helpfiles/ircii/on/flood,
+	data/helpfiles/ircii/on/help, data/helpfiles/ircii/on/hook,
+	data/helpfiles/ircii/on/idle, data/helpfiles/ircii/on/input,
+	data/helpfiles/ircii/on/invite, data/helpfiles/ircii/on/join,
+	data/helpfiles/ircii/on/leave, data/helpfiles/ircii/on/list,
+	data/helpfiles/ircii/on/mail, data/helpfiles/ircii/on/mode,
+	data/helpfiles/ircii/on/msg, data/helpfiles/ircii/on/msg_group,
+	data/helpfiles/ircii/on/names, data/helpfiles/ircii/on/nickname,
+	data/helpfiles/ircii/on/note, data/helpfiles/ircii/on/notice,
+	data/helpfiles/ircii/on/notify_signoff,
+	data/helpfiles/ircii/on/notify_signon,
+	data/helpfiles/ircii/on/numeric, data/helpfiles/ircii/on/on,
+	data/helpfiles/ircii/on/public, data/helpfiles/ircii/on/public_msg,
+	data/helpfiles/ircii/on/public_notice,
+	data/helpfiles/ircii/on/public_other,
+	data/helpfiles/ircii/on/raw_irc,
+	data/helpfiles/ircii/on/send_action,
+	data/helpfiles/ircii/on/send_dcc_chat,
+	data/helpfiles/ircii/on/send_msg,
+	data/helpfiles/ircii/on/send_notice,
+	data/helpfiles/ircii/on/send_public,
+	data/helpfiles/ircii/on/send_talk,
+	data/helpfiles/ircii/on/serial_numbers,
+	data/helpfiles/ircii/on/server_notice,
+	data/helpfiles/ircii/on/signoff, data/helpfiles/ircii/on/talk,
+	data/helpfiles/ircii/on/timer, data/helpfiles/ircii/on/topic,
+	data/helpfiles/ircii/on/wall, data/helpfiles/ircii/on/wallop,
+	data/helpfiles/ircii/on/who, data/helpfiles/ircii/on/window,
+	data/helpfiles/ircii/on/window_kill,
+	data/helpfiles/ircii/set/always_split_biggest,
+	data/helpfiles/ircii/set/auto_unmark_away,
+	data/helpfiles/ircii/set/auto_whowas,
+	data/helpfiles/ircii/set/beep, data/helpfiles/ircii/set/beep_max,
+	data/helpfiles/ircii/set/beep_on_msg,
+	data/helpfiles/ircii/set/beep_when_away,
+	data/helpfiles/ircii/set/bold_video,
+	data/helpfiles/ircii/set/channel_name_width,
+	data/helpfiles/ircii/set/client_information,
+	data/helpfiles/ircii/set/clock,
+	data/helpfiles/ircii/set/clock_24hour,
+	data/helpfiles/ircii/set/clock_alarm,
+	data/helpfiles/ircii/set/cmdchars,
+	data/helpfiles/ircii/set/command_mode,
+	data/helpfiles/ircii/set/continued_line,
+	data/helpfiles/ircii/set/dcc_block_size,
+	data/helpfiles/ircii/set/debug, data/helpfiles/ircii/set/display,
+	data/helpfiles/ircii/set/eight_bit_characters,
+	data/helpfiles/ircii/set/encrypt_program,
+	data/helpfiles/ircii/set/exec_protection,
+	data/helpfiles/ircii/set/flood_after,
+	data/helpfiles/ircii/set/flood_rate,
+	data/helpfiles/ircii/set/flood_users,
+	data/helpfiles/ircii/set/flood_warning,
+	data/helpfiles/ircii/set/full_status_line,
+	data/helpfiles/ircii/set/help_pager,
+	data/helpfiles/ircii/set/help_path,
+	data/helpfiles/ircii/set/help_prompt,
+	data/helpfiles/ircii/set/help_service,
+	data/helpfiles/ircii/set/help_window,
+	data/helpfiles/ircii/set/hide_private_channels,
+	data/helpfiles/ircii/set/highlight_char,
+	data/helpfiles/ircii/set/history,
+	data/helpfiles/ircii/set/history_file,
+	data/helpfiles/ircii/set/hold_mode,
+	data/helpfiles/ircii/set/hold_mode_max,
+	data/helpfiles/ircii/set/indent,
+	data/helpfiles/ircii/set/input_aliases,
+	data/helpfiles/ircii/set/input_prompt,
+	data/helpfiles/ircii/set/input_protection,
+	data/helpfiles/ircii/set/insert_mode,
+	data/helpfiles/ircii/set/inverse_video,
+	data/helpfiles/ircii/set/lastlog,
+	data/helpfiles/ircii/set/lastlog_level,
+	data/helpfiles/ircii/set/load_path, data/helpfiles/ircii/set/log,
+	data/helpfiles/ircii/set/logfile, data/helpfiles/ircii/set/mail,
+	data/helpfiles/ircii/set/max_recursions,
+	data/helpfiles/ircii/set/menu,
+	data/helpfiles/ircii/set/minimum_servers,
+	data/helpfiles/ircii/set/minimum_users,
+	data/helpfiles/ircii/set/no_ctcp_flood,
+	data/helpfiles/ircii/set/notify_handler,
+	data/helpfiles/ircii/set/notify_level,
+	data/helpfiles/ircii/set/notify_on_termination,
+	data/helpfiles/ircii/set/novice,
+	data/helpfiles/ircii/set/pause_after_motd,
+	data/helpfiles/ircii/set/realname, data/helpfiles/ircii/set/scroll,
+	data/helpfiles/ircii/set/scroll_lines,
+	data/helpfiles/ircii/set/send_ignore_msg,
+	data/helpfiles/ircii/set/set, data/helpfiles/ircii/set/shell,
+	data/helpfiles/ircii/set/shell_flags,
+	data/helpfiles/ircii/set/shell_limit,
+	data/helpfiles/ircii/set/show_away_once,
+	data/helpfiles/ircii/set/show_channel_names,
+	data/helpfiles/ircii/set/show_end_of_msgs,
+	data/helpfiles/ircii/set/show_numerics,
+	data/helpfiles/ircii/set/show_status_all,
+	data/helpfiles/ircii/set/show_who_hopcount,
+	data/helpfiles/ircii/set/status_away,
+	data/helpfiles/ircii/set/status_channel,
+	data/helpfiles/ircii/set/status_chanop,
+	data/helpfiles/ircii/set/status_clock,
+	data/helpfiles/ircii/set/status_dquery,
+	data/helpfiles/ircii/set/status_format,
+	data/helpfiles/ircii/set/status_hold,
+	data/helpfiles/ircii/set/status_hold_lines,
+	data/helpfiles/ircii/set/status_insert,
+	data/helpfiles/ircii/set/status_mail,
+	data/helpfiles/ircii/set/status_mode,
+	data/helpfiles/ircii/set/status_notify,
+	data/helpfiles/ircii/set/status_oper,
+	data/helpfiles/ircii/set/status_overwrite,
+	data/helpfiles/ircii/set/status_query,
+	data/helpfiles/ircii/set/status_server,
+	data/helpfiles/ircii/set/status_umode,
+	data/helpfiles/ircii/set/status_user,
+	data/helpfiles/ircii/set/status_window,
+	data/helpfiles/ircii/set/suppress_server_motd,
+	data/helpfiles/ircii/set/tab_max,
+	data/helpfiles/ircii/set/translation,
+	data/helpfiles/ircii/set/underline_video,
+	data/helpfiles/ircii/set/use_old_msg,
+	data/helpfiles/ircii/set/user_information,
+	data/helpfiles/ircii/set/user_wallops,
+	data/helpfiles/ircii/set/verbose_ctcp,
+	data/helpfiles/ircii/set/warn_of_ignores,
+	data/helpfiles/ircii/set/xterm_options,
+	data/helpfiles/ircii/window/add, data/helpfiles/ircii/window/back,
+	data/helpfiles/ircii/window/balance,
+	data/helpfiles/ircii/window/bind,
+	data/helpfiles/ircii/window/channel,
+	data/helpfiles/ircii/window/create,
+	data/helpfiles/ircii/window/delete,
+	data/helpfiles/ircii/window/goto, data/helpfiles/ircii/window/grow,
+	data/helpfiles/ircii/window/hide,
+	data/helpfiles/ircii/window/hide_others,
+	data/helpfiles/ircii/window/hold_mode,
+	data/helpfiles/ircii/window/kill,
+	data/helpfiles/ircii/window/kill_others,
+	data/helpfiles/ircii/window/lastlog_level,
+	data/helpfiles/ircii/window/level,
+	data/helpfiles/ircii/window/list, data/helpfiles/ircii/window/log,
+	data/helpfiles/ircii/window/logfile,
+	data/helpfiles/ircii/window/move, data/helpfiles/ircii/window/name,
+	data/helpfiles/ircii/window/new, data/helpfiles/ircii/window/next,
+	data/helpfiles/ircii/window/notify,
+	data/helpfiles/ircii/window/notify_level,
+	data/helpfiles/ircii/window/number,
+	data/helpfiles/ircii/window/pop,
+	data/helpfiles/ircii/window/previous,
+	data/helpfiles/ircii/window/prompt,
+	data/helpfiles/ircii/window/push,
+	data/helpfiles/ircii/window/refnum,
+	data/helpfiles/ircii/window/remove,
+	data/helpfiles/ircii/window/scroll,
+	data/helpfiles/ircii/window/server,
+	data/helpfiles/ircii/window/show,
+	data/helpfiles/ircii/window/shrink,
+	data/helpfiles/ircii/window/stack,
+	data/helpfiles/ircii/window/swap,
+	data/helpfiles/ircii/window/unbind,
+	data/helpfiles/ircii/window/window, old-docs/Changes,
+	old-docs/Changes.lang, old-docs/FAQ, old-docs/KnownBugs,
+	old-docs/README, old-docs/README.UPGRADE, old-docs/WhatsNew:
+	
+	imported sources
+
+2001-01-19 06:01  andy
+
+	* COPYING, ChangeLog, Makefile, README, actions.c, akill.c,
+	channels.c, chanserv.c, commands.c, commands.h, compat.c, config.c,
+	config.h, configure, cp-recursive, datafiles.c, datafiles.h,
+	defs.h, encrypt.c, encrypt.h, extern.h, helpserv.c, import-db.c,
+	import-wrecked-db.c, init.c, install-script, ircmacros.c,
+	language.c, list.c, log.c, main.c, memory.c, memoserv.c,
+	messages.c, messages.h, misc.c, news.c, nickserv.c, operserv.c,
+	process.c, pseudo.h, send.c, servers.c, services.h, sessions.c,
+	sockutil.c, statistics.c, timeout.c, timeout.h, users.c,
+	version.sh, vsnprintf.c, data/example.conf, data/helpfiles/help,
+	data/helpfiles/ircii/!, data/helpfiles/ircii/.date,
+	data/helpfiles/ircii/:, data/helpfiles/ircii/abort,
+	data/helpfiles/ircii/admin, data/helpfiles/ircii/assign,
+	data/helpfiles/ircii/away, data/helpfiles/ircii/basics,
+	data/helpfiles/ircii/beep, data/helpfiles/ircii/bye,
+	data/helpfiles/ircii/cd, data/helpfiles/ircii/channel,
+	data/helpfiles/ircii/clear, data/helpfiles/ircii/commands,
+	data/helpfiles/ircii/comment, data/helpfiles/ircii/connect,
+	data/helpfiles/ircii/date, data/helpfiles/ircii/deop,
+	data/helpfiles/ircii/describe, data/helpfiles/ircii/die,
+	data/helpfiles/ircii/digraph, data/helpfiles/ircii/disconnect,
+	data/helpfiles/ircii/dmsg, data/helpfiles/ircii/dquery,
+	data/helpfiles/ircii/echo, data/helpfiles/ircii/encrypt,
+	data/helpfiles/ircii/etiquette, data/helpfiles/ircii/eval,
+	data/helpfiles/ircii/exec, data/helpfiles/ircii/exit,
+	data/helpfiles/ircii/expressions, data/helpfiles/ircii/flush,
+	data/helpfiles/ircii/foreach, data/helpfiles/ircii/help,
+	data/helpfiles/ircii/history, data/helpfiles/ircii/hook,
+	data/helpfiles/ircii/if, data/helpfiles/ircii/ignore,
+	data/helpfiles/ircii/info, data/helpfiles/ircii/input,
+	data/helpfiles/ircii/intro, data/helpfiles/ircii/invite,
+	data/helpfiles/ircii/join, data/helpfiles/ircii/kick,
+	data/helpfiles/ircii/kill, data/helpfiles/ircii/lastlog,
+	data/helpfiles/ircii/leave, data/helpfiles/ircii/links,
+	data/helpfiles/ircii/list, data/helpfiles/ircii/lusers,
+	data/helpfiles/ircii/me, data/helpfiles/ircii/menus,
+	data/helpfiles/ircii/mload, data/helpfiles/ircii/mode,
+	data/helpfiles/ircii/motd, data/helpfiles/ircii/msg,
+	data/helpfiles/ircii/names, data/helpfiles/ircii/news,
+	data/helpfiles/ircii/newuser, data/helpfiles/ircii/nick,
+	data/helpfiles/ircii/notice, data/helpfiles/ircii/notify,
+	data/helpfiles/ircii/oper, data/helpfiles/ircii/parsekey,
+	data/helpfiles/ircii/part, data/helpfiles/ircii/ping,
+	data/helpfiles/ircii/query, data/helpfiles/ircii/quit,
+	data/helpfiles/ircii/quote, data/helpfiles/ircii/rbind,
+	data/helpfiles/ircii/redirect, data/helpfiles/ircii/rehash,
+	data/helpfiles/ircii/restart, data/helpfiles/ircii/rules,
+	data/helpfiles/ircii/save, data/helpfiles/ircii/say,
+	data/helpfiles/ircii/send, data/helpfiles/ircii/sendline,
+	data/helpfiles/ircii/server, data/helpfiles/ircii/signoff,
+	data/helpfiles/ircii/sleep, data/helpfiles/ircii/squit,
+	data/helpfiles/ircii/stats, data/helpfiles/ircii/summon,
+	data/helpfiles/ircii/time, data/helpfiles/ircii/timer,
+	data/helpfiles/ircii/topic, data/helpfiles/ircii/trace,
+	data/helpfiles/ircii/type, data/helpfiles/ircii/userhost,
+	data/helpfiles/ircii/users, data/helpfiles/ircii/version,
+	data/helpfiles/ircii/wait, data/helpfiles/ircii/wallops,
+	data/helpfiles/ircii/which, data/helpfiles/ircii/while,
+	data/helpfiles/ircii/who, data/helpfiles/ircii/whois,
+	data/helpfiles/ircii/whowas, data/helpfiles/ircii/xecho,
+	data/helpfiles/ircii/xtype, data/helpfiles/ircii/alias/alias,
+	data/helpfiles/ircii/alias/functions,
+	data/helpfiles/ircii/alias/quote,
+	data/helpfiles/ircii/alias/special,
+	data/helpfiles/ircii/alias/width,
+	data/helpfiles/ircii/bind/backspace,
+	data/helpfiles/ircii/bind/backward_character,
+	data/helpfiles/ircii/bind/backward_history,
+	data/helpfiles/ircii/bind/backward_word,
+	data/helpfiles/ircii/bind/beginning_of_line,
+	data/helpfiles/ircii/bind/bind,
+	data/helpfiles/ircii/bind/clear_screen,
+	data/helpfiles/ircii/bind/command_completion,
+	data/helpfiles/ircii/bind/delete_character,
+	data/helpfiles/ircii/bind/delete_next_word,
+	data/helpfiles/ircii/bind/delete_previous_word,
+	data/helpfiles/ircii/bind/end_of_line,
+	data/helpfiles/ircii/bind/enter_digraph,
+	data/helpfiles/ircii/bind/enter_menu,
+	data/helpfiles/ircii/bind/erase_line,
+	data/helpfiles/ircii/bind/erase_to_beg_of_line,
+	data/helpfiles/ircii/bind/erase_to_end_of_line,
+	data/helpfiles/ircii/bind/examples,
+	data/helpfiles/ircii/bind/forward_character,
+	data/helpfiles/ircii/bind/forward_history,
+	data/helpfiles/ircii/bind/forward_word,
+	data/helpfiles/ircii/bind/help_character,
+	data/helpfiles/ircii/bind/keys,
+	data/helpfiles/ircii/bind/meta1_character,
+	data/helpfiles/ircii/bind/meta2_character,
+	data/helpfiles/ircii/bind/meta3_character,
+	data/helpfiles/ircii/bind/meta4_character,
+	data/helpfiles/ircii/bind/next_window,
+	data/helpfiles/ircii/bind/nothing,
+	data/helpfiles/ircii/bind/parse_command,
+	data/helpfiles/ircii/bind/previous_window,
+	data/helpfiles/ircii/bind/quit_irc,
+	data/helpfiles/ircii/bind/quote_character,
+	data/helpfiles/ircii/bind/refresh_inputline,
+	data/helpfiles/ircii/bind/refresh_screen,
+	data/helpfiles/ircii/bind/scroll_backward,
+	data/helpfiles/ircii/bind/scroll_end,
+	data/helpfiles/ircii/bind/scroll_forward,
+	data/helpfiles/ircii/bind/scroll_start,
+	data/helpfiles/ircii/bind/self_insert,
+	data/helpfiles/ircii/bind/send_line,
+	data/helpfiles/ircii/bind/stop_irc,
+	data/helpfiles/ircii/bind/switch_channels,
+	data/helpfiles/ircii/bind/toggle_insert_mode,
+	data/helpfiles/ircii/bind/toggle_stop_screen,
+	data/helpfiles/ircii/bind/transpose_characters,
+	data/helpfiles/ircii/bind/type_text,
+	data/helpfiles/ircii/bind/unstop_all_windows,
+	data/helpfiles/ircii/bind/yank_from_cutbuffer,
+	data/helpfiles/ircii/ctcp/action,
+	data/helpfiles/ircii/ctcp/clientinfo,
+	data/helpfiles/ircii/ctcp/ctcp, data/helpfiles/ircii/ctcp/echo,
+	data/helpfiles/ircii/ctcp/finger, data/helpfiles/ircii/ctcp/ping,
+	data/helpfiles/ircii/ctcp/time, data/helpfiles/ircii/ctcp/userinfo,
+	data/helpfiles/ircii/ctcp/utc, data/helpfiles/ircii/ctcp/version,
+	data/helpfiles/ircii/dcc/chat, data/helpfiles/ircii/dcc/close,
+	data/helpfiles/ircii/dcc/dcc, data/helpfiles/ircii/dcc/get,
+	data/helpfiles/ircii/dcc/list, data/helpfiles/ircii/dcc/raw,
+	data/helpfiles/ircii/dcc/rename, data/helpfiles/ircii/dcc/send,
+	data/helpfiles/ircii/dcc/talk, data/helpfiles/ircii/dcc/tmsg,
+	data/helpfiles/ircii/ircii/command_line_args,
+	data/helpfiles/ircii/ircii/copyright,
+	data/helpfiles/ircii/ircii/environment_vars,
+	data/helpfiles/ircii/ircii/ircii,
+	data/helpfiles/ircii/ircii/programming,
+	data/helpfiles/ircii/ircii/server_lists,
+	data/helpfiles/ircii/ircii/signals,
+	data/helpfiles/ircii/ircii/status_line,
+	data/helpfiles/ircii/load/bigcheese,
+	data/helpfiles/ircii/load/action, data/helpfiles/ircii/load/alias,
+	data/helpfiles/ircii/load/autoop,
+	data/helpfiles/ircii/load/basical, data/helpfiles/ircii/load/brc,
+	data/helpfiles/ircii/load/channel,
+	data/helpfiles/ircii/load/columns,
+	data/helpfiles/ircii/load/commander,
+	data/helpfiles/ircii/load/cursor,
+	data/helpfiles/ircii/load/deutsch, data/helpfiles/ircii/load/disc,
+	data/helpfiles/ircii/load/edit, data/helpfiles/ircii/load/english,
+	data/helpfiles/ircii/load/events,
+	data/helpfiles/ircii/load/extensions,
+	data/helpfiles/ircii/load/finger,
+	data/helpfiles/ircii/load/finger.who,
+	data/helpfiles/ircii/load/flood, data/helpfiles/ircii/load/fnet,
+	data/helpfiles/ircii/load/functions,
+	data/helpfiles/ircii/load/history,
+	data/helpfiles/ircii/load/irciihelp,
+	data/helpfiles/ircii/load/ircprimer,
+	data/helpfiles/ircii/load/kickmenu,
+	data/helpfiles/ircii/load/killpath,
+	data/helpfiles/ircii/load/kpstat, data/helpfiles/ircii/load/list,
+	data/helpfiles/ircii/load/load, data/helpfiles/ircii/load/local,
+	data/helpfiles/ircii/load/lynx_ircrc,
+	data/helpfiles/ircii/load/meta1, data/helpfiles/ircii/load/meta2,
+	data/helpfiles/ircii/load/msg, data/helpfiles/ircii/load/mudlike,
+	data/helpfiles/ircii/load/nemesis,
+	data/helpfiles/ircii/load/netsplit,
+	data/helpfiles/ircii/load/newaway, data/helpfiles/ircii/load/nicks,
+	data/helpfiles/ircii/load/oldping, data/helpfiles/ircii/load/oper,
+	data/helpfiles/ircii/load/prefix,
+	data/helpfiles/ircii/load/recursion,
+	data/helpfiles/ircii/load/repeat, data/helpfiles/ircii/load/screen,
+	data/helpfiles/ircii/load/service, data/helpfiles/ircii/load/shell,
+	data/helpfiles/ircii/load/silent,
+	data/helpfiles/ircii/load/smileys,
+	data/helpfiles/ircii/load/suggestions,
+	data/helpfiles/ircii/load/tabkey, data/helpfiles/ircii/load/time,
+	data/helpfiles/ircii/load/traces, data/helpfiles/ircii/load/troy,
+	data/helpfiles/ircii/load/uhnotify,
+	data/helpfiles/ircii/load/version,
+	data/helpfiles/ircii/load/wallopstat,
+	data/helpfiles/ircii/load/whowas, data/helpfiles/ircii/load/window,
+	data/helpfiles/ircii/note/antiwall,
+	data/helpfiles/ircii/note/count, data/helpfiles/ircii/note/deny,
+	data/helpfiles/ircii/note/find, data/helpfiles/ircii/note/flag,
+	data/helpfiles/ircii/note/key, data/helpfiles/ircii/note/log,
+	data/helpfiles/ircii/note/ls, data/helpfiles/ircii/note/news,
+	data/helpfiles/ircii/note/note, data/helpfiles/ircii/note/rm,
+	data/helpfiles/ircii/note/save, data/helpfiles/ircii/note/send,
+	data/helpfiles/ircii/note/sent, data/helpfiles/ircii/note/service,
+	data/helpfiles/ircii/note/spy, data/helpfiles/ircii/note/stats,
+	data/helpfiles/ircii/note/user, data/helpfiles/ircii/note/waitfor,
+	data/helpfiles/ircii/note/wall, data/helpfiles/ircii/note/wallops,
+	data/helpfiles/ircii/on/action,
+	data/helpfiles/ircii/on/channel_nick,
+	data/helpfiles/ircii/on/channel_signoff,
+	data/helpfiles/ircii/on/connect, data/helpfiles/ircii/on/ctcp,
+	data/helpfiles/ircii/on/ctcp_reply,
+	data/helpfiles/ircii/on/dcc_chat, data/helpfiles/ircii/on/dcc_raw,
+	data/helpfiles/ircii/on/disconnect, data/helpfiles/ircii/on/exec,
+	data/helpfiles/ircii/on/exec_errors,
+	data/helpfiles/ircii/on/exec_exit,
+	data/helpfiles/ircii/on/exec_prompt, data/helpfiles/ircii/on/flood,
+	data/helpfiles/ircii/on/help, data/helpfiles/ircii/on/hook,
+	data/helpfiles/ircii/on/idle, data/helpfiles/ircii/on/input,
+	data/helpfiles/ircii/on/invite, data/helpfiles/ircii/on/join,
+	data/helpfiles/ircii/on/leave, data/helpfiles/ircii/on/list,
+	data/helpfiles/ircii/on/mail, data/helpfiles/ircii/on/mode,
+	data/helpfiles/ircii/on/msg, data/helpfiles/ircii/on/msg_group,
+	data/helpfiles/ircii/on/names, data/helpfiles/ircii/on/nickname,
+	data/helpfiles/ircii/on/note, data/helpfiles/ircii/on/notice,
+	data/helpfiles/ircii/on/notify_signoff,
+	data/helpfiles/ircii/on/notify_signon,
+	data/helpfiles/ircii/on/numeric, data/helpfiles/ircii/on/on,
+	data/helpfiles/ircii/on/public, data/helpfiles/ircii/on/public_msg,
+	data/helpfiles/ircii/on/public_notice,
+	data/helpfiles/ircii/on/public_other,
+	data/helpfiles/ircii/on/raw_irc,
+	data/helpfiles/ircii/on/send_action,
+	data/helpfiles/ircii/on/send_dcc_chat,
+	data/helpfiles/ircii/on/send_msg,
+	data/helpfiles/ircii/on/send_notice,
+	data/helpfiles/ircii/on/send_public,
+	data/helpfiles/ircii/on/send_talk,
+	data/helpfiles/ircii/on/serial_numbers,
+	data/helpfiles/ircii/on/server_notice,
+	data/helpfiles/ircii/on/signoff, data/helpfiles/ircii/on/talk,
+	data/helpfiles/ircii/on/timer, data/helpfiles/ircii/on/topic,
+	data/helpfiles/ircii/on/wall, data/helpfiles/ircii/on/wallop,
+	data/helpfiles/ircii/on/who, data/helpfiles/ircii/on/window,
+	data/helpfiles/ircii/on/window_kill,
+	data/helpfiles/ircii/set/always_split_biggest,
+	data/helpfiles/ircii/set/auto_unmark_away,
+	data/helpfiles/ircii/set/auto_whowas,
+	data/helpfiles/ircii/set/beep, data/helpfiles/ircii/set/beep_max,
+	data/helpfiles/ircii/set/beep_on_msg,
+	data/helpfiles/ircii/set/beep_when_away,
+	data/helpfiles/ircii/set/bold_video,
+	data/helpfiles/ircii/set/channel_name_width,
+	data/helpfiles/ircii/set/client_information,
+	data/helpfiles/ircii/set/clock,
+	data/helpfiles/ircii/set/clock_24hour,
+	data/helpfiles/ircii/set/clock_alarm,
+	data/helpfiles/ircii/set/cmdchars,
+	data/helpfiles/ircii/set/command_mode,
+	data/helpfiles/ircii/set/continued_line,
+	data/helpfiles/ircii/set/dcc_block_size,
+	data/helpfiles/ircii/set/debug, data/helpfiles/ircii/set/display,
+	data/helpfiles/ircii/set/eight_bit_characters,
+	data/helpfiles/ircii/set/encrypt_program,
+	data/helpfiles/ircii/set/exec_protection,
+	data/helpfiles/ircii/set/flood_after,
+	data/helpfiles/ircii/set/flood_rate,
+	data/helpfiles/ircii/set/flood_users,
+	data/helpfiles/ircii/set/flood_warning,
+	data/helpfiles/ircii/set/full_status_line,
+	data/helpfiles/ircii/set/help_pager,
+	data/helpfiles/ircii/set/help_path,
+	data/helpfiles/ircii/set/help_prompt,
+	data/helpfiles/ircii/set/help_service,
+	data/helpfiles/ircii/set/help_window,
+	data/helpfiles/ircii/set/hide_private_channels,
+	data/helpfiles/ircii/set/highlight_char,
+	data/helpfiles/ircii/set/history,
+	data/helpfiles/ircii/set/history_file,
+	data/helpfiles/ircii/set/hold_mode,
+	data/helpfiles/ircii/set/hold_mode_max,
+	data/helpfiles/ircii/set/indent,
+	data/helpfiles/ircii/set/input_aliases,
+	data/helpfiles/ircii/set/input_prompt,
+	data/helpfiles/ircii/set/input_protection,
+	data/helpfiles/ircii/set/insert_mode,
+	data/helpfiles/ircii/set/inverse_video,
+	data/helpfiles/ircii/set/lastlog,
+	data/helpfiles/ircii/set/lastlog_level,
+	data/helpfiles/ircii/set/load_path, data/helpfiles/ircii/set/log,
+	data/helpfiles/ircii/set/logfile, data/helpfiles/ircii/set/mail,
+	data/helpfiles/ircii/set/max_recursions,
+	data/helpfiles/ircii/set/menu,
+	data/helpfiles/ircii/set/minimum_servers,
+	data/helpfiles/ircii/set/minimum_users,
+	data/helpfiles/ircii/set/no_ctcp_flood,
+	data/helpfiles/ircii/set/notify_handler,
+	data/helpfiles/ircii/set/notify_level,
+	data/helpfiles/ircii/set/notify_on_termination,
+	data/helpfiles/ircii/set/novice,
+	data/helpfiles/ircii/set/pause_after_motd,
+	data/helpfiles/ircii/set/realname, data/helpfiles/ircii/set/scroll,
+	data/helpfiles/ircii/set/scroll_lines,
+	data/helpfiles/ircii/set/send_ignore_msg,
+	data/helpfiles/ircii/set/set, data/helpfiles/ircii/set/shell,
+	data/helpfiles/ircii/set/shell_flags,
+	data/helpfiles/ircii/set/shell_limit,
+	data/helpfiles/ircii/set/show_away_once,
+	data/helpfiles/ircii/set/show_channel_names,
+	data/helpfiles/ircii/set/show_end_of_msgs,
+	data/helpfiles/ircii/set/show_numerics,
+	data/helpfiles/ircii/set/show_status_all,
+	data/helpfiles/ircii/set/show_who_hopcount,
+	data/helpfiles/ircii/set/status_away,
+	data/helpfiles/ircii/set/status_channel,
+	data/helpfiles/ircii/set/status_chanop,
+	data/helpfiles/ircii/set/status_clock,
+	data/helpfiles/ircii/set/status_dquery,
+	data/helpfiles/ircii/set/status_format,
+	data/helpfiles/ircii/set/status_hold,
+	data/helpfiles/ircii/set/status_hold_lines,
+	data/helpfiles/ircii/set/status_insert,
+	data/helpfiles/ircii/set/status_mail,
+	data/helpfiles/ircii/set/status_mode,
+	data/helpfiles/ircii/set/status_notify,
+	data/helpfiles/ircii/set/status_oper,
+	data/helpfiles/ircii/set/status_overwrite,
+	data/helpfiles/ircii/set/status_query,
+	data/helpfiles/ircii/set/status_server,
+	data/helpfiles/ircii/set/status_umode,
+	data/helpfiles/ircii/set/status_user,
+	data/helpfiles/ircii/set/status_window,
+	data/helpfiles/ircii/set/suppress_server_motd,
+	data/helpfiles/ircii/set/tab_max,
+	data/helpfiles/ircii/set/translation,
+	data/helpfiles/ircii/set/underline_video,
+	data/helpfiles/ircii/set/use_old_msg,
+	data/helpfiles/ircii/set/user_information,
+	data/helpfiles/ircii/set/user_wallops,
+	data/helpfiles/ircii/set/verbose_ctcp,
+	data/helpfiles/ircii/set/warn_of_ignores,
+	data/helpfiles/ircii/set/xterm_options,
+	data/helpfiles/ircii/window/add, data/helpfiles/ircii/window/back,
+	data/helpfiles/ircii/window/balance,
+	data/helpfiles/ircii/window/bind,
+	data/helpfiles/ircii/window/channel,
+	data/helpfiles/ircii/window/create,
+	data/helpfiles/ircii/window/delete,
+	data/helpfiles/ircii/window/goto, data/helpfiles/ircii/window/grow,
+	data/helpfiles/ircii/window/hide,
+	data/helpfiles/ircii/window/hide_others,
+	data/helpfiles/ircii/window/hold_mode,
+	data/helpfiles/ircii/window/kill,
+	data/helpfiles/ircii/window/kill_others,
+	data/helpfiles/ircii/window/lastlog_level,
+	data/helpfiles/ircii/window/level,
+	data/helpfiles/ircii/window/list, data/helpfiles/ircii/window/log,
+	data/helpfiles/ircii/window/logfile,
+	data/helpfiles/ircii/window/move, data/helpfiles/ircii/window/name,
+	data/helpfiles/ircii/window/new, data/helpfiles/ircii/window/next,
+	data/helpfiles/ircii/window/notify,
+	data/helpfiles/ircii/window/notify_level,
+	data/helpfiles/ircii/window/number,
+	data/helpfiles/ircii/window/pop,
+	data/helpfiles/ircii/window/previous,
+	data/helpfiles/ircii/window/prompt,
+	data/helpfiles/ircii/window/push,
+	data/helpfiles/ircii/window/refnum,
+	data/helpfiles/ircii/window/remove,
+	data/helpfiles/ircii/window/scroll,
+	data/helpfiles/ircii/window/server,
+	data/helpfiles/ircii/window/show,
+	data/helpfiles/ircii/window/shrink,
+	data/helpfiles/ircii/window/stack,
+	data/helpfiles/ircii/window/swap,
+	data/helpfiles/ircii/window/unbind,
+	data/helpfiles/ircii/window/window, old-docs/Changes,
+	old-docs/Changes.lang, old-docs/FAQ, old-docs/KnownBugs,
+	old-docs/README, old-docs/README.UPGRADE, old-docs/WhatsNew:
+	
+	Initial revision
+

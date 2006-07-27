@@ -1,0 +1,325 @@
+Blitzed C Coding Style
+
+Introduction
+------------
+
+This file specifies the preferred style for C source files in the Blitzed
+source tree.  These guidelines should be followed for all new code.
+
+Comments
+--------
+
+/*
+ * VERY important single-line comments look like this.
+ */
+
+/* Most single-line comments look like this. */
+
+/*
+ * Multi-line comments look like this.  Make them real sentences.  Fill them so
+ * they look like real paragraphs.
+ */
+
+Always use C-style /* comments */, NEVER C++-style // comments.
+
+
+Includes
+--------
+
+Leave a blank line between system includes:
+
+#include <stdio.h>
+
+and user includes:
+
+#include "extern.h"
+
+
+Prototypes
+----------
+
+All functions are prototyped somewhere.
+
+Function prototypes for private functions (i.e., functions not used elsewhere)
+go at the top of the first source module.  Functions local to one source module
+should be declared `static'.
+
+Functions that are used locally in more than one module go into a separate
+header file, e.g., extern.h.
+
+Prototypes should not have variable names associated with the types; i.e.:
+
+void	function(int);
+
+not:
+
+void	function(int a);
+
+Prototypes may have an extra space after a tab to enable function names to line
+up:
+
+static char     *function(int, const char *);
+static void      usage(void);
+
+There should be no space between the function name and the argument list.
+
+
+Declarations
+------------
+
+Macros are capitalized and parenthesized, and should avoid side-effects.  If
+they are an inline expansion of a function, the function is defined all in
+lowercase; the macro has the same name all in uppercase.  If the macro needs
+more than a single line, use braces.  Right-justify the backslashes, as the
+resulting definition is easier to read.  If the macro encapsulates a compound
+statement, enclose it in a ``do'' loop, so that it can safely be used in ``if''
+statements.  Any final statement-terminating semicolon should be supplied by
+the macro invocation rather than the macro, to make parsing easier for
+pretty-printers and editors.
+
+#define MACRO(x, y) do {                                                \
+	variable = (x) + (y);                                           \
+	(y) += 2;                                                       \
+} while (0)
+
+Enumeration values are all uppercase.
+
+enum enumtype { ONE, TWO } et;
+
+When declaring variables in structures, declare them sorted by use, then by
+size (largest to smallest), then by alphabetical order.  The first category
+normally doesn't apply, but there are exceptions.  Each one gets its own line.
+Put a tab after the first word, i.e., use `int^Ix;' and `struct^Ifoo *x;'.
+
+Major structures should be declared at the top of the file in which they are
+used, or in separate header files if they are used in multiple source files.
+Use of the structures should be by separate declarations and should be
+``extern'' if they are declared in a header file.
+
+struct foo {
+	struct	foo *next;	/* List of active foo */
+	struct	mumble amumble;	/* Comment for mumble */
+	int	bar;
+};
+struct foo *foohead;		/* Head of global foo list */
+
+Avoid using typedefs for structure types.  This makes it impossible for
+applications to use pointers to such a structure opaquely, which is both
+possible and beneficial when using an ordinary struct tag.  When convention
+requires a typedef, make its name match the struct tag.  Avoid typedefs ending
+in ``_t'', except as specified in Standard C or by POSIX.  Don't use the same
+name for a struct tag and a typedef, as this makes the code unusable from C++.
+
+/* Make the structure name match the typedef. */
+typedef struct _bar {
+	int	level;
+} BAR;
+
+
+General guidelines
+------------------
+
+/*
+ * All major routines should have a comment briefly describing what they do.
+ * The comment before the "main" routine should describe what the program does.
+ */
+int main(int argc, char *argv[])
+{
+	long num;
+	int ch;
+	char *ep;
+
+
+For consistency, getopt(3) should be used to parse options (GNU getopt_long is
+not portable).  Options should be sorted in the getopt(3) call and the switch
+statement, unless parts of the switch cascade.  Elements in a switch statement
+that cascade should have a FALLTHROUGH comment.  Numerical arguments should be
+checked for accuracy.  Code that cannot be reached should have a NOTREACHED
+comment:
+
+while ((ch = getopt(argc, argv, "abn:")) != -1)
+	switch (ch) {		/* Indent the switch. */
+        case 'a':		/* Don't indent the case. */
+		aflag = 1;
+		/* FALLTHROUGH */
+	case 'b':
+		bflag = 1;
+		break;
+	case 'n':
+		num = strtol(optarg, &ep, 10);
+		if (num <= 0 || *ep != '\0') {
+			fprintf(stderr, "illegal number, -n argument -- %s",
+			    optarg);
+			usage();
+		}
+		break;
+	case '?':
+	default:
+		usage();
+		/* NOTREACHED */
+	}
+	argc -= optind;
+	argv += optind;
+
+
+Use space after keywords (if, while, for, return, switch). No braces are used
+for control statements with zero or only a single statement unless that
+statement is more than a single line, in which case they are permitted.
+Forever loops are done with for, not while.
+
+	for (p = buf; *p != '\0'; ++p)
+		;       /* nothing */
+	for (;;)
+		stmt;
+	for (;;) {
+		z = a + really + long + statement + that + needs + two +
+		    lines + gets + indented + four + spaces + on + the +
+		    second + and + subsequent + lines;
+	}
+	for (;;) {
+		if (cond)
+			stmt;
+	}
+
+Parts of a for loop may be left empty.  Don't put declarations inside blocks
+unless the routine is unusually complicated.
+
+	for (; cnt < 15; cnt++) {
+		stmt1;
+		stmt2;
+	}
+
+Indentation is an 8 character tab.  Second level indents are four spaces.
+
+	while (cnt < 20)
+		z = a + really + long + statement + that + needs + two
+		    lines + gets + indented + four + spaces + on + the +
+		    second + and + subsequent + lines;
+
+Do not add whitespace at the end of a line, and only use tabs followed by
+spaces to form the indentation.  Do not use more spaces than a tab will produce
+and do not use spaces in front of tabs.
+
+Closing and opening braces go on the same line as the else.  Braces that aren't
+necessary may be left out, unless they cause a compiler warning.
+
+	if (test)
+		stmt;
+	else if (bar) {
+		stmt;
+		stmt;
+	} else
+		stmt;
+
+Do not use spaces after function names.  Commas have a space after them.  Do
+not use spaces after `(' or `[' or preceding `]' or `)' characters.
+
+	if (error = function(a1, a2))
+		exit(error);
+
+Unary operators don't require spaces, binary operators do.  Don't use
+parentheses unless they're required for precedence, the statement is con-
+fusing without them, or the compiler generates a warning without them.
+Remember that other people may be confused more easily than you.  Do YOU
+understand the following?
+
+	a = b->c[0] + ~d == (e || f) || g && h ? i : j >> 1;
+	k = !(l & FLAGS);
+
+	exit(EX_OK);	/*
+			 * Avoid obvious comments such as
+			 * "Exit 0 on success."
+			 */
+}
+
+The function type should be on the same line preceding the function.
+
+static char * function(int a1, int a2, float fl, int a4)
+{
+
+When declaring variables in functions declare them sorted by size (largest to
+smallest), then in alphabetical order; multiple ones per line are okay.  Old
+style function declarations should be avoided.  ANSI style function
+declarations should go in an include file such as ``extern.h''.
+
+If a line overflows reuse the type keyword.
+
+Be careful to not obfuscate the code by initializing variables in the
+declarations.  Use this feature only thoughtfully.  DO NOT use function calls
+in initializers!
+
+	struct foo one, *two;
+	double three;
+	int *four, five;
+	char *six, seven, eight, nine, ten, eleven, twelve;
+
+	four = myfunction();
+
+Do not declare functions inside other functions; ANSI C says that such
+declarations have file scope regardless of the nesting of the declara- tion.
+Hiding file declarations in what appears to be a local scope is undesirable and
+will elicit complaints from a good compiler, such as ``gcc -Wtraditional''.
+
+Casts and sizeof() calls are not followed by a space.  Note that in- dent(1)
+does not understand this rule.
+
+NULL is the preferred null pointer constant.  Use NULL instead of (type *)0 or
+(type *)NULL in contexts where the compiler knows the type, e.g., in
+assignments.  Use (type *)NULL in other contexts, in particular for all
+function args.  Test pointers against NULL, i.e., use:
+
+(p = f()) == NULL
+
+not:
+
+     !(p = f())
+
+Don't use `!' for tests unless it's a boolean, i.e., use
+
+if (*p == '\0')
+
+not
+
+if (!*p)
+
+Routines returning void * should not have their return values cast to any
+pointer type.
+
+Use ANSI function declarations unless you explicitly need K&R compatibility.
+Long parameter lists are wrapped with a normal four space indent.
+
+Variable numbers of arguments should look like this:
+
+#include <stdarg.h>
+
+void vaf(const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+
+	STUFF;
+
+	va_end(ap);
+
+	/* No return needed for void functions. */
+}
+
+Usage statements should look like the manual pages.  Options without operands
+come first, in alphabetical order inside a single set of braces, followed by
+options with operands, in alphabetical order, each in braces, followed by
+required arguments in the order they are specified, followed by optional
+arguments in the order they are specified.  A bar (`|') sepa- rates either-or
+options/arguments, and multiple options/arguments which are specified together
+are placed in a single set of braces.
+
+	"usage: f [-ade] [-b b_arg] [-m m_arg] req1 req2 [opt1 [opt2]]\n"
+	"usage: f [-a | -b] [-c [-de] [-n number]]\n"
+
+Whenever possible, code should not produce warnings when compiled with gzcc
+-Wall.
+
+
+History
+-------
+
+This guide is largely based on the style(9) man page from the OpenBSD project.
